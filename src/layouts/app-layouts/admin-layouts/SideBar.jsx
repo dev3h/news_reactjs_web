@@ -1,4 +1,4 @@
-import { MailOutlined, SettingOutlined } from "@ant-design/icons";
+import { PieChartOutlined, ClusterOutlined } from "@ant-design/icons";
 import { Menu, Layout } from "antd";
 import PropTypes from "prop-types";
 import { useState } from "react";
@@ -17,8 +17,8 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = [
-  getItem("Dashboard", "1", <MailOutlined />),
-  getItem("Group Category", "2", <SettingOutlined />, [
+  getItem("Dashboard", "1", <PieChartOutlined />),
+  getItem("Group Category", "2", <ClusterOutlined />, [
     getItem("List", "2-1"),
     getItem("Create", "2-2"),
   ]),
