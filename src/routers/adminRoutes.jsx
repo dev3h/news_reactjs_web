@@ -1,5 +1,5 @@
 import AdminLayout from "../layouts/app-layouts/admin-layouts";
-import List from "../pages/admin-pages/group-category";
+import ListGroupCategory from "../pages/admin-pages/group-category";
 
 const adminRoutes = [
   {
@@ -14,8 +14,28 @@ const adminRoutes = [
       },
       {
         path: "group-category",
-        element: <List />,
-        exact: true,
+        children: [
+          {
+            path: "",
+            element: <ListGroupCategory />,
+            exact: true,
+          },
+          {
+            path: "create",
+            element: <h1>create</h1>,
+            exact: true,
+          },
+          {
+            path: "show/:id",
+            element: <h1>show</h1>,
+            exact: true,
+          },
+          {
+            path: "edit/:id",
+            element: <h1>edit</h1>,
+            exact: true,
+          },
+        ],
       },
     ],
   },
