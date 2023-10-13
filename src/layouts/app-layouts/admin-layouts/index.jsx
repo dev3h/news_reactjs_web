@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Layout, theme } from "antd";
 import HeaderNav from "./HeaderNav";
 import SideBar from "./SideBar";
+import BreadCrumbCustom from "@/components/BreadCrumbCustom";
 
 const { Content } = Layout;
 
@@ -29,6 +30,7 @@ const AdminLayout = () => {
             minHeight: 280,
           }}
         >
+          <BreadCrumbCustom />
           <Outlet />
         </Content>
       </Layout>
