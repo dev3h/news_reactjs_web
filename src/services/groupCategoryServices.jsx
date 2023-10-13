@@ -18,13 +18,13 @@ class groupCategoryServices {
     }
   }
   static async getOne(id) {
-    try {
-      const response = await axiosInstance.get(`/group-category/${id}`);
-      const data = response.data;
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
+    const response = await axiosInstance.get(`/group-category/${id}`);
+    const data = response.data;
+    return data;
+  }
+  static async create(data) {
+    const response = await axiosInstance.post("/group-category", data);
+    return response;
   }
 }
 

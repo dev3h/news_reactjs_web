@@ -8,22 +8,6 @@ import { PaginationCustom } from "@/components";
 import HeaderTableBasic from "@/components/HeaderTableBasic";
 import { ColumnSort } from "@/components";
 
-const { id, createdByAdmin, updatedByAdmin, createdAt, updatedAt, action } =
-  generateBasicColumn();
-const columns = [
-  id,
-  {
-    title: () => <ColumnSort title="Tên nhóm" />,
-    dataIndex: "name",
-    key: "name",
-  },
-  createdByAdmin,
-  updatedByAdmin,
-  createdAt,
-  updatedAt,
-  action,
-];
-
 const List = () => {
   const [list, setList] = useState([]);
 
@@ -48,6 +32,33 @@ const List = () => {
       },
     });
   };
+
+  const handleSort = (sortBy) => {
+    setFilter({
+      ...filter,
+      sort: {
+        ...filter.sort,
+        sortBy,
+        sortType: filter.sort.sortType === "ASC" ? "DESC" : "ASC",
+      },
+    });
+  };
+
+  const { id, createdByAdmin, updatedByAdmin, createdAt, updatedAt, action } =
+    generateBasicColumn(handleSort);
+  const columns = [
+    id,
+    {
+      title: () => <ColumnSort type="id" title="Tên nhóm" handleSort={handleSort} />,
+      dataIndex: "name",
+      key: "name",
+    },
+    createdByAdmin,
+    updatedByAdmin,
+    createdAt,
+    updatedAt,
+    action,
+  ];
 
   useEffect(() => {
     const getList = async () => {
