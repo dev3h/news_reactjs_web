@@ -26,11 +26,11 @@ const BreadCrumbCustom = () => {
   };
   useEffect(() => {
     const currentPathname = location.pathname;
-    console.log(currentPathname);
     const pathArray = currentPathname.split("/").filter((item) => item !== "");
     setPathName(pathArray);
   }, [location.pathname]);
   useEffect(() => {
+    setBreadCrumb([]);
     pathname.forEach((item, index) => {
       const { label, link } = calculatePath(item, index);
       setBreadCrumb((prev) => [...prev, { label, link }]);

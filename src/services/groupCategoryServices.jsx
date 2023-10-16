@@ -26,6 +26,10 @@ class groupCategoryServices {
     const response = await axiosInstance.post("/group-category", data);
     return response;
   }
+  static async update(id, data) {
+    const response = await axiosInstance.put(`/group-category/${id}`, data);
+    return response;
+  }
 }
 
 export default groupCategoryServices;

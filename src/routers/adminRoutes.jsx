@@ -1,6 +1,7 @@
 import AdminLayout from "../layouts/app-layouts/admin-layouts";
 import ListGroupCategory from "../pages/admin-pages/group-category";
 import CreateGroupCategory from "../pages/admin-pages/group-category/Create";
+import EditGroupCategory from "../pages/admin-pages/group-category/Edit";
 
 const adminRoutes = [
   {
@@ -33,7 +34,7 @@ const adminRoutes = [
           },
           {
             path: "edit/:id",
-            element: <h1>edit</h1>,
+            element: <EditGroupCategory />,
             exact: true,
           },
         ],
