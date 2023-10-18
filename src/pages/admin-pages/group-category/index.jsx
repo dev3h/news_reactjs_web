@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, Table } from "antd";
+import { Card, Table, message } from "antd";
 
 import groupCategoryServices from "@/services/groupCategoryServices";
 import { generateBasicColumn } from "@/utils/generateColumn";
@@ -43,9 +43,30 @@ const List = () => {
       },
     });
   };
+  const getTableData = async () => {
+    const response = await groupCategoryServices.getList(filter);
+    setList(response?.data);
+    setFilter({
+      ...filter,
+      pagination: {
+        defaultCurrent: response?.currentPage,
+        total: response?.totalItems,
+      },
+    });
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await groupCategoryServices.delete(id);
+      getTableData();
+      message.success(response?.data?.message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const { id, createdByAdmin, updatedByAdmin, createdAt, updatedAt, action } =
-    generateBasicColumn(handleSort);
+    generateBasicColumn(handleSort, handleDelete);
   const columns = [
     id,
     {
@@ -61,24 +82,14 @@ const List = () => {
   ];
 
   useEffect(() => {
-    const getList = async () => {
-      const response = await groupCategoryServices.getList(filter);
-      setList(response?.data);
-      setFilter({
-        ...filter,
-        pagination: {
-          defaultCurrent: response?.currentPage,
-          total: response?.totalItems,
-        },
-      });
-    };
-    getList();
+    getTableData();
   }, [
     filter.pagination.defaultCurrent,
     filter.search,
     filter.sort.sortBy,
     filter.sort.sortType,
   ]);
+
   return (
     <Card>
       <Table

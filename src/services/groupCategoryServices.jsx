@@ -30,6 +30,10 @@ class groupCategoryServices {
     const response = await axiosInstance.put(`/group-category/${id}`, data);
     return response;
   }
+  static async delete(id) {
+    const response = await axiosInstance.delete(`/group-category/${id}`);
+    return response;
+  }
 }
 
 export default groupCategoryServices;

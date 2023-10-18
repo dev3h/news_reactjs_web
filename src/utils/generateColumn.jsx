@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import { ButtonDelete, ButtonEdit, ButtonShow } from "../components/ButtonCustom";
 import { ColumnSort } from "../components";
 
-const generateBasicColumn = (handleSort) => {
+const generateBasicColumn = (handleSort, handleDelete) => {
   return {
     id: {
       title: () => <ColumnSort type="id" title="ID" handleSort={handleSort} />,
@@ -58,7 +58,7 @@ const generateBasicColumn = (handleSort) => {
         <Space size="middle">
           <ButtonShow id={record.id} />
           <ButtonEdit id={record.id} />
-          <ButtonDelete />
+          <ButtonDelete id={record.id} handleDelete={handleDelete} />
         </Space>
       ),
     },

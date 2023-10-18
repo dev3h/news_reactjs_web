@@ -1,19 +1,19 @@
 import { Card, Form, Input, Button, message } from "antd";
 
 import groupCategoryServices from "@/services/groupCategoryServices";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Edit = () => {
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const { id } = useParams();
   const [data, setData] = useState({});
-
   useEffect(() => {
     const fetch = async () => {
       try {
         const response = await groupCategoryServices.getOne(id);
-        setData(response?.data?.data);
+        setData(response);
       } catch (error) {
         console.log(error);
       }
@@ -21,13 +21,14 @@ const Edit = () => {
     fetch();
   }, [id]);
 
-  const handleSubmit = async (id, values) => {
+  const handleSubmit = async (values) => {
     try {
+      const id = values.id;
+      delete values.id;
+
       const response = await groupCategoryServices.update(id, values);
       message.success(response?.data?.message);
-      form.resetFields();
-      // focus on first input
-      form.getFieldInstance("name").focus();
+      navigate("/admin/group-category");
     } catch (error) {
       if (error?.response?.status === 422) {
         message.error(error?.response?.data?.message);
@@ -45,21 +46,28 @@ const Edit = () => {
         onFinish={handleSubmit}
         form={form}
       >
-        <Input hidden value={id} />
-        <Form.Item
-          label="Tên nhóm"
-          name="name"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input autoFocus placeholder="Nhập tên nhóm" allowClear />
+        <Form.Item name="id" initialValue={id} hidden>
+          <Input />
         </Form.Item>
+        {data.name && (
+          <Form.Item
+            label="Tên nhóm"
+            name="name"
+            hasFeedback
+            initialValue={data?.name}
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input autoFocus placeholder="Nhập tên nhóm" allowClear />
+          </Form.Item>
+        )}
+
         <Form.Item>
           <Button htmlType="submit" type="primary" className="bg-blue-400">
-            Thêm
+            Cập nhập
           </Button>
         </Form.Item>
       </Form>

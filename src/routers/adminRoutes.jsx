@@ -28,12 +28,12 @@ const adminRoutes = [
             exact: true,
           },
           {
-            path: "show/:id",
+            path: ":id/show",
             element: <h1>show</h1>,
             exact: true,
           },
           {
-            path: "edit/:id",
+            path: ":id/edit",
             element: <EditGroupCategory />,
             exact: true,
           },

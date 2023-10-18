@@ -25,7 +25,7 @@ const ButtonAdd = () => {
 
 const ButtonShow = ({ id }) => {
   return (
-    <Link to={`show/${id}`}>
+    <Link to={`${id}/show`}>
       <Button icon={<EyeOutlined />} type="primary" className="bg-blue-400" />
     </Link>
   );
@@ -33,15 +33,15 @@ const ButtonShow = ({ id }) => {
 
 const ButtonEdit = ({ id }) => {
   return (
-    <Link to={`edit/${id}`}>
+    <Link to={`${id}/edit`}>
       <Button icon={<EditOutlined />} className="bg-slate-50" />
     </Link>
   );
 };
 
-const ButtonDelete = () => {
+const ButtonDelete = ({ id, handleDelete }) => {
   const confirm = () => {
-    console.log("Xóa thành công");
+    handleDelete(id);
   };
 
   return (
@@ -63,6 +63,10 @@ ButtonShow.propTypes = {
 };
 ButtonEdit.propTypes = {
   id: PropTypes.number.isRequired,
+};
+ButtonDelete.propTypes = {
+  id: PropTypes.number.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
 
 export { ButtonAdd, ButtonEdit, ButtonDelete, ButtonShow };

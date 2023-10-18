@@ -31,6 +31,7 @@ const Create = () => {
         <Form.Item
           label="Tên nhóm"
           name="name"
+          hasFeedback
           rules={[
             {
               required: true,
