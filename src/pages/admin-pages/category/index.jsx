@@ -70,7 +70,9 @@ const List = () => {
   const columns = [
     id,
     {
-      title: () => <ColumnSort type="id" title="Tên danh mục" handleSort={handleSort} />,
+      title: () => (
+        <ColumnSort type="name" title="Tên danh mục" handleSort={handleSort} />
+      ),
       dataIndex: "name",
       key: "name",
     },

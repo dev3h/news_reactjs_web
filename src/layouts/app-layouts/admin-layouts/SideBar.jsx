@@ -1,4 +1,9 @@
-import { PieChartOutlined, ClusterOutlined, ApartmentOutlined } from "@ant-design/icons";
+import {
+  PieChartOutlined,
+  ClusterOutlined,
+  ApartmentOutlined,
+  ProjectOutlined,
+} from "@ant-design/icons";
 import { Menu, Layout } from "antd";
 import PropTypes from "prop-types";
 import { useState } from "react";
@@ -26,6 +31,10 @@ const items = [
     getItem("List", "3-1"),
     getItem("Create", "3-2"),
   ]),
+  getItem("Post", "4", <ProjectOutlined />, [
+    getItem("List", "4-1"),
+    getItem("Create", "4-2"),
+  ]),
 ];
 
 const navigations = [
@@ -48,6 +57,14 @@ const navigations = [
   {
     key: "3-2",
     path: "/admin/category/create",
+  },
+  {
+    key: "4-1",
+    path: "/admin/post",
+  },
+  {
+    key: "4-2",
+    path: "/admin/post/create",
   },
 ];
 const handleSelectKeyUrl = () => {

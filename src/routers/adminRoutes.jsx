@@ -9,6 +9,11 @@ import CreateCategory from "../pages/admin-pages/category/Create";
 import EditCategory from "../pages/admin-pages/category/Edit";
 import ShowCategory from "../pages/admin-pages/category/Show";
 
+import ListPost from "../pages/admin-pages/post";
+import CreatePost from "../pages/admin-pages/post/Create";
+import EditPost from "../pages/admin-pages/post/Edit";
+import ShowPost from "../pages/admin-pages/post/Show";
+
 const adminRoutes = [
   {
     path: "/admin",
@@ -66,6 +71,31 @@ const adminRoutes = [
           {
             path: ":id/edit",
             element: <EditCategory />,
+            exact: true,
+          },
+        ],
+      },
+      {
+        path: "post",
+        children: [
+          {
+            path: "",
+            element: <ListPost />,
+            exact: true,
+          },
+          {
+            path: "create",
+            element: <CreatePost />,
+            exact: true,
+          },
+          {
+            path: ":id/show",
+            element: <ShowPost />,
+            exact: true,
+          },
+          {
+            path: ":id/edit",
+            element: <EditPost />,
             exact: true,
           },
         ],

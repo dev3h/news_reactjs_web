@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card, Table, message } from "antd";
 
-import groupCategoryServices from "@/services/groupCategoryServices";
+import postServices from "@/services/postServices";
 import { generateBasicColumn } from "@/utils/generateColumn";
 import { PaginationCustom } from "@/components";
 
@@ -44,7 +44,7 @@ const List = () => {
     });
   };
   const getTableData = async () => {
-    const response = await groupCategoryServices.getList(filter);
+    const response = await postServices.getList(filter);
     setList(response?.data);
     setFilter({
       ...filter,
@@ -57,7 +57,7 @@ const List = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await groupCategoryServices.delete(id);
+      const response = await postServices.delete(id);
       getTableData();
       message.success(response?.data?.message);
     } catch (error) {
@@ -70,9 +70,17 @@ const List = () => {
   const columns = [
     id,
     {
-      title: () => <ColumnSort type="name" title="Tên nhóm" handleSort={handleSort} />,
-      dataIndex: "name",
-      key: "name",
+      title: () => <ColumnSort type="title" title="Tiêu đề" handleSort={handleSort} />,
+      dataIndex: "title",
+      key: "title",
+    },
+    {
+      title: () => (
+        <ColumnSort type="category.name" title="Danh mục" handleSort={handleSort} />
+      ),
+      dataIndex: "category",
+      key: "category",
+      render: (category) => category?.name,
     },
     createdByAdmin,
     updatedByAdmin,
