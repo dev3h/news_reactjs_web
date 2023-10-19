@@ -1,6 +1,6 @@
 import { Card } from "antd";
 
-import groupCategoryServices from "@/services/groupCategoryServices";
+import categoryServices from "@/services/categoryServices";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -10,7 +10,7 @@ const Show = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const response = await groupCategoryServices.getOne(id);
+        const response = await categoryServices.getOne(id);
         setData(response);
       } catch (error) {
         console.log(error);
