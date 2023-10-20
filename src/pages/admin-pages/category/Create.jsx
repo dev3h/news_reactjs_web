@@ -31,7 +31,7 @@ const Create = () => {
       try {
         const response = await groupCategoryServices.getList();
         setGroupCategoryDatas(
-          response?.data?.map((item) => ({
+          response?.rows?.map((item) => ({
             value: item?.id,
             label: item?.name,
           }))

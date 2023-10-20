@@ -1,14 +1,15 @@
 import axiosInstance from "../configs/axiosConfig";
 
 class categoryServices {
-  static async getList({ search, pagination, sort }) {
+  static async getList({ search, pagination, sort, flimit } = {}) {
     try {
       const response = await axiosInstance.get("/category", {
         params: {
           search,
-          page: pagination.defaultCurrent,
-          sortBy: sort.sortBy,
-          sortType: sort.sortType,
+          page: pagination?.defaultCurrent,
+          sortBy: sort?.sortBy,
+          sortType: sort?.sortType,
+          flimit,
         },
       });
       const data = response.data;
@@ -18,7 +19,7 @@ class categoryServices {
     }
   }
   static async getOne(id) {
-    const response = await axiosInstance.get(`/category/${id}`);
+    const response = await axiosInstance.get(`/category/${id}/info`);
     const data = response.data;
     return data;
   }

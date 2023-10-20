@@ -21,6 +21,7 @@ const List = () => {
       sortBy: "id",
       sortType: "ASC",
     },
+    flimit: 10,
   });
 
   const handlePaginationChange = (page) => {
