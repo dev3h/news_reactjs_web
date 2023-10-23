@@ -22,15 +22,16 @@ import tagServices from "@/services/tagServices";
 const Create = () => {
   const [form] = Form.useForm();
   const [categoryDatas, setCategoryDatas] = useState([]);
+  const [editorContent, setEditorContent] = useState("");
   const [tagsDatas, setTagsDatas] = useState([]);
   const [statusPostDatas, setStatusPostDatas] = useState([]);
   const [statusPostSelected, setStatusPostSelected] = useState(0);
   const [fileList, setFileList] = useState([]);
 
   const propUpload = {
-    name: "file",
+    name: "photo",
     multiple: false,
-    action: "URL_API_HOAC_DINH_DUONG_DUA_TOI_SERVER_UPLOAD",
+    action: "http://localhost:5000/api/v1/post/upload-photo",
     fileList: fileList,
     onChange(info) {
       let newFileList = [...info.fileList];
@@ -43,9 +44,12 @@ const Create = () => {
   };
   const handleSubmit = async (values) => {
     try {
+      values.content = editorContent;
       const response = await postServices.create(values);
       message.success(response?.data?.message);
       form.resetFields();
+      setEditorContent("");
+      setFileList([]);
       // focus on first input
       form.getFieldInstance("title").focus();
     } catch (error) {
@@ -131,15 +135,22 @@ const Create = () => {
 
         <Form.Item
           label="Nội dung"
-          name="content"
           hasFeedback
+          name="content"
           rules={[
             {
               required: true,
             },
           ]}
         >
-          <CKEditor editor={ClassicEditor} data="<p>Hello from CKEditor&nbsp;5!</p>" />
+          <CKEditor
+            editor={ClassicEditor}
+            data={editorContent}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              setEditorContent(data);
+            }}
+          />
         </Form.Item>
         <Form.Item
           label="Lưu hoặc xuất bản hoặc lên lịch"
@@ -177,7 +188,8 @@ const Create = () => {
         <Flex gap="large">
           <Form.Item
             label="Nhóm"
-            name="group_category_id"
+            name="category_id"
+            className="flex-1"
             hasFeedback
             rules={[
               {
