@@ -265,7 +265,7 @@ const Create = () => {
             },
           ]}
         >
-          <Upload {...propUpload}>
+          <Upload {...propUpload} listType="picture" maxCount={1}>
             <Button icon={<UploadOutlined />}>Upload</Button>
           </Upload>
         </Form.Item>

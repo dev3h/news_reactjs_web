@@ -40,10 +40,8 @@ const Edit = () => {
   }, []);
   const handleSubmit = async (values) => {
     try {
-      const id = values.id;
-      delete values.id;
-
-      const response = await categoryServices.update(id, values);
+      const { id, ...rest } = values;
+      const response = await categoryServices.update(id, rest);
       message.success(response?.data?.message);
       navigate("/admin/category");
     } catch (error) {
@@ -68,7 +66,7 @@ const Edit = () => {
         <Form.Item name="id" initialValue={id} hidden>
           <Input />
         </Form.Item>
-        {data.name && (
+        {data?.name && (
           <>
             <Form.Item
               label="Tên danh mục"
@@ -102,14 +100,13 @@ const Edit = () => {
                 options={groupCategoryDatas}
               />
             </Form.Item>
+            <Form.Item>
+              <Button htmlType="submit" type="primary" className="bg-blue-400">
+                Cập nhập
+              </Button>
+            </Form.Item>
           </>
         )}
-
-        <Form.Item>
-          <Button htmlType="submit" type="primary" className="bg-blue-400">
-            Cập nhập
-          </Button>
-        </Form.Item>
       </Form>
     </Card>
   );

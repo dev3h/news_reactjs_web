@@ -1,51 +1,64 @@
-import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Card, Form, Input, Button, message, Select } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
+import dayjs from "dayjs";
+import {
+  Card,
+  Form,
+  Input,
+  Button,
+  message,
+  Select,
+  Radio,
+  DatePicker,
+  Flex,
+  Upload,
+} from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 import categoryServices from "@/services/categoryServices";
-import groupCategoryServices from "@/services/groupCategoryServices";
+import postServices from "@/services/postServices";
+import tagServices from "@/services/tagServices";
+import uploader from "@/utils/createUploader";
 
 const Edit = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { id } = useParams();
+  const [categoryDatas, setCategoryDatas] = useState([]);
   const [data, setData] = useState({});
-  const [groupCategoryDatas, setGroupCategoryDatas] = useState([]);
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        const response = await categoryServices.getOne(id);
-        setData(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetch();
-  }, [id]);
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        const response = await groupCategoryServices.getList();
-        setGroupCategoryDatas(
-          response?.data?.map((item) => ({
-            value: item?.id,
-            label: item?.name,
-          }))
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetch();
-  }, []);
+  const [editorContent, setEditorContent] = useState("");
+  const [tagsDatas, setTagsDatas] = useState([]);
+  const [statusPostDatas, setStatusPostDatas] = useState([]);
+  const [statusPostSelected, setStatusPostSelected] = useState(0);
+  const [fileList, setFileList] = useState([]);
+  const ckeditorConfig = {
+    extraPlugins: [uploader],
+  };
+
+  const propUpload = {
+    name: "photo",
+    multiple: false,
+    action: "http://localhost:5000/api/v1/post/upload-photo",
+    fileList: fileList,
+    onChange(info) {
+      // Note cần làm: khi xóa thì phải xóa cả ở trên cloudinary
+      let newFileList = [...info.fileList];
+
+      // Giới hạn chỉ cho một tệp tin
+      newFileList = newFileList.slice(-1);
+
+      setFileList(newFileList);
+    },
+  };
   const handleSubmit = async (values) => {
     try {
-      const id = values.id;
-      delete values.id;
-
-      const response = await categoryServices.update(id, values);
+      values.content = editorContent;
+      const { id, ...rest } = values;
+      const response = await postServices.update(id, rest);
       message.success(response?.data?.message);
-      navigate("/admin/category");
+      navigate("/admin/post");
     } catch (error) {
       if (error?.response?.status === 422) {
         message.error(error?.response?.data?.message);
@@ -57,59 +70,254 @@ const Edit = () => {
   };
   const filterOption = (input, option) =>
     (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+  const handleChangeStatusPost = (e) => {
+    setStatusPostSelected(e.target.value);
+  };
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const response = await postServices.getOne(id);
+        setData(response);
+        setEditorContent(response?.content);
+        setStatusPostSelected(response?.status);
+        if (response?.photo)
+          setFileList([
+            {
+              uid: "-1",
+              name: response?.filename,
+              // status: "done",
+              url: response?.photo,
+              thumbUrl: response?.photo,
+            },
+          ]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetch();
+  }, [id]);
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const response = await categoryServices.getList();
+        setCategoryDatas(
+          response?.rows?.map((item) => ({
+            value: item?.id,
+            label: item?.name,
+          }))
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetch();
+  }, []);
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const response = await postServices.getAllStatus();
+        setStatusPostDatas(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetch();
+  }, []);
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const response = await tagServices.getList();
+        setTagsDatas(
+          response?.rows?.map((item) => ({
+            value: item?.id?.toString(),
+            label: item?.name,
+          }))
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetch();
+  }, []);
   return (
     <Card>
       <Form
         validateMessages={validateMessages}
-        className="w-full lg:w-1/2 xl:w-1/4"
+        className="w-full lg:w-1/2"
         onFinish={handleSubmit}
         form={form}
+        layout="vertical"
       >
         <Form.Item name="id" initialValue={id} hidden>
           <Input />
         </Form.Item>
-        {data.name && (
+        {data?.title && (
           <>
             <Form.Item
-              label="Tên danh mục"
-              name="name"
+              label="Tiêu đề"
+              name="title"
+              initialValue={data?.title}
               hasFeedback
-              initialValue={data?.name}
               rules={[
                 {
                   required: true,
                 },
               ]}
             >
-              <Input autoFocus placeholder="Nhập tên danh mục" allowClear />
+              <Input autoFocus placeholder="Nhập tiêu đề" allowClear />
             </Form.Item>
             <Form.Item
-              label="Nhóm"
-              name="group_category_id"
+              label="Nội dung"
               hasFeedback
-              initialValue={data?.group_category_id}
+              name="content"
               rules={[
                 {
                   required: true,
                 },
               ]}
             >
-              <Select
-                showSearch
-                placeholder="Chọn nhóm"
-                optionFilterProp="children"
-                filterOption={filterOption}
-                options={groupCategoryDatas}
+              <CKEditor
+                editor={ClassicEditor}
+                data={editorContent}
+                config={ckeditorConfig}
+                onChange={(event, editor) => {
+                  const data = editor.getData();
+                  setEditorContent(data);
+                }}
               />
+            </Form.Item>
+            <Form.Item
+              label="Lưu hoặc xuất bản hoặc lên lịch"
+              name="status"
+              hasFeedback
+              initialValue={statusPostSelected}
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Radio.Group onChange={handleChangeStatusPost}>
+                {statusPostDatas?.map((item) => (
+                  <Radio value={item?.id} key={item?.id}>
+                    {item?.name}
+                  </Radio>
+                ))}
+              </Radio.Group>
+            </Form.Item>
+            {statusPostSelected === statusPostDatas[2]?.id && (
+              <Form.Item
+                label="Ngày xuất bản"
+                initialValue={data?.published_at ? dayjs(data?.published_at) : null}
+                name="published_at"
+                hasFeedback
+                rules={[
+                  {
+                    required: true,
+                  },
+                  {
+                    validator: (_, value) => {
+                      // lấy thời gian hiện tại
+                      const currentDate = new Date();
+
+                      if (!value || value >= currentDate) {
+                        // Nếu ngày không tồn tại hoặc lớn hơn hoặc bằng ngày hiện tại
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(
+                        "Ngày xuất bản phải lớn hơn hoặc bằng ngày hiện tại."
+                      );
+                    },
+                  },
+                ]}
+              >
+                <DatePicker
+                  placeholder="Chọn ngày xuất bản"
+                  format="YYYY-MM-DD HH:mm:ss"
+                  showTime
+                />
+              </Form.Item>
+            )}
+            <Flex gap="small" wrap="wrap">
+              <Form.Item
+                label="Nhóm"
+                name="category_id"
+                initialValue={data?.category_id}
+                className="flex-1"
+                hasFeedback
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Select
+                  showSearch
+                  placeholder="Chọn danh mục"
+                  optionFilterProp="children"
+                  filterOption={filterOption}
+                  options={categoryDatas}
+                />
+              </Form.Item>
+              <Form.Item
+                initialValue={data?.tags}
+                className="flex-1"
+                label="Thẻ"
+                name="tags"
+                hasFeedback
+              >
+                <Select
+                  // showSearch
+                  mode="tags"
+                  placeholder="Chọn thẻ"
+                  // optionFilterProp="children"
+                  filterOption={filterOption}
+                  options={tagsDatas}
+                />
+              </Form.Item>
+            </Flex>
+            <Form.Item
+              label="Ảnh bài viết"
+              name="photo"
+              hasFeedback
+              rules={[
+                {
+                  // format image file access extension jpg, jpeg, png
+                  validator: (_, value) => {
+                    if (value) {
+                      const extension = value?.file?.name
+                        ?.split(".")
+                        ?.pop()
+                        ?.toLowerCase();
+                      const extensionList = ["jpg", "jpeg", "png"];
+                      if (extensionList.includes(extension)) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(
+                        new Error(
+                          "File không đúng định dạng. Định dạng hỗ trợ: jpg, jpeg, png"
+                        )
+                      );
+                    }
+                    return Promise.resolve();
+                  },
+                },
+              ]}
+            >
+              <Upload {...propUpload} listType="picture" maxCount={1}>
+                <Button icon={<UploadOutlined />}>Upload</Button>
+              </Upload>
+            </Form.Item>
+
+            <Form.Item>
+              <Button htmlType="submit" type="primary" className="bg-blue-400">
+                Thêm
+              </Button>
             </Form.Item>
           </>
         )}
-
-        <Form.Item>
-          <Button htmlType="submit" type="primary" className="bg-blue-400">
-            Cập nhập
-          </Button>
-        </Form.Item>
       </Form>
     </Card>
   );

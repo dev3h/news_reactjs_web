@@ -23,10 +23,8 @@ const Edit = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const id = values.id;
-      delete values.id;
-
-      const response = await groupCategoryServices.update(id, values);
+      const { id, ...rest } = values;
+      const response = await groupCategoryServices.update(id, rest);
       message.success(response?.data?.message);
       navigate("/admin/group-category");
     } catch (error) {
@@ -50,26 +48,27 @@ const Edit = () => {
           <Input />
         </Form.Item>
         {data.name && (
-          <Form.Item
-            label="Tên nhóm"
-            name="name"
-            hasFeedback
-            initialValue={data?.name}
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input autoFocus placeholder="Nhập tên nhóm" allowClear />
-          </Form.Item>
+          <>
+            <Form.Item
+              label="Tên nhóm"
+              name="name"
+              hasFeedback
+              initialValue={data?.name}
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input autoFocus placeholder="Nhập tên nhóm" allowClear />
+            </Form.Item>
+            <Form.Item>
+              <Button htmlType="submit" type="primary" className="bg-blue-400">
+                Cập nhập
+              </Button>
+            </Form.Item>
+          </>
         )}
-
-        <Form.Item>
-          <Button htmlType="submit" type="primary" className="bg-blue-400">
-            Cập nhập
-          </Button>
-        </Form.Item>
       </Form>
     </Card>
   );
