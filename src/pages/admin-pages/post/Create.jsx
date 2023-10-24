@@ -18,6 +18,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import categoryServices from "@/services/categoryServices";
 import postServices from "@/services/postServices";
 import tagServices from "@/services/tagServices";
+import uploader from "@/utils/createUploader";
 
 const Create = () => {
   const [form] = Form.useForm();
@@ -27,6 +28,9 @@ const Create = () => {
   const [statusPostDatas, setStatusPostDatas] = useState([]);
   const [statusPostSelected, setStatusPostSelected] = useState(0);
   const [fileList, setFileList] = useState([]);
+  const ckeditorConfig = {
+    extraPlugins: [uploader],
+  };
 
   const propUpload = {
     name: "photo",
@@ -34,6 +38,7 @@ const Create = () => {
     action: "http://localhost:5000/api/v1/post/upload-photo",
     fileList: fileList,
     onChange(info) {
+      // Note cần làm: khi xóa thì phải xóa cả ở trên cloudinary
       let newFileList = [...info.fileList];
 
       // Giới hạn chỉ cho một tệp tin
@@ -146,6 +151,7 @@ const Create = () => {
           <CKEditor
             editor={ClassicEditor}
             data={editorContent}
+            config={ckeditorConfig}
             onChange={(event, editor) => {
               const data = editor.getData();
               setEditorContent(data);
@@ -180,12 +186,30 @@ const Create = () => {
               {
                 required: true,
               },
+              {
+                validator: (_, value) => {
+                  // lấy thời gian hiện tại
+                  const currentDate = new Date();
+
+                  if (!value || value >= currentDate) {
+                    // Nếu ngày không tồn tại hoặc lớn hơn hoặc bằng ngày hiện tại
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    "Ngày xuất bản phải lớn hơn hoặc bằng ngày hiện tại."
+                  );
+                },
+              },
             ]}
           >
-            <DatePicker placeholder="Chọn ngày xuất bản" />
+            <DatePicker
+              placeholder="Chọn ngày xuất bản"
+              format="YYYY-MM-DD HH:mm:ss"
+              showTime
+            />
           </Form.Item>
         )}
-        <Flex gap="large">
+        <Flex gap="small" wrap="wrap">
           <Form.Item
             label="Nhóm"
             name="category_id"

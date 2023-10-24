@@ -18,6 +18,25 @@ class postServices {
       console.log(error);
     }
   }
+  static async upload(loader) {
+    try {
+      const response = await axiosInstance.post(
+        "/post/upload-photo",
+        {
+          photo: await loader.file,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      const data = response.data;
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
   static async getOne(id) {
     const response = await axiosInstance.get(`/post/${id}/info`);
     const data = response.data;
