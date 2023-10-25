@@ -11,12 +11,7 @@ import PropTypes from "prop-types";
 const ButtonAdd = () => {
   return (
     <Link to="create">
-      <Button
-        icon={<PlusCircleOutlined />}
-        type="primary"
-        size="large"
-        className="bg-blue-400"
-      >
+      <Button icon={<PlusCircleOutlined />} type="primary" size="large">
         Thêm
       </Button>
     </Link>
@@ -26,7 +21,7 @@ const ButtonAdd = () => {
 const ButtonShow = ({ id }) => {
   return (
     <Link to={`${id}/show`}>
-      <Button icon={<EyeOutlined />} type="primary" className="bg-blue-400" />
+      <Button icon={<EyeOutlined />} type="primary" />
     </Link>
   );
 };

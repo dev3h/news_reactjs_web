@@ -81,7 +81,7 @@ const Create = () => {
           />
         </Form.Item>
         <Form.Item>
-          <Button htmlType="submit" type="primary" className="bg-blue-400">
+          <Button htmlType="submit" type="primary">
             Thêm
           </Button>
         </Form.Item>

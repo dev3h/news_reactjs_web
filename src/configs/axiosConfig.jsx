@@ -6,6 +6,20 @@ const axiosInstance = axios.create({
   timeout: 10000,
 });
 
+// Interceptor để thêm token vào header
+axiosInstance.interceptors.request.use(
+  function (config) {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  function (error) {
+    Promise.reject(error);
+  }
+);
+
 // Interceptor để xử lý lỗi
 axiosInstance.interceptors.response.use(
   function (response) {
