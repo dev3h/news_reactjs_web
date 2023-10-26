@@ -2,14 +2,23 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
 import adminAuthServices from "@/services/authServices/adminAuthServices";
 import { useNavigate } from "react-router-dom";
+import { AdminContext } from "@/context/adminContext";
+import { useContext } from "react";
 
 const Login = () => {
   const [form] = Form.useForm();
+  const { setAdmin } = useContext(AdminContext);
   const navigate = useNavigate();
   const handleSubmit = async (values) => {
     const response = await adminAuthServices.login(values);
     if (response) {
-      localStorage.setItem("token", response?.accessToken);
+      const admin = {
+        token: response?.accessToken,
+        data: response?.data,
+      };
+      const adminString = JSON.stringify(admin);
+      localStorage.setItem("admin", adminString);
+      setAdmin(admin);
       navigate("/admin/dashboard");
     }
   };

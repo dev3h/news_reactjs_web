@@ -1,7 +1,12 @@
 import { RouterProvider } from "react-router-dom";
 import router from "./routers";
+import { AdminContextProvider } from "./context/adminContext";
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <AdminContextProvider>
+      <RouterProvider router={router} />
+    </AdminContextProvider>
+  );
 };
 export default App;

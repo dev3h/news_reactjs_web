@@ -1,14 +1,25 @@
-import { Outlet } from "react-router-dom";
-import { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import { Layout, theme } from "antd";
 import HeaderNav from "./HeaderNav";
 import SideBar from "./SideBar";
 import BreadCrumbCustom from "@/components/BreadCrumbCustom";
+import { AdminContext } from "@/context/adminContext";
 
 const { Content } = Layout;
 
 const AdminLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
+
+  const info = useContext(AdminContext);
+
+  useEffect(() => {
+    const token = info?.admin?.token;
+    if (!token) {
+      navigate("/auth/admin/login");
+    }
+  }, []);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
