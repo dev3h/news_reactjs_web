@@ -1,5 +1,6 @@
 import adminAuthRoutes from "./adminAuthRoutes";
+import userAuthRoutes from "./userAuthRoutes";
 
-const authRoutes = [...adminAuthRoutes];
+const authRoutes = [...adminAuthRoutes, ...userAuthRoutes];
 
 export default authRoutes;

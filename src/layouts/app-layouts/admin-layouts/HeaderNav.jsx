@@ -21,11 +21,15 @@ const HeaderNav = ({ collapsed, handleCollapsed, background }) => {
 
   const onClick = async ({ key }) => {
     if (key === "logout") {
-      const response = await adminAuthServices.logout();
-      if (response) {
-        localStorage.removeItem("admin");
-        setAdmin(null);
-        navigate("/auth/admin/login");
+      try {
+        const response = await adminAuthServices.logout();
+        if (response) {
+          localStorage.removeItem("admin");
+          setAdmin(null);
+          navigate("/auth/admin/login");
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
   };

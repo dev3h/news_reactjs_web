@@ -4,6 +4,7 @@ import { notification } from "antd";
 const axiosInstance = axios.create({
   baseURL: "http://localhost:5000/api/v1",
   timeout: 10000,
+  withCredentials: true,
 });
 
 // Interceptor để thêm token vào header
@@ -13,7 +14,6 @@ axiosInstance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    config.withCredentials = true;
 
     return config;
   },
