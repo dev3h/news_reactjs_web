@@ -1,6 +1,8 @@
 import UserAuthLayout from "@/layouts/auth-layouts/user-layouts";
 import Register from "@/pages/auth-pages/user-auth/register";
 import Login from "@/pages/auth-pages/user-auth/Login";
+import ForgotPassword from "@/pages/auth-pages/user-auth/ForgotPassword";
+import ResetPassword from "@/pages/auth-pages/user-auth/ResetPassword";
 
 const userAuthRoutes = [
   {
@@ -20,7 +22,12 @@ const userAuthRoutes = [
       },
       {
         path: "forgot-password",
-        element: <h1>Forgot password</h1>,
+        element: <ForgotPassword />,
+        exact: true,
+      },
+      {
+        path: "reset-password",
+        element: <ResetPassword />,
         exact: true,
       },
     ],

@@ -43,6 +43,26 @@ class userAuthServices {
       console.log(error);
     }
   }
+  static async forgotPassword({ email }) {
+    try {
+      const response = await axiosInstance.get(
+        `/auth/user/forgot-password?email=${email}`
+      );
+      const data = response.data;
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  static async resetPassword(inputData) {
+    try {
+      const response = await axiosInstance.put(`/auth/user/reset-password`, inputData);
+      const data = response.data;
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export default userAuthServices;
