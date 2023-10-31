@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Card, Form, Input, Button, message, Select } from "antd";
 
-import groupCategoryServices from "@/services/groupCategoryServices";
-import categoryServices from "@/services/categoryServices";
+import groupCategoryServices from " @/services/adminServices/groupCategoryServices";
+import categoryServices from " @/services/adminServices/categoryServices";
 
 const Create = () => {
   const [form] = Form.useForm();

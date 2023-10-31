@@ -1,4 +1,5 @@
 import UserLayout from "../layouts/app-layouts/user-layouts";
+import DetailPost from "../pages/app-pages/user-pages/DetailPost";
 import Home from "../pages/app-pages/user-pages/Home";
 
 const userRoutes = [
@@ -12,12 +13,12 @@ const userRoutes = [
         element: <Home />,
         exact: true,
       },
+      {
+        path: ":slug/detail",
+        element: <DetailPost />,
+        exact: true,
+      },
     ],
-  },
-  {
-    path: "/user/:id",
-    component: <h1>User 1</h1>,
-    exact: true,
   },
 ];
 

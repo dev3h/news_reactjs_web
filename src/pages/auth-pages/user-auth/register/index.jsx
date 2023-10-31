@@ -1,6 +1,6 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input, notification } from "antd";
-import userAuthServices from "@/services/authServices/userAuthServices";
+import userAuthServices from " @/services/authServices/userAuthServices";
 import ConfirmRegisterCodeModal from "./ConfirmRegisterCodeModal";
 import { useState } from "react";
 import { Link } from "react-router-dom";

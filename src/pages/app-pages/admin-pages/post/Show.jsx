@@ -1,8 +1,7 @@
 import { Card } from "antd";
-
-import categoryServices from "@/services/categoryServices";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import categoryServices from "@/services/adminServices/categoryServices";
 
 const Show = () => {
   const { id } = useParams();

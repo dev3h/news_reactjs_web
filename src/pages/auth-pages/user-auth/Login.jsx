@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
-import userAuthServices from "@/services/authServices/userAuthServices";
+import userAuthServices from " @/services/authServices/userAuthServices";
 import { useContext } from "react";
 import { UserContext } from "@/context/UserContext";
 

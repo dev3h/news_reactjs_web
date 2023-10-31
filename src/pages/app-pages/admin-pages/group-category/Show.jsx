@@ -1,6 +1,6 @@
 import { Card } from "antd";
 
-import categoryServices from "@/services/categoryServices";
+import groupCategoryServices from " @/services/adminServices/groupCategoryServices";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -10,7 +10,7 @@ const Show = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const response = await categoryServices.getOne(id);
+        const response = await groupCategoryServices.getOne(id);
         setData(response);
       } catch (error) {
         console.log(error);
@@ -21,8 +21,8 @@ const Show = () => {
 
   return (
     <Card>
-      <h2>Tên danh mục: {data?.name}</h2>
-      <h2>Nhóm: {data?.group_category?.name}</h2>
+      <h2>Tên nhóm: {data?.name}</h2>
+      <h2>Tổng số danh mục: </h2>
       <h2>Tạo bởi: {data?.created_by_admin?.username}</h2>
     </Card>
   );

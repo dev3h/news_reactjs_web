@@ -17,10 +17,10 @@ import { UploadOutlined } from "@ant-design/icons";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-import categoryServices from "@/services/categoryServices";
-import postServices from "@/services/postServices";
-import tagServices from "@/services/tagServices";
+import postServices from " @/services/adminServices/postServices";
+import tagServices from " @/services/adminServices/tagServices";
 import uploader from "@/utils/createUploader";
+import categoryServices from "@/services/adminServices/categoryServices";
 
 const Edit = () => {
   const navigate = useNavigate();

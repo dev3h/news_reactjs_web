@@ -1,7 +1,7 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input, notification } from "antd";
-import userAuthServices from "@/services/authServices/userAuthServices";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import userAuthServices from "@/services/authServices/userAuthServices";
 
 const ResetPassword = () => {
   const navigate = useNavigate();

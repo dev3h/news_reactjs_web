@@ -1,7 +1,7 @@
 import { Space } from "antd";
-import { format } from "date-fns";
 import { ButtonDelete, ButtonEdit, ButtonShow } from "../components/ButtonCustom";
 import { ColumnSort } from "../components";
+import customRenderDate from "./customRenderDate";
 
 const generateBasicColumn = (handleSort, handleDelete) => {
   return {
@@ -40,7 +40,7 @@ const generateBasicColumn = (handleSort, handleDelete) => {
       ),
       dataIndex: "created_at",
       key: "created_at",
-      render: (createdAt) => format(new Date(createdAt), "dd/MM/yyyy"),
+      render: (createdAt) => customRenderDate(createdAt),
     },
     updatedAt: {
       title: () => (
@@ -48,7 +48,7 @@ const generateBasicColumn = (handleSort, handleDelete) => {
       ),
       dataIndex: "updated_at",
       key: "updated_at",
-      render: (updatedAt) => format(new Date(updatedAt), "dd/MM/yyyy"),
+      render: (updatedAt) => customRenderDate(updatedAt),
     },
     action: {
       title: "Hành động",

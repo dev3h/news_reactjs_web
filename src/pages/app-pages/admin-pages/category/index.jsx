@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card, Table, message } from "antd";
 
-import postServices from "@/services/postServices";
+import categoryServices from " @/services/adminServices/categoryServices";
 import { generateBasicColumn } from "@/utils/generateColumn";
 import { PaginationCustom } from "@/components";
 
@@ -45,7 +45,7 @@ const List = () => {
     });
   };
   const getTableData = async () => {
-    const response = await postServices.getList(filter);
+    const response = await categoryServices.getList(filter);
     setList(response?.data);
     setFilter({
       ...filter,
@@ -58,7 +58,7 @@ const List = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await postServices.delete(id);
+      const response = await categoryServices.delete(id);
       getTableData();
       message.success(response?.data?.message);
     } catch (error) {
@@ -71,17 +71,19 @@ const List = () => {
   const columns = [
     id,
     {
-      title: () => <ColumnSort type="title" title="Tiêu đề" handleSort={handleSort} />,
-      dataIndex: "title",
-      key: "title",
+      title: () => (
+        <ColumnSort type="name" title="Tên danh mục" handleSort={handleSort} />
+      ),
+      dataIndex: "name",
+      key: "name",
     },
     {
       title: () => (
-        <ColumnSort type="category.name" title="Danh mục" handleSort={handleSort} />
+        <ColumnSort type="group_category.name" title="Nhóm" handleSort={handleSort} />
       ),
-      dataIndex: "category",
-      key: "category",
-      render: (category) => category?.name,
+      dataIndex: "group_category",
+      key: "group_category",
+      render: (group_category) => group_category?.name,
     },
     createdByAdmin,
     updatedByAdmin,

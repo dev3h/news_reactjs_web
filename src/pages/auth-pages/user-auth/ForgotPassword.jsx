@@ -1,6 +1,6 @@
 import { UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input, notification } from "antd";
-import userAuthServices from "@/services/authServices/userAuthServices";
+import userAuthServices from " @/services/authServices/userAuthServices";
 
 const ForgotPassword = () => {
   const [form] = Form.useForm();

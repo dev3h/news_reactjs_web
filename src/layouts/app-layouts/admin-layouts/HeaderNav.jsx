@@ -1,10 +1,12 @@
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Avatar, Button, Dropdown, Flex, Layout } from "antd";
 import PropTypes from "prop-types";
-
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { useContext } from "react";
+
 import { AdminContext } from "@/context/adminContext";
-import { useNavigate } from "react-router-dom";
+
+import customRenderAvatar from "@/utils/customRenderAvatar";
 import adminAuthServices from "@/services/authServices/adminAuthServices";
 
 const { Header } = Layout;
@@ -61,7 +63,7 @@ const HeaderNav = ({ collapsed, handleCollapsed, background }) => {
             trigger={["click"]}
           >
             <a onClick={(e) => e.preventDefault()}>
-              <Avatar size="large">{adminInfo?.username?.charAt(0).toUpperCase()}</Avatar>
+              <Avatar size="large">{customRenderAvatar(adminInfo?.username)}</Avatar>
             </a>
           </Dropdown>
         </div>

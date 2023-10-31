@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
 // Interceptor để thêm token vào header
 axiosInstance.interceptors.request.use(
   function (config) {
-    const token = JSON.parse(localStorage.getItem("admin"))?.token;
+    const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

@@ -1,18 +1,18 @@
 import AdminLayout from "../layouts/app-layouts/admin-layouts";
-import ListGroupCategory from "../pages/admin-pages/group-category";
-import CreateGroupCategory from "../pages/admin-pages/group-category/Create";
-import EditGroupCategory from "../pages/admin-pages/group-category/Edit";
-import ShowGroupCategory from "../pages/admin-pages/group-category/Show";
+import ListGroupCategory from "../pages/app-pages/admin-pages/group-category";
+import CreateGroupCategory from "../pages/app-pages/admin-pages/group-category/Create";
+import EditGroupCategory from "../pages/app-pages/admin-pages/group-category/Edit";
+import ShowGroupCategory from "../pages/app-pages/admin-pages/group-category/Show";
 
-import ListCategory from "../pages/admin-pages/category";
-import CreateCategory from "../pages/admin-pages/category/Create";
-import EditCategory from "../pages/admin-pages/category/Edit";
-import ShowCategory from "../pages/admin-pages/category/Show";
+import ListCategory from "../pages/app-pages/admin-pages/category";
+import CreateCategory from "../pages/app-pages/admin-pages/category/Create";
+import EditCategory from "../pages/app-pages/admin-pages/category/Edit";
+import ShowCategory from "../pages/app-pages/admin-pages/category/Show";
 
-import ListPost from "../pages/admin-pages/post";
-import CreatePost from "../pages/admin-pages/post/Create";
-import EditPost from "../pages/admin-pages/post/Edit";
-import ShowPost from "../pages/admin-pages/post/Show";
+import ListPost from "../pages/app-pages/admin-pages/post";
+import CreatePost from "../pages/app-pages/admin-pages/post/Create";
+import EditPost from "../pages/app-pages/admin-pages/post/Edit";
+import ShowPost from "../pages/app-pages/admin-pages/post/Show";
 
 const adminRoutes = [
   {

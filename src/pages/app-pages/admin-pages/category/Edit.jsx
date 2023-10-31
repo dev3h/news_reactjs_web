@@ -2,8 +2,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Card, Form, Input, Button, message, Select } from "antd";
 
-import categoryServices from "@/services/categoryServices";
-import groupCategoryServices from "@/services/groupCategoryServices";
+import categoryServices from " @/services/adminServices/categoryServices";
+import groupCategoryServices from " @/services/adminServices/groupCategoryServices";
 
 const Edit = () => {
   const navigate = useNavigate();

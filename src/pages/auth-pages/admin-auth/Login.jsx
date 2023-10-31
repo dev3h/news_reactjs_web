@@ -1,6 +1,6 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
-import adminAuthServices from "@/services/authServices/adminAuthServices";
+import adminAuthServices from " @/services/authServices/adminAuthServices";
 import { useNavigate } from "react-router-dom";
 import { AdminContext } from "@/context/adminContext";
 import { useContext } from "react";

@@ -1,6 +1,6 @@
 import { Card, Form, Input, Button, message } from "antd";
 
-import groupCategoryServices from "@/services/groupCategoryServices";
+import groupCategoryServices from " @/services/adminServices/groupCategoryServices";
 
 const Create = () => {
   const [form] = Form.useForm();
