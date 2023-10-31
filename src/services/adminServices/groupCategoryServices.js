@@ -1,4 +1,4 @@
-import axiosInstance from "../../configs/axiosConfig";
+import axiosInstance from "@/configs/axiosConfig";
 
 class groupCategoryServices {
   static async getList({ search, pagination, sort, flimit } = {}) {

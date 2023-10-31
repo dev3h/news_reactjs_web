@@ -1,4 +1,4 @@
-import postServices from " @/services/adminServices/postServices";
+import postServices from "@/services/adminServices/postServices";
 import { notification } from "antd";
 
 const uploadImage = (loader) => {

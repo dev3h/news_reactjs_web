@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card, Table, message } from "antd";
 
-import postServices from " @/services/adminServices/postServices";
+import postServices from "@/services/adminServices/postServices";
 import { generateBasicColumn } from "@/utils/generateColumn";
 import { PaginationCustom } from "@/components";
 

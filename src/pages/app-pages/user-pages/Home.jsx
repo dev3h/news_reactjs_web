@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Col, Flex, Row, Spin } from "antd";
 import { PaginationCustom } from "@/components";
-import postServices from " @/services/adminServices/postServices";
+import postServices from "@/services/userServices/postServices";
 import customRenderDate from "@/utils/customRenderDate";
 import CardPost from "@/components/CardPost";
 

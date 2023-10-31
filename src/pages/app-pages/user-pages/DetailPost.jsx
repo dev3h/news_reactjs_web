@@ -1,14 +1,29 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   CommentOutlined,
   CustomerServiceOutlined,
   HeartOutlined,
 } from "@ant-design/icons";
 import { Card, FloatButton } from "antd";
-import { useParams } from "react-router-dom";
+import postServices from "@/services/userServices/postServices";
 
 const DetailPost = () => {
+  const [data, setData] = useState({});
   const { slug } = useParams();
 
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const response = await postServices.getOne(slug);
+        setData(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetch();
+  }, [slug]);
+  console.log(data);
   return (
     <>
       <Card className="h-fit">

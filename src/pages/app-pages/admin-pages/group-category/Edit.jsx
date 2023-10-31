@@ -1,6 +1,6 @@
 import { Card, Form, Input, Button, message } from "antd";
 
-import groupCategoryServices from " @/services/adminServices/groupCategoryServices";
+import groupCategoryServices from "@/services/adminServices/groupCategoryServices";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 

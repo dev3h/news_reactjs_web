@@ -2,7 +2,7 @@ import axios from "axios";
 import { notification } from "antd";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000/api/v1",
+  baseURL: "http://localhost:5000/api/v1/user",
   timeout: 10000,
   withCredentials: true,
 });
@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
 // Interceptor để thêm token vào header
 axiosInstance.interceptors.request.use(
   function (config) {
-    const token = localStorage.getItem("token");
+    const token = JSON.parse(localStorage.getItem("user"))?.token;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

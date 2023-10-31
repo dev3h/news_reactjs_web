@@ -17,8 +17,8 @@ import { UploadOutlined } from "@ant-design/icons";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-import postServices from " @/services/adminServices/postServices";
-import tagServices from " @/services/adminServices/tagServices";
+import postServices from "@/services/adminServices/postServices";
+import tagServices from "@/services/adminServices/tagServices";
 import uploader from "@/utils/createUploader";
 import categoryServices from "@/services/adminServices/categoryServices";
 

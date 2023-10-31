@@ -1,6 +1,6 @@
 import { Card } from "antd";
 
-import groupCategoryServices from " @/services/adminServices/groupCategoryServices";
+import groupCategoryServices from "@/services/adminServices/groupCategoryServices";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
