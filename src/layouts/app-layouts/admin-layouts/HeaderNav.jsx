@@ -4,7 +4,7 @@ import { Avatar, Button, Dropdown, Flex, Layout } from "antd";
 import PropTypes from "prop-types";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 
-import { AdminContext } from "@/context/adminContext";
+import { AdminContext } from "@/context/AdminContext";
 
 import customRenderAvatar from "@/utils/customRenderAvatar";
 import adminAuthServices from "@/services/authServices/adminAuthServices";

@@ -5,7 +5,7 @@ import customRenderAvatar from "@/utils/customRenderAvatar";
 const CardPostHeader = ({ author }) => {
   return (
     <Flex justify="space-between">
-      <Avatar>{customRenderAvatar(author?.username)}</Avatar>
+      <Avatar>{author?.username && customRenderAvatar(author?.username)}</Avatar>
       <Flex>
         <Button type="primary">Đọc</Button>
       </Flex>

@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  CommentOutlined,
-  CustomerServiceOutlined,
-  HeartOutlined,
-} from "@ant-design/icons";
+
 import { Card, FloatButton } from "antd";
 import postServices from "@/services/userServices/postServices";
+import PostContent from "@/components/PostContent";
+import PostDetailTool from "@/components/PostDetailTool";
 
 const DetailPost = () => {
   const [data, setData] = useState({});
@@ -25,24 +23,18 @@ const DetailPost = () => {
   }, [slug]);
   console.log(data);
   return (
-    <>
-      <Card className="h-fit">
-        <h2>Detail post</h2>
-        {[...Array(100)].map((item, index) => (
-          <p key={index}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, voluptates.
-          </p>
-        ))}
-        <FloatButton.Group
-          className="left-6 top-1/2 -translate-y-1/2"
-          icon={<CustomerServiceOutlined />}
-        >
-          <FloatButton icon={<HeartOutlined />} />
-          <FloatButton icon={<CommentOutlined />} />
-        </FloatButton.Group>
+    <div className="relative">
+      <img
+        src="/posts/default-posts.jpg"
+        alt=""
+        className="w-full h-[500px] object-cover rounded-md"
+      />
+      <Card className="h-fit absolute top-1/2 mx-6">
+        <PostContent post={data} />
       </Card>
+      <PostDetailTool />
       <FloatButton.BackTop />
-    </>
+    </div>
   );
 };
 

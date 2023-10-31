@@ -4,7 +4,7 @@ import { Layout, theme } from "antd";
 import HeaderNav from "./HeaderNav";
 import SideBar from "./SideBar";
 import BreadCrumbCustom from "@/components/BreadCrumbCustom";
-import { AdminContext } from "@/context/adminContext";
+import { AdminContext } from "@/context/AdminContext";
 
 const { Content } = Layout;
 
