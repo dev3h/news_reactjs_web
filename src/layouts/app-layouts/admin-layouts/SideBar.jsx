@@ -3,6 +3,7 @@ import {
   ClusterOutlined,
   ApartmentOutlined,
   ProjectOutlined,
+  HighlightOutlined,
 } from "@ant-design/icons";
 import { Menu, Layout } from "antd";
 import PropTypes from "prop-types";
@@ -35,6 +36,10 @@ const items = [
     getItem("List", "4-1"),
     getItem("Create", "4-2"),
   ]),
+  getItem("Author", "5", <HighlightOutlined />, [
+    getItem("List", "5-1"),
+    getItem("Create", "5-2"),
+  ]),
 ];
 
 const navigations = [
@@ -65,6 +70,14 @@ const navigations = [
   {
     key: "4-2",
     path: "/admin/post/create",
+  },
+  {
+    key: "5-1",
+    path: "/admin/manager-author",
+  },
+  {
+    key: "5-2",
+    path: "/admin/manager-author/create",
   },
 ];
 const handleSelectKeyUrl = () => {
