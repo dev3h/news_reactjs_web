@@ -1,4 +1,4 @@
-import { Avatar, Dropdown, Flex, Layout } from "antd";
+import { Avatar, Button, Dropdown, Flex, Layout } from "antd";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -34,8 +34,8 @@ const HeaderNav = () => {
   };
   return (
     <Header>
-      <Flex justify="space-between" align="center" className="container mx-auto h-full">
-        <Link to={""} className="flex items-center h-full text-white font-bold">
+      <Flex justify="space-between" align="center" className="container h-full mx-auto">
+        <Link to={""} className="flex items-center h-full font-bold text-white">
           <Flex
             justify="center"
             align="center"
@@ -46,7 +46,7 @@ const HeaderNav = () => {
         </Link>
 
         <div>
-          {userInfo && (
+          {userInfo ? (
             <Dropdown
               menu={{
                 items,
@@ -62,6 +62,10 @@ const HeaderNav = () => {
                 </Avatar>
               </a>
             </Dropdown>
+          ) : (
+            <Link to="/auth/login" className="text-white">
+              <Button>Đăng nhập</Button>
+            </Link>
           )}
         </div>
       </Flex>

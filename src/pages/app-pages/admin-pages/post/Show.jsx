@@ -1,7 +1,8 @@
-import { Card } from "antd";
+import { Card, FloatButton } from "antd";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import categoryServices from "@/services/adminServices/categoryServices";
+import postServices from "@/services/adminServices/postServices";
+import PostContent from "@/components/PostContent";
 
 const Show = () => {
   const { id } = useParams();
@@ -9,7 +10,7 @@ const Show = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const response = await categoryServices.getOne(id);
+        const response = await postServices.getOne(id);
         setData(response);
       } catch (error) {
         console.log(error);
@@ -20,9 +21,17 @@ const Show = () => {
 
   return (
     <Card>
-      <h2>Tên danh mục: {data?.name}</h2>
-      <h2>Nhóm: {data?.group_category?.name}</h2>
-      <h2>Tạo bởi: {data?.created_by_admin?.username}</h2>
+      <div className="relative">
+        <img
+          src="/posts/default-posts.jpg"
+          alt=""
+          className="w-full h-[500px] object-cover rounded-md"
+        />
+        <Card className="absolute mx-6 h-fit top-1/2">
+          <PostContent post={data} />
+        </Card>
+        <FloatButton.BackTop />
+      </div>
     </Card>
   );
 };
