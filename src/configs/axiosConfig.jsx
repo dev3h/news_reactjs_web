@@ -2,7 +2,7 @@ import axios from "axios";
 import { notification } from "antd";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000/api/v1",
+  baseURL: `${import.meta.env.VITE_BASE_URL_API}/api/v1`,
   timeout: 10000,
   withCredentials: true,
 });
