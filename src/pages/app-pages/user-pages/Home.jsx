@@ -64,7 +64,7 @@ const Home = () => {
           onPaginationChange={handlePaginationChange}
         />
       </Flex>
-      <Row gutter={[16, 16]}>
+      <Row gutter={[16, 16]} className="!mx-0">
         {postDatas.length > 0 &&
           postDatas?.map((item, index) => (
             <Col key={index} xl={6} sm={24} xs={24}>

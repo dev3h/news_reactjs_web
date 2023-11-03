@@ -27,6 +27,24 @@ class categoryServices {
       console.log(error);
     }
   }
+  static async toggleLike(slug) {
+    try {
+      const response = await axiosInstance.put(`/post/${slug}/like`);
+      const data = response.data;
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  static async createComment(slug, content) {
+    try {
+      const response = await axiosInstance.post(`/post/${slug}/comment`, content);
+      const dataResponse = response.data;
+      return dataResponse;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export default categoryServices;

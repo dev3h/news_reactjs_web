@@ -21,7 +21,7 @@ const ConfirmRegisterCodeModal = ({ visible }) => {
     }
   };
   return (
-    <Modal open={visible}>
+    <Modal open={visible} closable={false} footer={null}>
       <h3>Kiểm tra mail để lấy mã code</h3>
       <Form validateMessages={validateMessages} onFinish={handleSubmit} form={form}>
         <Form.Item
