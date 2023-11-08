@@ -1,10 +1,4 @@
-import {
-  PieChartOutlined,
-  ClusterOutlined,
-  ApartmentOutlined,
-  ProjectOutlined,
-  HighlightOutlined,
-} from "@ant-design/icons";
+import { PieChartOutlined, ProjectOutlined } from "@ant-design/icons";
 import { Menu, Layout } from "antd";
 import PropTypes from "prop-types";
 import { useState } from "react";
@@ -24,60 +18,24 @@ function getItem(label, key, icon, children, type) {
 
 const items = [
   getItem("Dashboard", "1", <PieChartOutlined />),
-  getItem("Group Category", "2", <ClusterOutlined />, [
+  getItem("Post", "2", <ProjectOutlined />, [
     getItem("List", "2-1"),
     getItem("Create", "2-2"),
-  ]),
-  getItem("Category", "3", <ApartmentOutlined />, [
-    getItem("List", "3-1"),
-    getItem("Create", "3-2"),
-  ]),
-  getItem("Post", "4", <ProjectOutlined />, [
-    getItem("List", "4-1"),
-    getItem("Create", "4-2"),
-  ]),
-  getItem("Author", "5", <HighlightOutlined />, [
-    getItem("List", "5-1"),
-    getItem("Create", "5-2"),
   ]),
 ];
 
 const navigations = [
   {
     key: "1",
-    path: "/admin/dashboard",
+    path: "/author/dashboard",
   },
   {
     key: "2-1",
-    path: "/admin/group-category",
+    path: "/author/post",
   },
   {
     key: "2-2",
-    path: "/admin/group-category/create",
-  },
-  {
-    key: "3-1",
-    path: "/admin/category",
-  },
-  {
-    key: "3-2",
-    path: "/admin/category/create",
-  },
-  {
-    key: "4-1",
-    path: "/admin/post",
-  },
-  {
-    key: "4-2",
-    path: "/admin/post/create",
-  },
-  {
-    key: "5-1",
-    path: "/admin/manager-author",
-  },
-  {
-    key: "5-2",
-    path: "/admin/manager-author/create",
+    path: "/author/post/create",
   },
 ];
 const handleSelectKeyUrl = () => {

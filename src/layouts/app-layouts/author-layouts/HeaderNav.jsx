@@ -7,7 +7,7 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { AdminContext } from "@/context/AdminContext";
 
 import customRenderAvatar from "@/utils/customRenderAvatar";
-import adminAuthServices from "@/services/authServices/adminAuthServices";
+import logoutAdmin from "@/utils/logoutAdmin";
 
 const { Header } = Layout;
 const items = [
@@ -23,16 +23,7 @@ const HeaderNav = ({ collapsed, handleCollapsed, background }) => {
 
   const onClick = async ({ key }) => {
     if (key === "logout") {
-      try {
-        const response = await adminAuthServices.logout();
-        if (response) {
-          localStorage.removeItem("admin");
-          setAdmin(null);
-          navigate("/auth/admin/login");
-        }
-      } catch (error) {
-        console.log(error);
-      }
+      logoutAdmin(setAdmin, navigate);
     }
   };
 

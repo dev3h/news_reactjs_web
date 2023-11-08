@@ -1,9 +1,15 @@
 import { Badge, FloatButton } from "antd";
-import { CommentOutlined, HeartFilled, HeartOutlined } from "@ant-design/icons";
+import {
+  CommentOutlined,
+  HeartFilled,
+  HeartOutlined,
+  ArrowLeftOutlined,
+} from "@ant-design/icons";
 import PropTypes from "prop-types";
 import postServices from "@/services/userServices/postServices";
 import { useState } from "react";
 import DrawerComment from "./DrawerComment";
+import { useNavigate } from "react-router-dom";
 
 const PostDetailTool = ({
   slug,
@@ -15,6 +21,7 @@ const PostDetailTool = ({
   countComment,
 }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const navigate = useNavigate();
   const showDrawerComment = () => {
     setIsDrawerOpen(true);
   };
@@ -33,9 +40,13 @@ const PostDetailTool = ({
       }
     }
   };
+  const handleBack = () => {
+    navigate(-1);
+  };
   return (
     <>
       <FloatButton.Group className="left-6 top-1/2 -translate-y-1/2">
+        <FloatButton icon={<ArrowLeftOutlined />} onClick={handleBack} />
         <Badge count={countLike}>
           <FloatButton
             icon={isLiked ? <HeartFilled className="text-red-400" /> : <HeartOutlined />}

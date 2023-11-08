@@ -6,7 +6,12 @@ import { Link } from "react-router-dom";
 const CardPost = ({ post }) => {
   const imageUrl = post?.photo || "/posts/default-posts.jpg";
   return (
-    <Card title={<CardPostHeader author={post?.created_by_admin} />} bordered={false}>
+    <Card
+      title={
+        <CardPostHeader url={`/${post.slug}/detail`} author={post?.created_by_admin} />
+      }
+      bordered={false}
+    >
       <Link to={`/${post.slug}/detail`} className="text-black" title={post?.title}>
         <h3 className=" line-clamp-3 text-justify font-medium">{post?.title}</h3>
         <div>

@@ -28,7 +28,7 @@ const Login = () => {
           // data: response?.data,
         };
         const adminString = JSON.stringify(author);
-        localStorage.setItem("author", adminString);
+        localStorage.setItem("admin", adminString);
         setAdmin(author);
         navigate("/author/dashboard");
       } else {

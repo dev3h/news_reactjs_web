@@ -1,11 +1,12 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { Layout, theme } from "antd";
+import { Layout, notification, theme } from "antd";
 import HeaderNav from "./HeaderNav";
 import SideBar from "./SideBar";
 import BreadCrumbCustom from "@/components/BreadCrumbCustom";
 import { AdminContext } from "@/context/AdminContext";
 import adminAuthServices from "@/services/authServices/adminAuthServices";
+import logoutAdmin from "@/utils/logoutAdmin";
 
 const { Content } = Layout;
 
@@ -23,6 +24,13 @@ const AdminLayout = () => {
       const response = await adminAuthServices.getUserInfo(token);
 
       if (response) {
+        if (response?.data?.role?.role_name !== "ADMIN") {
+          notification.error({
+            message: "Lỗi",
+            description: "Bạn phải là admin",
+          });
+          await logoutAdmin(setAdmin, navigate);
+        }
         setAdmin({
           ...admin,
           data: response?.data,
