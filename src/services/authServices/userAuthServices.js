@@ -63,9 +63,13 @@ class userAuthServices {
       console.log(error);
     }
   }
-  static async getUserInfo() {
+  static async getUserInfo(accessToken) {
     try {
-      const response = await axiosInstance.get("/auth/user/current");
+      const response = await axiosInstance.get("/auth/user/current", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       const data = response.data;
       return data;
     } catch (error) {

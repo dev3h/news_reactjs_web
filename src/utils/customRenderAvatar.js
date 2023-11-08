@@ -1,4 +1,4 @@
-const customRenderAvatar = (name) => {
+const customRenderAvatar = (name = "Unknown") => {
   const nameSplit = name?.split(" ");
   const avatar = nameSplit[nameSplit?.length - 1][0];
   return avatar;

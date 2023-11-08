@@ -40,7 +40,7 @@ const Edit = () => {
   const propUpload = {
     name: "photo",
     multiple: false,
-    action: "http://localhost:5000/api/v1/post/upload-photo",
+    action: `${import.meta.env.VITE_BASE_URL_API}/api/v1/post/upload-photo`,
     fileList: fileList,
     onChange(info) {
       // Note cần làm: khi xóa thì phải xóa cả ở trên cloudinary

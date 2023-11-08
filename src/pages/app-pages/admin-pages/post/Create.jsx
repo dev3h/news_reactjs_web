@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Card,
   Form,
@@ -19,9 +19,12 @@ import categoryServices from "@/services/adminServices/categoryServices";
 import postServices from "@/services/adminServices/postServices";
 import tagServices from "@/services/adminServices/tagServices";
 import uploader from "@/utils/createUploader";
+import { AdminContext } from "@/context/AdminContext";
 
 const Create = () => {
   const [form] = Form.useForm();
+  const { admin } = useContext(AdminContext);
+  const accessToken = admin?.token;
   const [categoryDatas, setCategoryDatas] = useState([]);
   const [editorContent, setEditorContent] = useState("");
   const [tagsDatas, setTagsDatas] = useState([]);
@@ -35,7 +38,10 @@ const Create = () => {
   const propUpload = {
     name: "photo",
     multiple: false,
-    action: "http://localhost:5000/api/v1/post/upload-photo",
+    action: `${import.meta.env.VITE_BASE_URL_API}/api/v1/post/upload-photo`,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
     fileList: fileList,
     onChange(info) {
       // Note cần làm: khi xóa thì phải xóa cả ở trên cloudinary
@@ -43,8 +49,7 @@ const Create = () => {
 
       // Giới hạn chỉ cho một tệp tin
       newFileList = newFileList.slice(-1);
-
-      setFileList(newFileList);
+      info.file.status === "removed" ? setFileList([]) : setFileList(newFileList);
     },
   };
   const handleSubmit = async (values) => {

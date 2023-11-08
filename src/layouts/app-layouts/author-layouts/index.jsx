@@ -9,11 +9,12 @@ import adminAuthServices from "@/services/authServices/adminAuthServices";
 
 const { Content } = Layout;
 
-const AdminLayout = () => {
+const AuthorLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
 
   const { admin, setAdmin } = useContext(AdminContext);
+
   useEffect(() => {
     const token = admin?.token;
     if (!token) {
@@ -21,7 +22,6 @@ const AdminLayout = () => {
     }
     const getUserInfo = async () => {
       const response = await adminAuthServices.getUserInfo(token);
-
       if (response) {
         setAdmin({
           ...admin,
@@ -60,4 +60,4 @@ const AdminLayout = () => {
   );
 };
 
-export default AdminLayout;
+export default AuthorLayout;

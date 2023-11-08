@@ -54,7 +54,7 @@ const DetailPost = () => {
         alt=""
         className="w-full h-[500px] object-cover rounded-md"
       />
-      <Card className="absolute mx-6 h-fit top-1/2">
+      <Card className="absolute mx-6 h-fit top-1/2 w-[90%]">
         <PostContent post={data} />
       </Card>
       <PostDetailTool

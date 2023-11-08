@@ -1,23 +1,10 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import PropTypes from "prop-types";
-import userAuthServices from "@/services/authServices/userAuthServices";
 
 const UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
-  const [user, setUser] = useState("");
-  useEffect(() => {
-    const userToken = JSON.parse(localStorage.getItem("user"));
-    if (userToken) {
-      const fetchUser = async () => {
-        const response = await userAuthServices.getUserInfo();
-        if (response) {
-          setUser(response);
-        }
-      };
-      fetchUser();
-    }
-  }, []);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   return (
     <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>
   );

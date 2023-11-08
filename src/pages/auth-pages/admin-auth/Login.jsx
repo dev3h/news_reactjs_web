@@ -15,8 +15,9 @@ const Login = () => {
       if (role?.role_name === "ADMIN") {
         const admin = {
           token: response?.accessToken,
-          data: response?.data,
+          // data: response?.data,
         };
+
         const adminString = JSON.stringify(admin);
         localStorage.setItem("admin", adminString);
         setAdmin(admin);
@@ -24,7 +25,7 @@ const Login = () => {
       } else if (role?.role_name === "AUTHOR") {
         const author = {
           token: response?.accessToken,
-          data: response?.data,
+          // data: response?.data,
         };
         const adminString = JSON.stringify(author);
         localStorage.setItem("author", adminString);

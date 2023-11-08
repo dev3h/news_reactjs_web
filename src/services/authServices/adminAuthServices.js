@@ -35,6 +35,19 @@ class adminAuthServices {
       console.log(error);
     }
   }
+  static async getUserInfo(accessToken) {
+    try {
+      const response = await axiosInstance.get("/auth/admin/current", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const data = response.data;
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export default adminAuthServices;

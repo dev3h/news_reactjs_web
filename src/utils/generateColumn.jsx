@@ -20,7 +20,7 @@ const generateBasicColumn = (handleSort, handleDelete) => {
       ),
       dataIndex: "created_by_admin",
       key: "created_by_admin",
-      render: (createdBy) => createdBy.username,
+      render: (createdBy) => createdBy?.username,
     },
     updatedByAdmin: {
       title: () => (
@@ -32,7 +32,7 @@ const generateBasicColumn = (handleSort, handleDelete) => {
       ),
       dataIndex: "updated_by_admin",
       key: "updated_by_admin",
-      render: (updatedBy) => updatedBy.username,
+      render: (updatedBy) => updatedBy?.username,
     },
     createdAt: {
       title: () => (
