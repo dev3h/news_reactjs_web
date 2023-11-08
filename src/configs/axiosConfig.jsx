@@ -13,7 +13,7 @@ axiosInstance.interceptors.request.use(
     const token = JSON.parse(localStorage.getItem("admin"))?.token;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-    }
+            }
 
     return config;
   },

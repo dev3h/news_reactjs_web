@@ -313,7 +313,7 @@ const Edit = () => {
 
             <Form.Item>
               <Button htmlType="submit" type="primary">
-                Thêm
+                Cập nhập
               </Button>
             </Form.Item>
           </>

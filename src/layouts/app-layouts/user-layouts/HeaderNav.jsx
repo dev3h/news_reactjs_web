@@ -1,10 +1,11 @@
-import { Avatar, Button, Dropdown, Flex, Layout } from "antd";
+import { Avatar, Button, Dropdown, Flex, Input, Layout } from "antd";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { UserContext } from "@/context/UserContext";
 import customRenderAvatar from "@/utils/customRenderAvatar";
 import userAuthServices from "@/services/authServices/userAuthServices";
+import { SearchOutlined } from "@ant-design/icons";
 
 const { Header } = Layout;
 const items = [
@@ -14,9 +15,10 @@ const items = [
   },
 ];
 const HeaderNav = () => {
-  const { user, setUser } = useContext(UserContext);
-  const userInfo = user?.data;
   const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
+  
+  const userInfo = user?.data;
 
   const onClick = async ({ key }) => {
     if (key === "logout") {
@@ -32,8 +34,12 @@ const HeaderNav = () => {
       }
     }
   };
+  const handleSearch = (e) => {
+    // search?q=abc
+    navigate(`/search?q=${e.target.value.trim()}`);
+  };
   return (
-    <Header>
+    <Header className="bg-white shadow-md">
       <Flex justify="space-between" align="center" className="container h-full mx-auto">
         <Link to={""} className="flex items-center h-full font-bold text-white">
           <Flex
@@ -45,7 +51,15 @@ const HeaderNav = () => {
           </Flex>
         </Link>
 
-        <div>
+        <Flex className="flex-1" justify="end" gap="small" align="center">
+          <Input
+            placeholder="Tìm kiếm"
+            size="large"
+            prefix={<SearchOutlined />}
+            allowClear
+            onPressEnter={handleSearch}
+            className="w-1/4"
+          />
           {userInfo ? (
             <Dropdown
               menu={{
@@ -67,7 +81,7 @@ const HeaderNav = () => {
               <Button>Đăng nhập</Button>
             </Link>
           )}
-        </div>
+        </Flex>
       </Flex>
     </Header>
   );

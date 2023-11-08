@@ -58,26 +58,35 @@ const Home = () => {
   ]);
   return (
     <Spin spinning={loading} tip="Loading...">
-      <Flex justify="center" className="mb-5">
-        <PaginationCustom
-          pagination={filter.pagination}
-          onPaginationChange={handlePaginationChange}
-        />
-      </Flex>
-      <Row gutter={[16, 16]} className="!mx-0">
-        {postDatas.length > 0 &&
-          postDatas?.map((item, index) => (
-            <Col key={index} xl={6} sm={24} xs={24}>
-              <CardPost post={item} />
-            </Col>
-          ))}
-      </Row>
-      <Flex justify="center" className="mt-5">
-        <PaginationCustom
-          pagination={filter.pagination}
-          onPaginationChange={handlePaginationChange}
-        />
-      </Flex>
+      {postDatas?.length > 0 ? (
+        <>
+          {filter?.pagination?.total > postDatas.length && (
+            <Flex justify="center" className="mb-5">
+              <PaginationCustom
+                pagination={filter.pagination}
+                onPaginationChange={handlePaginationChange}
+              />
+            </Flex>
+          )}
+          <Row gutter={[16, 16]} className="!mx-0">
+            {postDatas.map((item, index) => (
+              <Col key={index} xl={6} sm={24} xs={24}>
+                <CardPost post={item} />
+              </Col>
+            ))}
+          </Row>
+          {filter?.pagination?.total > postDatas.length && (
+            <Flex justify="center" className="mb-5">
+              <PaginationCustom
+                pagination={filter.pagination}
+                onPaginationChange={handlePaginationChange}
+              />
+            </Flex>
+          )}
+        </>
+      ) : (
+        <h2>Không có bài viết</h2>
+      )}
     </Spin>
   );
 };

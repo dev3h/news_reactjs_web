@@ -11,14 +11,28 @@ const Login = () => {
   const handleSubmit = async (values) => {
     const response = await adminAuthServices.login(values);
     if (response) {
-      const admin = {
-        token: response?.accessToken,
-        data: response?.data,
-      };
-      const adminString = JSON.stringify(admin);
-      localStorage.setItem("admin", adminString);
-      setAdmin(admin);
-      navigate("/admin/dashboard");
+      const role = await adminAuthServices.checkRole(response?.accessToken);
+      if (role?.role_name === "ADMIN") {
+        const admin = {
+          token: response?.accessToken,
+          data: response?.data,
+        };
+        const adminString = JSON.stringify(admin);
+        localStorage.setItem("admin", adminString);
+        setAdmin(admin);
+        navigate("/admin/dashboard");
+      } else if (role?.role_name === "AUTHOR") {
+        const author = {
+          token: response?.accessToken,
+          data: response?.data,
+        };
+        const adminString = JSON.stringify(author);
+        localStorage.setItem("author", adminString);
+        setAdmin(author);
+        navigate("/author/dashboard");
+      } else {
+        navigate("/auth/admin/login");
+      }
     }
   };
   const validateMessages = {

@@ -6,7 +6,42 @@ const axiosInstance = axios.create({
   timeout: 10000,
   withCredentials: true,
 });
+// // Hàm kiểm tra xem accessToken có hết hạn không
+// const isAccessTokenExpired = (accessToken) => {
+//   // chưa biết cách lấy thời gian sống của token
+//   const expirationTime = new Date(accessToken.exp * 1000); // exp là thời gian hết hạn trong accessToken
+//   console.log(expirationTime);
+//   return new Date() >= expirationTime;
+// };
 
+// // Interceptor để thêm token vào header
+// axiosInstance.interceptors.request.use(
+//   async (config) => {
+//     const accessToken = JSON.parse(localStorage.getItem("user"))?.token;
+//     if (accessToken && isAccessTokenExpired(accessToken)) {
+//       try {
+//         const response = await axiosInstance.post("/refresh-token");
+//         console.log(response);
+
+//         if (response.status === 200) {
+//           const newAccessToken = response.data.accessToken;
+//           localStorage.setItem("admin", JSON.stringify({ token: newAccessToken }));
+//           // Sau khi cập nhật accessToken, bạn có thể gửi lại yêu cầu gốc với accessToken mới
+//           config.headers.Authorization = `Bearer ${newAccessToken}`;
+//         } else {
+//           // Xử lý lỗi khi không thể cập nhật accessToken
+//         }
+//       } catch (error) {
+//         console.log(error);
+//       }
+//     }
+
+//     return config;
+//   },
+//   function (error) {
+//     return Promise.reject(error);
+//   }
+// );
 // Interceptor để thêm token vào header
 axiosInstance.interceptors.request.use(
   function (config) {

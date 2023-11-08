@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Card, FloatButton } from "antd";
+import { Card, Flex, FloatButton } from "antd";
 import postServices from "@/services/userServices/postServices";
 import PostContent from "@/components/PostContent";
 import PostDetailTool from "@/components/PostDetailTool";
@@ -48,13 +48,13 @@ const DetailPost = () => {
     setIsLiked(isLiked);
   };
   return (
-    <div className="relative">
+    <Flex className="relative" justify="center">
       <img
         src="/posts/default-posts.jpg"
         alt=""
         className="w-full h-[500px] object-cover rounded-md"
       />
-      <Card className="h-fit absolute top-1/2 mx-6">
+      <Card className="absolute mx-6 h-fit top-1/2">
         <PostContent post={data} />
       </Card>
       <PostDetailTool
@@ -67,7 +67,7 @@ const DetailPost = () => {
         countComment={countComment}
       />
       <FloatButton.BackTop />
-    </div>
+    </Flex>
   );
 };
 

@@ -63,6 +63,15 @@ class userAuthServices {
       console.log(error);
     }
   }
+  static async getUserInfo() {
+    try {
+      const response = await axiosInstance.get("/auth/user/current");
+      const data = response.data;
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export default userAuthServices;
