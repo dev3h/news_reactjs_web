@@ -17,7 +17,7 @@ const items = [
 const HeaderNav = () => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
-  
+
   const userInfo = user?.data;
 
   const onClick = async ({ key }) => {
@@ -35,7 +35,6 @@ const HeaderNav = () => {
     }
   };
   const handleSearch = (e) => {
-    // search?q=abc
     navigate(`/search?q=${e.target.value.trim()}`);
   };
   return (
