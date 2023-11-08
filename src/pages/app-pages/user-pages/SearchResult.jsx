@@ -47,7 +47,6 @@ const SearchResult = () => {
     filter.sort.sortBy,
     filter.sort.sortType,
   ]);
-  console.log(postDatas);
   return (
     <div className="px-5">
       <h2>Kết quả tìm kiếm cho {q}: </h2>
