@@ -23,7 +23,7 @@ const PasswordInput = ({ label, name, placeholder }) => {
         },
       ]}
     >
-      <Input.Password prefix={<LockOutlined />} placeholder={placeholder} />
+      <Input.Password prefix={<LockOutlined />} placeholder={placeholder} allowClear />
     </Form.Item>
   );
 };

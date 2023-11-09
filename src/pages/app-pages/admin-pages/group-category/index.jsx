@@ -11,6 +11,7 @@ import { generateColumn } from "@/components/Column/GenerateColumn";
 const List = () => {
   const [list, setList] = useState([]);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [filter, setFilter] = useState({
     search: "",
@@ -46,6 +47,7 @@ const List = () => {
     });
   };
   const getTableData = async () => {
+    setLoading(true);
     const response = await groupCategoryServices.getList(filter);
     setList(response?.data);
     setFilter({
@@ -55,6 +57,7 @@ const List = () => {
         total: response?.totalItems,
       },
     });
+    setLoading(false);
   };
 
   const handleConfirm = (loading) => {
@@ -121,6 +124,7 @@ const List = () => {
         dataSource={list}
         columns={columns}
         pagination={false}
+        loading={loading}
         rowKey={(record) => record?.id}
       />
       <PaginationCustom

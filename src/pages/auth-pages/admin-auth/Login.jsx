@@ -67,7 +67,12 @@ const Login = () => {
           },
         ]}
       >
-        <Input autoFocus prefix={<UserOutlined />} placeholder="Nhập Username" />
+        <Input
+          autoFocus
+          prefix={<UserOutlined />}
+          placeholder="Nhập Username"
+          allowClear
+        />
       </Form.Item>
       <PasswordInput {...passwordProps} />
 

@@ -19,7 +19,7 @@ const EmailInput = ({ emailValue = "" }) => {
         },
       ]}
     >
-      <Input autoFocus prefix={<UserOutlined />} placeholder="Nhập email" />
+      <Input autoFocus prefix={<UserOutlined />} placeholder="Nhập email" allowClear />
     </Form.Item>
   );
 };
