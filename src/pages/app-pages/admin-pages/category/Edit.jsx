@@ -1,15 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Card, Form, Input, Button, message, Select } from "antd";
+import { Card, Form, Input, message, Select } from "antd";
 
 import categoryServices from "@/services/adminServices/categoryServices";
 import groupCategoryServices from "@/services/adminServices/groupCategoryServices";
+import { ButtonUpdateForm } from "@/components/Btn/ButtonAddAndUpdateForm";
 
 const Edit = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { id } = useParams();
   const [data, setData] = useState({});
+  const [loading, setLoading] = useState(false);
   const [groupCategoryDatas, setGroupCategoryDatas] = useState([]);
   useEffect(() => {
     const fetch = async () => {
@@ -41,13 +43,16 @@ const Edit = () => {
   const handleSubmit = async (values) => {
     try {
       const { id, ...rest } = values;
+      setLoading(true);
       const response = await categoryServices.update(id, rest);
       message.success(response?.data?.message);
+      setLoading(false);
       navigate("/admin/category");
     } catch (error) {
       if (error?.response?.status === 422) {
         message.error(error?.response?.data?.message);
       }
+      setLoading(false);
     }
   };
   const validateMessages = {
@@ -98,13 +103,10 @@ const Edit = () => {
                 optionFilterProp="children"
                 filterOption={filterOption}
                 options={groupCategoryDatas}
+                allowClear
               />
             </Form.Item>
-            <Form.Item>
-              <Button htmlType="submit" type="primary">
-                Cập nhập
-              </Button>
-            </Form.Item>
+            <ButtonUpdateForm loading={loading} />
           </>
         )}
       </Form>

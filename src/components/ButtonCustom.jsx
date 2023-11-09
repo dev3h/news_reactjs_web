@@ -34,9 +34,10 @@ const ButtonEdit = ({ id }) => {
   );
 };
 
-const ButtonDelete = ({ id, handleDelete }) => {
-  const confirm = () => {
-    handleDelete(id);
+const ButtonDelete = ({ id, handleDelete, confirmLoading, handleConfirm }) => {
+  const confirm = async () => {
+    handleConfirm(true);
+    await handleDelete(id);
   };
 
   return (
@@ -46,7 +47,7 @@ const ButtonDelete = ({ id, handleDelete }) => {
       onConfirm={confirm}
       okText="Đồng ý"
       cancelText="Hủy"
-      okButtonProps={{ className: "bg-blue-400" }}
+      okButtonProps={{ className: "bg-blue-400", loading: confirmLoading }}
     >
       <Button icon={<DeleteOutlined />} type="primary" danger className="bg-red-400" />
     </Popconfirm>
@@ -62,6 +63,8 @@ ButtonEdit.propTypes = {
 ButtonDelete.propTypes = {
   id: PropTypes.number.isRequired,
   handleDelete: PropTypes.func.isRequired,
+  confirmLoading: PropTypes.bool,
+  handleConfirm: PropTypes.func,
 };
 
 export { ButtonAdd, ButtonEdit, ButtonDelete, ButtonShow };

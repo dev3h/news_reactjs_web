@@ -70,7 +70,7 @@ const Home = () => {
           )}
           <Row gutter={[16, 16]} className="!mx-0">
             {postDatas.map((item, index) => (
-              <Col key={index} xl={6} sm={24} xs={24}>
+              <Col key={index} xl={8} lg={12} sm={24} xs={24}>
                 <CardPost post={item} />
               </Col>
             ))}

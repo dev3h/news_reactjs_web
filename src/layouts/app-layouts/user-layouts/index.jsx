@@ -10,18 +10,20 @@ const { Content } = Layout;
 const UserLayout = () => {
   const { user, setUser } = useContext(UserContext);
   useEffect(() => {
-    const token = user?.token;
-    const getUserInfo = async () => {
-      const response = await userAuthServices.getUserInfo(token);
+    if (user && user.token) {
+      const token = user.token;
+      const getUserInfo = async () => {
+        const response = await userAuthServices.getUserInfo(token);
 
-      if (response) {
-        setUser({
-          ...user,
-          data: response?.data,
-        });
-      }
-    };
-    getUserInfo();
+        if (response) {
+          setUser((prevUser) => ({
+            ...prevUser,
+            data: response.data,
+          }));
+        }
+      };
+      getUserInfo();
+    }
   }, []);
   return (
     <Layout className="layout">

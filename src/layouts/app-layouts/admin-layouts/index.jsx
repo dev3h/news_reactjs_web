@@ -43,23 +43,17 @@ const AdminLayout = () => {
     token: { colorBgContainer },
   } = theme.useToken();
   return (
-    <Layout className="min-h-screen">
+    <Layout className="min-h-screen ">
       {/* Sidebar */}
       <SideBar collapsed={collapsed} />
-      <Layout>
+      <Layout className="!w-full">
         {/* Header Nav */}
         <HeaderNav
           collapsed={collapsed}
           handleCollapsed={setCollapsed}
           background={colorBgContainer}
         />
-        <Content
-          style={{
-            margin: "24px 16px",
-            padding: 24,
-            minHeight: 280,
-          }}
-        >
+        <Content className="p-6">
           <BreadCrumbCustom />
           <Outlet />
         </Content>

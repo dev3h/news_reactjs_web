@@ -1,11 +1,15 @@
-import { UserOutlined } from "@ant-design/icons";
-import { Button, Form, Input, notification } from "antd";
+import { useState } from "react";
+import { Form, notification } from "antd";
 import userAuthServices from "@/services/authServices/userAuthServices";
+import ButtonSubmitForm from "@/components/Btn/ButtonSubmitForm";
+import EmailInput from "@/components/Input/EmailInput";
 
 const ForgotPassword = () => {
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (values) => {
+    setLoading(true);
     const response = await userAuthServices.forgotPassword(values);
     if (response) {
       notification.success({
@@ -14,6 +18,7 @@ const ForgotPassword = () => {
       });
       form.resetFields();
     }
+    setLoading(false);
   };
   const validateMessages = {
     required: "${label} là bắt buộc",
@@ -22,27 +27,8 @@ const ForgotPassword = () => {
     <>
       <h1>Quên mật khẩu</h1>
       <Form validateMessages={validateMessages} onFinish={handleSubmit} form={form}>
-        <Form.Item
-          label="Email"
-          name="email"
-          hasFeedback
-          rules={[
-            {
-              required: true,
-            },
-            {
-              type: "email",
-              message: "Email không hợp lệ",
-            },
-          ]}
-        >
-          <Input autoFocus prefix={<UserOutlined />} placeholder="Nhập email" />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Gửi
-          </Button>
-        </Form.Item>
+        <EmailInput />
+        <ButtonSubmitForm loading={loading} title="Gửi" />
       </Form>
     </>
   );

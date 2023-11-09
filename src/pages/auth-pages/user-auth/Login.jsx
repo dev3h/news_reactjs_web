@@ -1,15 +1,19 @@
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Form, Input } from "antd";
+import { Form } from "antd";
 import userAuthServices from "@/services/authServices/userAuthServices";
-import { useContext } from "react";
 import { UserContext } from "@/context/UserContext";
+import EmailInput from "@/components/Input/EmailInput";
+import PasswordInput from "@/components/Input/PasswordInput";
+import ButtonSubmitForm from "@/components/Btn/ButtonSubmitForm";
 
 const Login = () => {
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const handleSubmit = async (values) => {
+    setLoading(true);
     const response = await userAuthServices.login(values);
     if (response) {
       const user = {
@@ -20,9 +24,15 @@ const Login = () => {
       setUser(user);
       navigate("/");
     }
+    setLoading(false);
   };
   const validateMessages = {
     required: "${label} là bắt buộc",
+  };
+  const passwordProps = {
+    label: "Mật khẩu",
+    name: "password",
+    placeholder: "Nhập mật khẩu",
   };
   return (
     <>
@@ -33,43 +43,13 @@ const Login = () => {
         onFinish={handleSubmit}
         form={form}
       >
-        <Form.Item
-          label="Email"
-          name="email"
-          hasFeedback
-          rules={[
-            {
-              required: true,
-            },
-            {
-              type: "email",
-              message: "Email không hợp lệ",
-            },
-          ]}
-        >
-          <Input autoFocus prefix={<UserOutlined />} placeholder="Nhập email" />
-        </Form.Item>
-        <Form.Item
-          label="Password"
-          name="password"
-          hasFeedback
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input.Password prefix={<LockOutlined />} placeholder="Nhập Password" />
-        </Form.Item>
+        <EmailInput />
+        <PasswordInput {...passwordProps} />
         <Form.Item>
           <Link to={"/auth/forgot-password"}>Quên mật khẩu?</Link>
         </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Đăng nhập
-          </Button>
-        </Form.Item>
+        <ButtonSubmitForm loading={loading} title="Đăng nhập" />
         <Form.Item>
           <span>
             Chưa có tài khoản? <Link to={"/auth/register"}>Tạo tài khoản</Link>

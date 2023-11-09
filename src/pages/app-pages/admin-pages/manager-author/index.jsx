@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, Table, message } from "antd";
 
 import managerAuthorServices from "@/services/adminServices/managerAuthorServices";
-import { generateBasicColumn } from "@/utils/generateColumn";
+import { generateBasicColumn } from "@/components/Column/GenerateColumn";
 import { PaginationCustom } from "@/components";
 
 import HeaderTableBasic from "@/components/HeaderTableBasic";

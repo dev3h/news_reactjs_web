@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Card, Flex, FloatButton } from "antd";
+import { Card, Flex, FloatButton, Spin } from "antd";
 import postServices from "@/services/userServices/postServices";
 import PostContent from "@/components/PostContent";
 import PostDetailTool from "@/components/PostDetailTool";
@@ -10,6 +10,7 @@ import { UserContext } from "@/context/UserContext";
 
 const DetailPost = () => {
   const { user } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
   const [isLiked, setIsLiked] = useState(false);
   const [countLike, setCountLike] = useState(0);
@@ -18,8 +19,10 @@ const DetailPost = () => {
   const { slug } = useParams();
   useEffect(() => {
     const fetch = async () => {
-      try {
-        const response = await postServices.getOne(slug);
+      setLoading(true);
+      const response = await postServices.getOne(slug);
+      if (response) {
+        setLoading(false);
         setData(response);
         const isUserLiked = response?.users_like?.find((item) => {
           return item.email === user?.data?.email;
@@ -35,8 +38,6 @@ const DetailPost = () => {
 
           setCommentDatas(comments);
         }
-      } catch (error) {
-        console.log(error);
       }
     };
     fetch();
@@ -48,26 +49,28 @@ const DetailPost = () => {
     setIsLiked(isLiked);
   };
   return (
-    <Flex className="relative" justify="center">
-      <img
-        src="/posts/default-posts.jpg"
-        alt=""
-        className="w-full h-[500px] object-cover rounded-md"
-      />
-      <Card className="absolute mx-6 h-fit top-1/2 w-[90%]">
-        <PostContent post={data} />
-      </Card>
-      <PostDetailTool
-        slug={data?.slug}
-        isLiked={isLiked}
-        countLike={countLike}
-        handleCountLike={handleCountLike}
-        handleLiked={handleLiked}
-        commentDatas={commentDatas}
-        countComment={countComment}
-      />
-      <FloatButton.BackTop />
-    </Flex>
+    <Spin spinning={loading} tip="Loading...">
+      <Flex className="relative" justify="center">
+        <img
+          src="/posts/default-posts.jpg"
+          alt=""
+          className="w-full h-[500px] object-cover rounded-md"
+        />
+        <Card className="absolute mx-6 h-fit top-1/2 w-[90%]">
+          <PostContent post={data} />
+        </Card>
+        <PostDetailTool
+          slug={data?.slug}
+          isLiked={isLiked}
+          countLike={countLike}
+          handleCountLike={handleCountLike}
+          handleLiked={handleLiked}
+          commentDatas={commentDatas}
+          countComment={countComment}
+        />
+        <FloatButton.BackTop />
+      </Flex>
+    </Spin>
   );
 };
 

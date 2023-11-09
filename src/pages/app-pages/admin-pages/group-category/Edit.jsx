@@ -1,12 +1,14 @@
-import { Card, Form, Input, Button, message } from "antd";
+import { Card, Form, Input, message } from "antd";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import groupCategoryServices from "@/services/adminServices/groupCategoryServices";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { ButtonUpdateForm } from "@/components/Btn/ButtonAddAndUpdateForm";
 
 const Edit = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const [data, setData] = useState({});
   useEffect(() => {
@@ -24,13 +26,16 @@ const Edit = () => {
   const handleSubmit = async (values) => {
     try {
       const { id, ...rest } = values;
+      setLoading(true);
       const response = await groupCategoryServices.update(id, rest);
       message.success(response?.data?.message);
+      setLoading(false);
       navigate("/admin/group-category");
     } catch (error) {
       if (error?.response?.status === 422) {
         message.error(error?.response?.data?.message);
       }
+      setLoading(false);
     }
   };
   const validateMessages = {
@@ -62,11 +67,7 @@ const Edit = () => {
             >
               <Input autoFocus placeholder="Nhập tên nhóm" allowClear />
             </Form.Item>
-            <Form.Item>
-              <Button htmlType="submit" type="primary">
-                Cập nhập
-              </Button>
-            </Form.Item>
+            <ButtonUpdateForm loading={loading} />
           </>
         )}
       </Form>

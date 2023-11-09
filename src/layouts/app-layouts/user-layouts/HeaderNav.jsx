@@ -76,9 +76,14 @@ const HeaderNav = () => {
               </a>
             </Dropdown>
           ) : (
-            <Link to="/auth/login" className="text-white">
-              <Button>Đăng nhập</Button>
-            </Link>
+            <Flex align="center" gap="small">
+              <Link to="/auth/login" className="text-white">
+                <Button>Đăng nhập</Button>
+              </Link>
+              <Link to="/auth/register" className="text-white">
+                <Button>Đăng ký</Button>
+              </Link>
+            </Flex>
           )}
         </Flex>
       </Flex>

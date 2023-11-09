@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { Card, Table, message } from "antd";
 
 import categoryServices from "@/services/adminServices/categoryServices";
-import { generateBasicColumn } from "@/utils/generateColumn";
+import { generateBasicColumn } from "@/components/Column/GenerateColumn";
 import { PaginationCustom } from "@/components";
 
 import HeaderTableBasic from "@/components/HeaderTableBasic";
-import { ColumnSort } from "@/components";
+import { generateColumn } from "@/components/Column/GenerateColumn";
 
 const List = () => {
   const [list, setList] = useState([]);
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const [filter, setFilter] = useState({
     search: "",
@@ -56,35 +57,56 @@ const List = () => {
     });
   };
 
+  const handleConfirm = (loading) => {
+    setConfirmLoading(loading);
+  };
   const handleDelete = async (id) => {
     try {
+      setConfirmLoading(true);
       const response = await categoryServices.delete(id);
       getTableData();
       message.success(response?.data?.message);
+      setConfirmLoading(false);
     } catch (error) {
       console.log(error);
+      setConfirmLoading(false);
     }
   };
 
   const { id, createdByAdmin, updatedByAdmin, createdAt, updatedAt, action } =
-    generateBasicColumn(handleSort, handleDelete);
-  const columns = [
-    id,
+    generateBasicColumn(filter, handleSort, handleDelete, confirmLoading, handleConfirm);
+  const restColumnInfo = [
     {
-      title: () => (
-        <ColumnSort type="name" title="Tên danh mục" handleSort={handleSort} />
-      ),
+      title: "Tên danh mục",
       dataIndex: "name",
       key: "name",
+      filter,
+      handleSort,
     },
     {
-      title: () => (
-        <ColumnSort type="group_category.name" title="Nhóm" handleSort={handleSort} />
-      ),
+      title: "Nhóm",
       dataIndex: "group_category",
-      key: "group_category",
-      render: (group_category) => group_category?.name,
+      key: "group_category.name",
+      filter,
+      handleSort,
+      customRender: true,
     },
+  ];
+
+  const restColumns = restColumnInfo.map((column) => {
+    return generateColumn(
+      column.title,
+      column.dataIndex,
+      column.key,
+      column.filter,
+      column.handleSort,
+      column?.customRender
+    );
+  });
+
+  const columns = [
+    id,
+    ...restColumns,
     createdByAdmin,
     updatedByAdmin,
     createdAt,

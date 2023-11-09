@@ -18,7 +18,7 @@ const HeaderTableBasic = ({ filter, handleFilterData }) => {
         prefix={<SearchOutlined />}
         allowClear
         onPressEnter={handleSearch}
-        className="w-[12%]"
+        className="w-1/2 xl:w-[20%]"
       />
       <ButtonAdd />
     </Flex>
