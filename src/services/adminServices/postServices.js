@@ -37,6 +37,17 @@ class postServices {
       console.log(error);
     }
   }
+  static async deletePhoto(filename) {
+    try {
+      const response = await axiosInstance.post("/post/delete-photo/", {
+        filename,
+      });
+      const data = response.data;
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
   static async getOne(id) {
     const response = await axiosInstance.get(`/post/${id}/info`);
     const data = response.data;

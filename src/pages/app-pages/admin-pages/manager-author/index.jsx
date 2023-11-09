@@ -6,10 +6,11 @@ import { generateBasicColumn } from "@/components/Column/GenerateColumn";
 import { PaginationCustom } from "@/components";
 
 import HeaderTableBasic from "@/components/HeaderTableBasic";
-import { ColumnSort } from "@/components";
+import { generateColumn } from "@/components/Column/GenerateColumn";
 
 const List = () => {
   const [list, setList] = useState([]);
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const [filter, setFilter] = useState({
     search: "",
@@ -55,7 +56,9 @@ const List = () => {
       },
     });
   };
-
+  const handleConfirm = (loading) => {
+    setConfirmLoading(loading);
+  };
   const handleDelete = async (id) => {
     try {
       const response = await managerAuthorServices.delete(id);
@@ -67,34 +70,47 @@ const List = () => {
   };
 
   const { id, createdAt, updatedAt, action } = generateBasicColumn(
+    filter,
     handleSort,
-    handleDelete
+    handleDelete,
+    confirmLoading,
+    handleConfirm
   );
-  const columns = [
-    id,
+  const restColumnInfo = [
     {
-      title: () => (
-        <ColumnSort type="username" title="Tên đăng nhập" handleSort={handleSort} />
-      ),
+      title: "Tên đăng nhập",
       dataIndex: "username",
       key: "username",
+      filter,
+      handleSort,
     },
     {
-      title: () => (
-        <ColumnSort type="display_name" title="Tên hiển thị" handleSort={handleSort} />
-      ),
+      title: "Tên hiển thị",
       dataIndex: "display_name",
       key: "display_name",
+      filter,
+      handleSort,
     },
     {
-      title: () => <ColumnSort type="email" title="Email" handleSort={handleSort} />,
+      title: "Email",
       dataIndex: "email",
       key: "email",
+      filter,
+      handleSort,
     },
-    createdAt,
-    updatedAt,
-    action,
   ];
+
+  const restColumns = restColumnInfo.map((column) => {
+    return generateColumn(
+      column.title,
+      column.dataIndex,
+      column.key,
+      column.filter,
+      column.handleSort,
+      column?.customRender
+    );
+  });
+  const columns = [id, ...restColumns, createdAt, updatedAt, action];
 
   useEffect(() => {
     getTableData();

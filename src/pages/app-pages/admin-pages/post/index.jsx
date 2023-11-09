@@ -6,10 +6,11 @@ import { generateBasicColumn } from "@/components/Column/GenerateColumn";
 import { PaginationCustom } from "@/components";
 
 import HeaderTableBasic from "@/components/HeaderTableBasic";
-import { ColumnSort } from "@/components";
+import { generateColumn } from "@/components/Column/GenerateColumn";
 
 const List = () => {
   const [list, setList] = useState([]);
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const [filter, setFilter] = useState({
     search: "",
@@ -55,34 +56,56 @@ const List = () => {
       },
     });
   };
-
+  const handleConfirm = (loading) => {
+    setConfirmLoading(loading);
+  };
   const handleDelete = async (id) => {
     try {
+      setConfirmLoading(true);
       const response = await postServices.delete(id);
       getTableData();
       message.success(response?.data?.message);
+      setConfirmLoading(false);
     } catch (error) {
       console.log(error);
+      setConfirmLoading(false);
     }
   };
 
   const { id, createdByAdmin, updatedByAdmin, createdAt, updatedAt, action } =
-    generateBasicColumn(handleSort, handleDelete);
-  const columns = [
-    id,
+    generateBasicColumn(filter, handleSort, handleDelete, confirmLoading, handleConfirm);
+  const restColumnInfo = [
     {
-      title: () => <ColumnSort type="title" title="Tiêu đề" handleSort={handleSort} />,
+      title: "Tiêu đề",
       dataIndex: "title",
       key: "title",
+      filter,
+      handleSort,
     },
     {
-      title: () => (
-        <ColumnSort type="category.name" title="Danh mục" handleSort={handleSort} />
-      ),
+      title: "Danh mục",
       dataIndex: "category",
-      key: "category",
-      render: (category) => category?.name,
+      key: "category.name",
+      filter,
+      handleSort,
+      customRender: true,
     },
+  ];
+
+  const restColumns = restColumnInfo.map((column) => {
+    return generateColumn(
+      column.title,
+      column.dataIndex,
+      column.key,
+      column.filter,
+      column.handleSort,
+      column?.customRender
+    );
+  });
+
+  const columns = [
+    id,
+    ...restColumns,
     createdByAdmin,
     updatedByAdmin,
     createdAt,

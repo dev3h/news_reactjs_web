@@ -1,13 +1,15 @@
-import { Card, Form, Input, Button, message } from "antd";
-
-import managerAuthorServices from "@/services/adminServices/managerAuthorServices";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Card, Form, Input, message } from "antd";
+
+import managerAuthorServices from "@/services/adminServices/managerAuthorServices";
+import { ButtonUpdateForm } from "@/components/Btn/ButtonAddAndUpdateForm";
 
 const Edit = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { id } = useParams();
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
   useEffect(() => {
     const fetch = async () => {
@@ -24,13 +26,16 @@ const Edit = () => {
   const handleSubmit = async (values) => {
     try {
       const { id, ...rest } = values;
+      setLoading(true);
       const response = await managerAuthorServices.update(id, rest);
       message.success(response?.data?.message);
+      setLoading(false);
       navigate("/admin/manager-author");
     } catch (error) {
       if (error?.response?.status === 422) {
         message.error(error?.response?.data?.message);
       }
+      setLoading(false);
     }
   };
   const validateMessages = {
@@ -79,11 +84,7 @@ const Edit = () => {
             >
               <Input autoFocus placeholder="Nhập email" allowClear />
             </Form.Item>
-            <Form.Item>
-              <Button htmlType="submit" type="primary">
-                Cập nhập
-              </Button>
-            </Form.Item>
+            <ButtonUpdateForm loading={loading} />
           </>
         )}
       </Form>

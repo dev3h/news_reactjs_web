@@ -1,19 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
-import {
-  Card,
-  Form,
-  Input,
-  Button,
-  message,
-  Select,
-  Radio,
-  DatePicker,
-  Flex,
-  Upload,
-} from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { Card, Form, Input, message, Select, Radio, DatePicker, Flex } from "antd";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
@@ -21,12 +9,15 @@ import postServices from "@/services/adminServices/postServices";
 import tagServices from "@/services/adminServices/tagServices";
 import uploader from "@/utils/createUploader";
 import categoryServices from "@/services/adminServices/categoryServices";
+import UploadPhotoInput from "@/components/Input/UploadPhotoInput";
+import { ButtonUpdateForm } from "@/components/Btn/ButtonAddAndUpdateForm";
 
 const Edit = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { id } = useParams();
   const [categoryDatas, setCategoryDatas] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
   const [editorContent, setEditorContent] = useState("");
   const [tagsDatas, setTagsDatas] = useState([]);
@@ -42,27 +33,40 @@ const Edit = () => {
     multiple: false,
     action: `${import.meta.env.VITE_BASE_URL_API}/api/v1/post/upload-photo`,
     fileList: fileList,
-    onChange(info) {
+    async onChange(info) {
       // Note cần làm: khi xóa thì phải xóa cả ở trên cloudinary
       let newFileList = [...info.fileList];
 
       // Giới hạn chỉ cho một tệp tin
       newFileList = newFileList.slice(-1);
-
-      setFileList(newFileList);
+      if (info.file.status === "removed") {
+        setFileList([]);
+        const filename = info.file?.name;
+        if (filename) {
+          await postServices.deletePhoto(filename);
+        }
+      } else {
+        setFileList(newFileList);
+      }
     },
   };
   const handleSubmit = async (values) => {
     try {
+      if (fileList.length === 0) {
+        delete values.photo;
+      }
       values.content = editorContent;
       const { id, ...rest } = values;
+      setLoading(true);
       const response = await postServices.update(id, rest);
       message.success(response?.data?.message);
+      setLoading(false);
       navigate("/admin/post");
     } catch (error) {
       if (error?.response?.status === 422) {
         message.error(error?.response?.data?.message);
       }
+      setLoading(false);
     }
   };
   const validateMessages = {
@@ -242,7 +246,7 @@ const Edit = () => {
             )}
             <Flex gap="small" wrap="wrap">
               <Form.Item
-                label="Nhóm"
+                label="Danh mục"
                 name="category_id"
                 initialValue={data?.category_id}
                 className="flex-1"
@@ -278,44 +282,9 @@ const Edit = () => {
                 />
               </Form.Item>
             </Flex>
-            <Form.Item
-              label="Ảnh bài viết"
-              name="photo"
-              hasFeedback
-              rules={[
-                {
-                  // format image file access extension jpg, jpeg, png
-                  validator: (_, value) => {
-                    if (value) {
-                      const extension = value?.file?.name
-                        ?.split(".")
-                        ?.pop()
-                        ?.toLowerCase();
-                      const extensionList = ["jpg", "jpeg", "png"];
-                      if (extensionList.includes(extension)) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject(
-                        new Error(
-                          "File không đúng định dạng. Định dạng hỗ trợ: jpg, jpeg, png"
-                        )
-                      );
-                    }
-                    return Promise.resolve();
-                  },
-                },
-              ]}
-            >
-              <Upload {...propUpload} listType="picture" maxCount={1}>
-                <Button icon={<UploadOutlined />}>Upload</Button>
-              </Upload>
-            </Form.Item>
+            <UploadPhotoInput propUpload={propUpload} />
 
-            <Form.Item>
-              <Button htmlType="submit" type="primary">
-                Cập nhập
-              </Button>
-            </Form.Item>
+            <ButtonUpdateForm loading={loading} />
           </>
         )}
       </Form>
