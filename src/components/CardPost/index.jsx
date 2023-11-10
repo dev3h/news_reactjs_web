@@ -4,7 +4,12 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const CardPost = ({ post }) => {
-  const imageUrl = post?.photo || "/posts/default-posts.jpg";
+  const defaultImageUrl = "/posts/default-posts.jpg";
+  const imageUrl = post?.photo || defaultImageUrl;
+  const handleImageError = (event) => {
+    // Nếu xảy ra lỗi khi tải hình ảnh, thay thế bằng đường dẫn mặc định
+    event.target.src = defaultImageUrl;
+  };
   return (
     <Card
       title={
@@ -20,6 +25,7 @@ const CardPost = ({ post }) => {
             src={imageUrl}
             alt=""
             className="w-full lg:h-[200px] h-[300px] object-cover rounded-md"
+            onError={handleImageError}
           />
         </div>
       </Link>

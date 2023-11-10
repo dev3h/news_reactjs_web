@@ -1,12 +1,15 @@
-import { useState } from "react";
-import { Card, Form, Input, message } from "antd";
+import { useEffect, useState } from "react";
+import { Card, Form, Input, Radio, message } from "antd";
 
 import managerAuthorServices from "@/services/adminServices/managerAuthorServices";
 import { ButtonAddForm } from "@/components/Btn/ButtonAddAndUpdateForm";
+import EmailInput from "@/components/Input/EmailInput";
+import roleServices from "@/services/adminServices/roleServices";
 
 const Create = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [roleData, setRoleData] = useState([]);
   const handleSubmit = async (values) => {
     try {
       setLoading(true);
@@ -26,6 +29,17 @@ const Create = () => {
   const validateMessages = {
     required: "${label} là bắt buộc",
   };
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const response = await roleServices.getList();
+        setRoleData(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetch();
+  }, []);
   return (
     <Card>
       <Form
@@ -47,20 +61,26 @@ const Create = () => {
           <Input autoFocus placeholder="Nhập tên đăng nhập" allowClear />
         </Form.Item>
         <Form.Item
-          label="Email"
-          name="email"
+          label="Tên hiển thị"
+          name="display_name"
           hasFeedback
           rules={[
             {
               required: true,
             },
-            {
-              type: "email",
-              message: "Email không hợp lệ",
-            },
           ]}
         >
-          <Input autoFocus placeholder="Nhập email" allowClear />
+          <Input autoFocus placeholder="Nhập tên hiển thị" allowClear />
+        </Form.Item>
+        <EmailInput showIcon={false} />
+        <Form.Item label="Vai trò" name="role" hasFeedback>
+          <Radio.Group>
+            {roleData?.map((item) => (
+              <Radio value={item?.id} key={item?.id}>
+                {item?.name}
+              </Radio>
+            ))}
+          </Radio.Group>
         </Form.Item>
         <ButtonAddForm loading={loading} />
       </Form>

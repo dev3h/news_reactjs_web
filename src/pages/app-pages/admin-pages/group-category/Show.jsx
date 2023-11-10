@@ -34,11 +34,13 @@ const Show = () => {
       <Card>
         <p>Tên nhóm: {data?.name}</p>
         <p>Tổng số danh mục: {categoryList?.length}</p>
-        <div>
-          {categoryList?.map((item) => (
-            <Tag key={item?.id}>{item?.name}</Tag>
-          ))}
-        </div>
+        {categoryList?.length > 0 && (
+          <div>
+            {categoryList?.map((item) => (
+              <Tag key={item?.id}>{item?.name}</Tag>
+            ))}
+          </div>
+        )}
       </Card>
     </Spin>
   );

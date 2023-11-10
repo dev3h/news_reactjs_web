@@ -1,15 +1,18 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Card, Form, Input, message } from "antd";
+import { Card, Form, Input, Radio, message } from "antd";
 
 import managerAuthorServices from "@/services/adminServices/managerAuthorServices";
 import { ButtonUpdateForm } from "@/components/Btn/ButtonAddAndUpdateForm";
+import EmailInput from "@/components/Input/EmailInput";
+import roleServices from "@/services/adminServices/roleServices";
 
 const Edit = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
+  const [roleData, setRoleData] = useState([]);
   const [data, setData] = useState({});
   useEffect(() => {
     const fetch = async () => {
@@ -22,6 +25,17 @@ const Edit = () => {
     };
     fetch();
   }, [id]);
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const response = await roleServices.getList();
+        setRoleData(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetch();
+  }, []);
 
   const handleSubmit = async (values) => {
     try {
@@ -68,21 +82,27 @@ const Edit = () => {
               <Input autoFocus placeholder="Nhập tên đăng nhập" allowClear />
             </Form.Item>
             <Form.Item
-              label="Email"
-              name="email"
+              label="Tên hiển thị"
+              name="display_name"
+              initialValue={data?.display_name}
               hasFeedback
-              initialValue={data?.email}
               rules={[
                 {
                   required: true,
                 },
-                {
-                  type: "email",
-                  message: "Email không hợp lệ",
-                },
               ]}
             >
-              <Input autoFocus placeholder="Nhập email" allowClear />
+              <Input autoFocus placeholder="Nhập tên hiển thị" allowClear />
+            </Form.Item>
+            <EmailInput emailValue={data?.email} showIcon={false} />
+            <Form.Item label="Vai trò" name="role" hasFeedback initialValue={data?.role}>
+              <Radio.Group>
+                {roleData?.map((item) => (
+                  <Radio value={item?.id} key={item?.id}>
+                    {item?.name}
+                  </Radio>
+                ))}
+              </Radio.Group>
             </Form.Item>
             <ButtonUpdateForm loading={loading} />
           </>

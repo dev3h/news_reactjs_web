@@ -10,21 +10,37 @@ const { Content } = Layout;
 const UserLayout = () => {
   const { user, setUser } = useContext(UserContext);
   useEffect(() => {
-    if (user && user.token) {
-      const token = user.token;
+    if (user && user?.token) {
+      const token = user?.token;
       const getUserInfo = async () => {
-        const response = await userAuthServices.getUserInfo(token);
+        try {
+          const response = await userAuthServices.getUserInfo(token);
 
-        if (response) {
-          setUser((prevUser) => ({
-            ...prevUser,
-            data: response.data,
-          }));
+          if (response) {
+            setUser((prevUser) => ({
+              ...prevUser,
+              data: response.data,
+            }));
+          }
+        } catch (error) {
+          const newAccessToken = await userAuthServices.refreshToken();
+          if (newAccessToken) {
+            localStorage.setItem(
+              "user",
+              JSON.stringify({
+                token: newAccessToken.accessToken,
+              })
+            );
+            setUser({
+              ...user,
+              token: newAccessToken.accessToken,
+            });
+          }
         }
       };
       getUserInfo();
     }
-  }, []);
+  }, [user?.token]);
   return (
     <Layout className="layout">
       <HeaderNav />

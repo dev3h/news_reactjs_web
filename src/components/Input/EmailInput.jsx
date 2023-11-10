@@ -2,7 +2,7 @@ import { UserOutlined } from "@ant-design/icons";
 import { Form, Input } from "antd";
 import PropTypes from "prop-types";
 
-const EmailInput = ({ emailValue = "" }) => {
+const EmailInput = ({ emailValue = "", showIcon = true }) => {
   return (
     <Form.Item
       label="Email"
@@ -19,12 +19,13 @@ const EmailInput = ({ emailValue = "" }) => {
         },
       ]}
     >
-      <Input autoFocus prefix={<UserOutlined />} placeholder="Nhập email" allowClear />
+      <Input prefix={showIcon && <UserOutlined />} placeholder="Nhập email" allowClear />
     </Form.Item>
   );
 };
 EmailInput.propTypes = {
   emailValue: PropTypes.string,
+  showIcon: PropTypes.bool,
 };
 
 export default EmailInput;

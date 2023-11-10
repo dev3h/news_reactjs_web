@@ -263,6 +263,7 @@ const Edit = () => {
                   optionFilterProp="children"
                   filterOption={filterOption}
                   options={categoryDatas}
+                  allowClear
                 />
               </Form.Item>
               <Form.Item

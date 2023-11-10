@@ -11,6 +11,7 @@ import { generateColumn } from "@/components/Column/GenerateColumn";
 const List = () => {
   const [list, setList] = useState([]);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [filter, setFilter] = useState({
     search: "",
@@ -46,6 +47,7 @@ const List = () => {
     });
   };
   const getTableData = async () => {
+    setLoading(true);
     const response = await managerAuthorServices.getList(filter);
     setList(response?.data);
     setFilter({
@@ -55,6 +57,7 @@ const List = () => {
         total: response?.totalItems,
       },
     });
+    setLoading(false);
   };
   const handleConfirm = (loading) => {
     setConfirmLoading(loading);
@@ -98,6 +101,14 @@ const List = () => {
       filter,
       handleSort,
     },
+    {
+      title: "Vai trò",
+      dataIndex: "roleInfo",
+      key: "roleInfo.name",
+      filter,
+      handleSort,
+      customRender: true,
+    },
   ];
 
   const restColumns = restColumnInfo.map((column) => {
@@ -129,6 +140,7 @@ const List = () => {
         columns={columns}
         pagination={false}
         rowKey={(record) => record?.id}
+        loading={loading}
       />
       <PaginationCustom
         pagination={filter.pagination}

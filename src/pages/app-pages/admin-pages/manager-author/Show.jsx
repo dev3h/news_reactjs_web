@@ -1,4 +1,4 @@
-import { Card, Spin } from "antd";
+import { Card, Flex, Spin, Tag } from "antd";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -27,7 +27,19 @@ const Show = () => {
     <Spin spinning={loading} tip="Loading...">
       <Card>
         <p>Tên đăng nhập: {data?.username}</p>
+        <p>Tên hiển thị: {data?.display_name}</p>
         <p>Email: {data?.email}</p>
+        <p>Vai trò: {data?.roleInfo?.name}</p>
+        <p>Số bài viết: {data?.posts?.length}</p>
+        {data?.posts?.length && (
+          <Flex gap="small">
+            {data?.posts?.map((item) => (
+              <Tag className="truncate" key={item?.id}>
+                {item?.title}
+              </Tag>
+            ))}
+          </Flex>
+        )}
       </Card>
     </Spin>
   );

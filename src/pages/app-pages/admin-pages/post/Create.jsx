@@ -237,6 +237,7 @@ const Create = () => {
               optionFilterProp="children"
               filterOption={filterOption}
               options={categoryDatas}
+              allowClear
             />
           </Form.Item>
           <Form.Item className="flex-1" label="Thẻ" name="tags" hasFeedback>
