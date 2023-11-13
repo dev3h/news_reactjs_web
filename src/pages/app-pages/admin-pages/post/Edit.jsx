@@ -175,6 +175,7 @@ const Edit = () => {
             <Form.Item
               label="Nội dung"
               hasFeedback
+              initialValue={data?.content}
               name="content"
               rules={[
                 {

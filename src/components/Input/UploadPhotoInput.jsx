@@ -13,9 +13,20 @@ const UploadPhotoInput = ({ propUpload }) => {
           // format image file access extension jpg, jpeg, png
           validator: (_, value) => {
             if (value) {
+              const file = value?.file;
+              const maxSizeInMB = 5; // Kích thước tối đa cho phép, đơn vị MB
+              const extensionList = ["jpg", "jpeg", "png"];
+
+              // Kiểm tra kích thước file
+              // do file thường do bằng byte nên cần chuyển sang MB
+              const fileSizeInMB = file.size / 1024 / 1024;
+              if (fileSizeInMB > maxSizeInMB) {
+                return Promise.reject(
+                  new Error(`File phải nhỏ hơn hoặc bằng ${maxSizeInMB}MB!`)
+                );
+              }
               let extension = value?.file?.name?.split(".")?.pop()?.toLowerCase();
 
-              const extensionList = ["jpg", "jpeg", "png"];
               if (extensionList.includes(extension)) {
                 return Promise.resolve();
               }
