@@ -86,6 +86,8 @@ const List = () => {
       key: "name",
       filter,
       handleSort,
+      customRender:false,
+      sorter: true,
     },
   ];
 
@@ -101,10 +103,10 @@ const List = () => {
   const columns = [
     id,
     ...restColumns,
-    createdByAdmin,
-    updatedByAdmin,
-    createdAt,
-    updatedAt,
+    // createdByAdmin,
+    // updatedByAdmin,
+    // createdAt,
+    // updatedAt,
     action,
   ];
 
@@ -126,6 +128,7 @@ const List = () => {
         pagination={false}
         loading={loading}
         rowKey={(record) => record?.id}
+        scroll={{ x: "max-content" }}
       />
       <PaginationCustom
         pagination={filter.pagination}

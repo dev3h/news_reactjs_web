@@ -11,7 +11,7 @@ const generateBasicColumn = (
 ) => {
   return {
     id: {
-      title: "Mã",
+      title: "ID",
       // title: () => <ColumnSort type="id" title="ID" handleSort={handleSort} />,
       dataIndex: "id",
       key: "id",
@@ -101,6 +101,7 @@ const generateBasicColumn = (
       title: "Hành động",
       dataIndex: "action",
       key: "action",
+      fixed: "right",
       render: (_, record) => (
         <Space size="middle">
           <ButtonShow id={record.id} />
@@ -121,24 +122,37 @@ const generateColumn = (
   title,
   dataIndex,
   key,
-  filter,
-  handleSort,
-  customRender = false
+  filter = null,
+  handleSort = null,
+  customRender = false,
+  sorter = false
 ) => {
   const columnDefinition = {
     title,
     dataIndex,
     key,
-    sorter: true,
-    sortOrder: filter.sort.sortBy === key ? filter.sort.sortType : false,
-    onHeaderCell: (column) => ({
-      onClick: () => {
-        handleSort(column.key);
-      },
-    }),
   };
+  if (sorter) {
+    columnDefinition.sorter = true;
+  }
+  if (filter) {
+    columnDefinition.sortOrder =
+      filter?.sort?.sortBy === key ? filter?.sort?.sortType : false;
+  }
+  if (handleSort) {
+    columnDefinition.onHeaderCell = (column) => ({
+      onClick: () => {
+        handleSort(column?.key);
+      },
+    });
+  }
+
   if (customRender) {
-    columnDefinition.render = (item) => {
+    columnDefinition.render = (item, rowData) => {
+      if (key === "photo") {
+        if (!rowData?.photo) return null;
+        return <img src={rowData?.photo} alt={rowData?.name} width="100px" />;
+      }
       return item?.name;
     };
   }

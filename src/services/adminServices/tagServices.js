@@ -22,6 +22,19 @@ class tagServices {
     const response = await axiosInstance.post("/tag", data);
     return response;
   }
+  static async getOne(id) {
+    const response = await axiosInstance.get(`/tag/${id}/info`);
+    const data = response.data;
+    return data;
+  }
+  static async update(id, data) {
+    const response = await axiosInstance.put(`/tag/${id}`, data);
+    return response;
+  }
+  static async delete(id) {
+    const response = await axiosInstance.delete(`/tag/${id}`);
+    return response;
+  }
 }
 
 export default tagServices;

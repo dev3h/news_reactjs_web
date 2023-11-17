@@ -84,6 +84,17 @@ const List = () => {
       key: "title",
       filter,
       handleSort,
+      customRender: false,
+      sorter: true,
+    },
+    {
+      title: "Ảnh",
+      dataIndex: "photo",
+      key: "photo",
+      filter: null,
+      handleSort: null,
+      customRender: true,
+      sorter: null,
     },
     {
       title: "Danh mục",
@@ -92,6 +103,16 @@ const List = () => {
       filter,
       handleSort,
       customRender: true,
+      sorter: true,
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "statusPost",
+      key: "statusPost.name",
+      filter: null,
+      handleSort: null,
+      customRender: true,
+      sorter: null,
     },
   ];
 
@@ -102,17 +123,18 @@ const List = () => {
       column.key,
       column.filter,
       column.handleSort,
-      column?.customRender
+      column?.customRender,
+      column?.sorter
     );
   });
 
   const columns = [
     id,
     ...restColumns,
-    createdByAdmin,
-    updatedByAdmin,
-    createdAt,
-    updatedAt,
+    // createdByAdmin,
+    // updatedByAdmin,
+    // createdAt,
+    // updatedAt,
     action,
   ];
 
@@ -134,6 +156,7 @@ const List = () => {
         pagination={false}
         rowKey={(record) => record?.id}
         loading={loading}
+        scroll={{ x: "max-content" }}
       />
       <PaginationCustom
         pagination={filter.pagination}

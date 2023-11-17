@@ -4,6 +4,7 @@ import categoryRoutes from "./managerRoutes/categoryRoutes";
 import groupCategoryRoutes from "./managerRoutes/groupCategoryRoutes";
 import managerAuthorRoutes from "./managerRoutes/managerAuthorRoutes";
 import postRoutes from "./managerRoutes/postRoutes";
+import tagRoutes from "./managerRoutes/tagRoutes";
 
 const adminRoutes = [
   {
@@ -20,6 +21,7 @@ const adminRoutes = [
       categoryRoutes,
       postRoutes,
       managerAuthorRoutes,
+      tagRoutes,
     ],
   },
 ];

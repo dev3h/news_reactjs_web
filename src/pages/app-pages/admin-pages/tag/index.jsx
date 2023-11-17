@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card, Table, message } from "antd";
 
-import managerAuthorServices from "@/services/adminServices/managerAuthorServices";
+import tagServices from "@/services/adminServices/tagServices";
 import { generateBasicColumn } from "@/components/Column/GenerateColumn";
 import { PaginationCustom } from "@/components";
 
@@ -48,7 +48,7 @@ const List = () => {
   };
   const getTableData = async () => {
     setLoading(true);
-    const response = await managerAuthorServices.getList(filter);
+    const response = await tagServices.getList(filter);
     setList(response?.data);
     setFilter({
       ...filter,
@@ -59,55 +59,35 @@ const List = () => {
     });
     setLoading(false);
   };
+
   const handleConfirm = (loading) => {
     setConfirmLoading(loading);
   };
+
   const handleDelete = async (id) => {
     try {
-      const response = await managerAuthorServices.delete(id);
+      setConfirmLoading(true);
+      const response = await tagServices.delete(id);
       getTableData();
       message.success(response?.data?.message);
+      setConfirmLoading(false);
     } catch (error) {
       console.log(error);
+      setConfirmLoading(false);
     }
   };
 
-  const { id, createdAt, updatedAt, action } = generateBasicColumn(
-    filter,
-    handleSort,
-    handleDelete,
-    confirmLoading,
-    handleConfirm
-  );
+  const { id, createdByAdmin, updatedByAdmin, createdAt, updatedAt, action } =
+    generateBasicColumn(filter, handleSort, handleDelete, confirmLoading, handleConfirm);
   const restColumnInfo = [
     {
-      title: "Tên đăng nhập",
-      dataIndex: "username",
-      key: "username",
+      title: "Tên thẻ",
+      dataIndex: "name",
+      key: "name",
       filter,
       handleSort,
-    },
-    {
-      title: "Tên hiển thị",
-      dataIndex: "display_name",
-      key: "display_name",
-      filter,
-      handleSort,
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-      filter,
-      handleSort,
-    },
-    {
-      title: "Vai trò",
-      dataIndex: "roleInfo",
-      key: "roleInfo.name",
-      filter,
-      handleSort,
-      customRender: true,
+      customRender: false,
+      sorter: true,
     },
   ];
 
@@ -117,13 +97,14 @@ const List = () => {
       column.dataIndex,
       column.key,
       column.filter,
-      column.handleSort,
-      column?.customRender
+      column.handleSort
     );
   });
   const columns = [
     id,
     ...restColumns,
+    // createdByAdmin,
+    // updatedByAdmin,
     // createdAt,
     // updatedAt,
     action,
@@ -145,8 +126,8 @@ const List = () => {
         dataSource={list}
         columns={columns}
         pagination={false}
-        rowKey={(record) => record?.id}
         loading={loading}
+        rowKey={(record) => record?.id}
         scroll={{ x: "max-content" }}
       />
       <PaginationCustom

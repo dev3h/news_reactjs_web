@@ -4,6 +4,7 @@ import {
   ApartmentOutlined,
   ProjectOutlined,
   HighlightOutlined,
+  TagOutlined,
 } from "@ant-design/icons";
 import { Menu, Layout } from "antd";
 import PropTypes from "prop-types";
@@ -32,13 +33,17 @@ const items = [
     getItem("List", "3-1"),
     getItem("Create", "3-2"),
   ]),
-  getItem("Post", "4", <ProjectOutlined />, [
+  getItem("Tag", "4", <TagOutlined />, [
     getItem("List", "4-1"),
     getItem("Create", "4-2"),
   ]),
-  getItem("Author", "5", <HighlightOutlined />, [
+  getItem("Post", "5", <ProjectOutlined />, [
     getItem("List", "5-1"),
     getItem("Create", "5-2"),
+  ]),
+  getItem("Author", "6", <HighlightOutlined />, [
+    getItem("List", "6-1"),
+    getItem("Create", "6-2"),
   ]),
 ];
 
@@ -65,18 +70,26 @@ const navigations = [
   },
   {
     key: "4-1",
-    path: "/admin/post",
+    path: "/admin/tag",
   },
   {
     key: "4-2",
-    path: "/admin/post/create",
+    path: "/admin/tag/create",
   },
   {
     key: "5-1",
-    path: "/admin/manager-author",
+    path: "/admin/post",
   },
   {
     key: "5-2",
+    path: "/admin/post/create",
+  },
+  {
+    key: "6-1",
+    path: "/admin/manager-author",
+  },
+  {
+    key: "6-2",
     path: "/admin/manager-author/create",
   },
 ];
