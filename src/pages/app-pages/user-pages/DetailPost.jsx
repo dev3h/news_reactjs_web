@@ -52,6 +52,20 @@ const DetailPost = () => {
     };
     fetch();
   }, [slug]);
+  useEffect(() => {
+    const getIpToIncreaseViewOfPost = async () => {
+      try {
+        const response = await fetch("/ipify?format=json");
+
+        const data = await response.json();
+        const userIP = data.ip;
+        await postServices.increaseViewOfPost(slug, userIP);
+      } catch (error) {
+        console.error("Lỗi khi lấy địa chỉ IP:", error);
+      }
+    };
+    getIpToIncreaseViewOfPost();
+  }, []);
   const handleCountLike = (count) => {
     setCountLike(count);
   };

@@ -45,6 +45,17 @@ class categoryServices {
       console.log(error);
     }
   }
+  static async increaseViewOfPost(slug, ip) {
+    try {
+      const response = await axiosInstance.post(`/post/${slug}/increase-view`, {
+        ip,
+      });
+      const dataResponse = response.data;
+      return dataResponse;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export default categoryServices;
