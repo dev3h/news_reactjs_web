@@ -1,7 +1,8 @@
+import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, Modal, notification } from "antd";
 import userAuthServices from "@/services/authServices/userAuthServices";
-import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
+import preventSpaceInput from "@/utils/preventSpaceInput";
 
 const ConfirmRegisterCodeModal = ({ visible }) => {
   const [form] = Form.useForm();
@@ -33,7 +34,12 @@ const ConfirmRegisterCodeModal = ({ visible }) => {
             },
           ]}
         >
-          <Input allowClear autoFocus placeholder="Nhập mã xác thực" />
+          <Input
+            onKeyDown={(e) => preventSpaceInput(e)}
+            allowClear
+            autoFocus
+            placeholder="Nhập mã xác thực"
+          />
         </Form.Item>
 
         <Form.Item>

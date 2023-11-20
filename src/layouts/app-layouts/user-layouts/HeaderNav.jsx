@@ -23,12 +23,16 @@ const HeaderNav = () => {
   const onClick = async ({ key }) => {
     if (key === "logout") {
       try {
-        const response = await userAuthServices.logout();
-        if (response) {
-          localStorage.removeItem("user");
-          setUser(null);
-          navigate("/");
-        }
+        localStorage.removeItem("user");
+        setUser(null);
+        navigate("/");
+        // bug: production is not save cookie to do
+        // const response = await userAuthServices.logout();
+        // if (response) {
+        //   localStorage.removeItem("user");
+        //   setUser(null);
+        //   navigate("/");
+        // }
       } catch (error) {
         console.log(error);
       }

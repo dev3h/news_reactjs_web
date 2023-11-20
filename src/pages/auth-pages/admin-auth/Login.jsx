@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserOutlined } from "@ant-design/icons";
-import { Form, Input } from "antd";
+import { Form, notification } from "antd";
 import adminAuthServices from "@/services/authServices/adminAuthServices";
 import { AdminContext } from "@/context/AdminContext";
 import PasswordInput from "@/components/Input/PasswordInput";
 import ButtonSubmitForm from "@/components/Btn/ButtonSubmitForm";
+import UserNameInput from "@/components/Input/UserNameInput";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -26,6 +26,9 @@ const Login = () => {
         const adminString = JSON.stringify(admin);
         localStorage.setItem("admin", adminString);
         setAdmin(admin);
+        notification.success({
+          message: response?.message,
+        });
         navigate("/admin/dashboard");
       } else if (role?.role_name === "AUTHOR") {
         const author = {
@@ -35,6 +38,9 @@ const Login = () => {
         const adminString = JSON.stringify(author);
         localStorage.setItem("admin", adminString);
         setAdmin(author);
+        notification.success({
+          message: response?.message,
+        });
         navigate("/author/dashboard");
       } else {
         navigate("/auth/admin/login");
@@ -57,23 +63,7 @@ const Login = () => {
       onFinish={handleSubmit}
       form={form}
     >
-      <Form.Item
-        label="Username"
-        name="username"
-        hasFeedback
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <Input
-          autoFocus
-          prefix={<UserOutlined />}
-          placeholder="Nhập Username"
-          allowClear
-        />
-      </Form.Item>
+      <UserNameInput />
       <PasswordInput {...passwordProps} />
 
       <ButtonSubmitForm loading={loading} title="Đăng nhập" />

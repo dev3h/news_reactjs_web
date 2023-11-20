@@ -6,6 +6,7 @@ import ConfirmRegisterCodeModal from "./ConfirmRegisterCodeModal";
 import EmailInput from "@/components/Input/EmailInput";
 import PasswordInput from "@/components/Input/PasswordInput";
 import ButtonSubmitForm from "@/components/Btn/ButtonSubmitForm";
+import NameInput from "@/components/Input/NameInput";
 
 const Register = () => {
   const [form] = Form.useForm();
@@ -33,6 +34,11 @@ const Register = () => {
     name: "password",
     placeholder: "Nhập mật khẩu",
   };
+  const passwordConfirmProps = {
+    label: "Nhập lại mật khẩu",
+    name: "confirmPassword",
+    placeholder: "Nhập lại mật khẩu",
+  };
   return (
     <>
       <h1>Đăng ký</h1>
@@ -43,7 +49,9 @@ const Register = () => {
         form={form}
       >
         <EmailInput />
+        <NameInput />
         <PasswordInput {...passwordProps} />
+        <PasswordInput {...passwordConfirmProps} />
 
         <ButtonSubmitForm loading={loading} title="Đăng ký" />
         <Form.Item>

@@ -27,7 +27,7 @@ const ForgotPassword = () => {
     <>
       <h1>Quên mật khẩu</h1>
       <Form validateMessages={validateMessages} onFinish={handleSubmit} form={form}>
-        <EmailInput />
+        <EmailInput showIcon={false} />
         <ButtonSubmitForm loading={loading} title="Gửi" />
       </Form>
     </>

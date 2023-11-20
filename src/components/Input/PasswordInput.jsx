@@ -1,6 +1,7 @@
 import { LockOutlined } from "@ant-design/icons";
 import { Form, Input } from "antd";
 import PropTypes from "prop-types";
+import preventSpaceInput from "@/utils/preventSpaceInput";
 
 const PasswordInput = ({ label, name, placeholder }) => {
   return (
@@ -23,7 +24,12 @@ const PasswordInput = ({ label, name, placeholder }) => {
         },
       ]}
     >
-      <Input.Password prefix={<LockOutlined />} placeholder={placeholder} allowClear />
+      <Input.Password
+        onKeyDown={(e) => preventSpaceInput(e)}
+        prefix={<LockOutlined />}
+        placeholder={placeholder}
+        allowClear
+      />
     </Form.Item>
   );
 };
