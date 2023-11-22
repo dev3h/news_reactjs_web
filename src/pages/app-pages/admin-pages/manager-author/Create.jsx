@@ -5,6 +5,7 @@ import managerAuthorServices from "@/services/adminServices/managerAuthorService
 import { ButtonAddForm } from "@/components/Btn/ButtonAddAndUpdateForm";
 import EmailInput from "@/components/Input/EmailInput";
 import roleServices from "@/services/adminServices/roleServices";
+import UserNameInput from "@/components/Input/UserNameInput";
 
 const Create = () => {
   const [form] = Form.useForm();
@@ -48,18 +49,7 @@ const Create = () => {
         onFinish={handleSubmit}
         form={form}
       >
-        <Form.Item
-          label="Tên đăng nhập"
-          name="username"
-          hasFeedback
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input autoFocus placeholder="Nhập tên đăng nhập" allowClear />
-        </Form.Item>
+        <UserNameInput />
         <Form.Item
           label="Tên hiển thị"
           name="display_name"
@@ -67,6 +57,15 @@ const Create = () => {
           rules={[
             {
               required: true,
+              message: "Vui lòng nhập tên hiển thị!",
+            },
+            {
+              min: 3,
+              message: "Tên hiển thị phải có ít nhất 3 ký tự!",
+            },
+            {
+              max: 50,
+              message: "Tên hiển thị phải có tối đa 50 ký tự!",
             },
           ]}
         >

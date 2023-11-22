@@ -18,6 +18,10 @@ const EmailInput = ({ emailValue = "", showIcon = true }) => {
           type: "email",
           message: "Email không hợp lệ",
         },
+        {
+          max: 50,
+          message: "Email phải có tối đa 50 ký tự!",
+        },
       ]}
     >
       <Input

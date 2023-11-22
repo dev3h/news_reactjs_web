@@ -23,19 +23,21 @@ const UserLayout = () => {
             }));
           }
         } catch (error) {
-          const newAccessToken = await userAuthServices.refreshToken();
-          if (newAccessToken) {
-            localStorage.setItem(
-              "user",
-              JSON.stringify({
-                token: newAccessToken.accessToken,
-              })
-            );
-            setUser({
-              ...user,
-              token: newAccessToken.accessToken,
-            });
-          }
+          localStorage.removeItem("user");
+          setUser(null);
+          // const newAccessToken = await userAuthServices.refreshToken();
+          // if (newAccessToken) {
+          //   localStorage.setItem(
+          //     "user",
+          //     JSON.stringify({
+          //       token: newAccessToken.accessToken,
+          //     })
+          //   );
+          //   setUser({
+          //     ...user,
+          //     token: newAccessToken.accessToken,
+          //   });
+          // }
         }
       };
       getUserInfo();
@@ -45,7 +47,7 @@ const UserLayout = () => {
     <Layout className="layout">
       <HeaderNav />
       <Content>
-        <div className="min-h-screen container mx-auto py-5">
+        <div className="container min-h-screen py-5 mx-auto">
           <Outlet />
         </div>
       </Content>

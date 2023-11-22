@@ -30,14 +30,14 @@ const Register = () => {
     required: "${label} là bắt buộc",
   };
   const passwordProps = {
-    label: "Mật khẩu",
+    label: "Password",
     name: "password",
-    placeholder: "Nhập mật khẩu",
+    placeholder: "Nhập password",
   };
   const passwordConfirmProps = {
-    label: "Nhập lại mật khẩu",
-    name: "confirmPassword",
-    placeholder: "Nhập lại mật khẩu",
+    label: "Password confirm",
+    name: "passwordConfirm",
+    placeholder: "Nhập password confirm",
   };
   return (
     <>
@@ -49,7 +49,7 @@ const Register = () => {
         form={form}
       >
         <EmailInput />
-        <NameInput />
+        <NameInput name="name" />
         <PasswordInput {...passwordProps} />
         <PasswordInput {...passwordConfirmProps} />
 
