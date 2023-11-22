@@ -21,24 +21,29 @@ const AdminLayout = () => {
       navigate("/auth/admin/login");
     }
     const getUserInfo = async () => {
-      const response = await adminAuthServices.getUserInfo(token);
+      try {
+        const response = await adminAuthServices.getUserInfo(token);
 
-      if (response) {
-        if (response?.data?.role?.role_name !== "ADMIN") {
-          notification.error({
-            message: "Lỗi",
-            description: "Bạn phải là admin",
+        if (response) {
+          if (response?.data?.role?.role_name !== "ADMIN") {
+            notification.error({
+              message: "Lỗi",
+              description: "Bạn phải là admin",
+            });
+            await logoutAdmin(setAdmin, navigate);
+          }
+          setAdmin({
+            ...admin,
+            data: response?.data,
           });
-          await logoutAdmin(setAdmin, navigate);
         }
-        setAdmin({
-          ...admin,
-          data: response?.data,
-        });
+      } catch (error) {
+        localStorage.removeItem("admin");
+        setAdmin(null);
       }
     };
     getUserInfo();
-  }, []);
+  }, [admin?.token]);
   const {
     token: { colorBgContainer },
   } = theme.useToken();

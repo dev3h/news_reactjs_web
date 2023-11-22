@@ -18,12 +18,33 @@ const Create = () => {
   const [loading, setLoading] = useState(false);
   const [categoryDatas, setCategoryDatas] = useState([]);
   const [editorContent, setEditorContent] = useState("");
+  const [editorError, setEditorError] = useState("");
+  const maxContentLength = 1000;
   const [tagsDatas, setTagsDatas] = useState([]);
   const [statusPostDatas, setStatusPostDatas] = useState([]);
   const [statusPostSelected, setStatusPostSelected] = useState(0);
   const [fileList, setFileList] = useState([]);
   const ckeditorConfig = {
     extraPlugins: [uploader],
+  };
+  const validateEditorContent = (value) => {
+    console.log(value && value.trim().length > 0);
+    return value && value.trim().length > 0 ? undefined : "Nội dung là bắt buộc";
+  };
+  const handleEditorChange = (event, editor) => {
+    const data = editor.getData();
+
+    const requiredError = validateEditorContent(data);
+    if (requiredError) {
+      setEditorError(requiredError);
+    } else {
+      if (data.length <= maxContentLength) {
+        setEditorContent(data);
+        setEditorError("");
+      } else {
+        setEditorError("Nội dung không được vượt quá 1000 ký tự.");
+      }
+    }
   };
 
   const propUpload = {
@@ -143,6 +164,14 @@ const Create = () => {
             {
               required: true,
             },
+            {
+              min: 5,
+              message: "Tiêu đề phải có ít nhất 5 ký tự",
+            },
+            {
+              max: 100,
+              message: "Tiêu đề phải có nhiều nhất 100 ký tự",
+            },
           ]}
         >
           <Input autoFocus placeholder="Nhập tiêu đề" allowClear />
@@ -157,15 +186,14 @@ const Create = () => {
               required: true,
             },
           ]}
+          validateStatus={editorError ? "error" : ""}
+          help={editorError}
         >
           <CKEditor
             editor={ClassicEditor}
             data={editorContent}
             config={ckeditorConfig}
-            onChange={(event, editor) => {
-              const data = editor.getData();
-              setEditorContent(data);
-            }}
+            onChange={handleEditorChange}
           />
         </Form.Item>
         <Form.Item
@@ -173,11 +201,6 @@ const Create = () => {
           name="status"
           hasFeedback
           initialValue={statusPostSelected}
-          rules={[
-            {
-              required: true,
-            },
-          ]}
         >
           <Radio.Group onChange={handleChangeStatusPost}>
             {statusPostDatas?.map((item) => (

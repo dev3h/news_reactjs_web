@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Form, notification } from "antd";
+import { Form, message } from "antd";
 import userAuthServices from "@/services/authServices/userAuthServices";
 import { UserContext } from "@/context/UserContext";
 import EmailInput from "@/components/Input/EmailInput";
@@ -22,9 +22,7 @@ const Login = () => {
       const userString = JSON.stringify(user);
       localStorage.setItem("user", userString);
       setUser(user);
-      notification.success({
-        message: response?.message,
-      });
+      message.success(response?.message);
       navigate("/");
     }
     setLoading(false);
@@ -33,9 +31,9 @@ const Login = () => {
     required: "${label} là bắt buộc",
   };
   const passwordProps = {
-    label: "Mật khẩu",
+    label: "Password",
     name: "password",
-    placeholder: "Nhập mật khẩu",
+    placeholder: "Nhập password",
   };
   return (
     <>

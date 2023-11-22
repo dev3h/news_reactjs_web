@@ -6,7 +6,7 @@ import preventSpaceInput from "@/utils/preventSpaceInput";
 const UserNameInput = ({ usernameValue = "", showIcon = true }) => {
   return (
     <Form.Item
-      label="Tên đằng nhập"
+      label="Username"
       name="username"
       initialValue={usernameValue}
       hasFeedback
@@ -14,12 +14,24 @@ const UserNameInput = ({ usernameValue = "", showIcon = true }) => {
         {
           required: true,
         },
+        {
+          min: 3,
+          message: "Username phải có ít nhất 3 ký tự!",
+        },
+        {
+          max: 20,
+          message: "Username phải có tối đa 20 ký tự!",
+        },
+        {
+          pattern: /^[a-zA-Z0-9]+$/,
+          message: "Username không được chứa ký tự đặc biệt!",
+        },
       ]}
     >
       <Input
         onKeyDown={(e) => preventSpaceInput(e)}
         prefix={showIcon && <UserOutlined />}
-        placeholder="Nhập tên đăng nhập"
+        placeholder="Nhập username"
         allowClear
       />
     </Form.Item>

@@ -23,27 +23,29 @@ function getItem(label, key, icon, children, type) {
   };
 }
 
+const labelList = "Danh sách";
+const labelCreate = "Thêm";
 const items = [
   getItem("Dashboard", "1", <PieChartOutlined />),
-  getItem("Group Category", "2", <ClusterOutlined />, [
-    getItem("List", "2-1"),
-    getItem("Create", "2-2"),
+  getItem("Nhóm danh mục", "2", <ClusterOutlined />, [
+    getItem(labelList, "2-1"),
+    getItem(labelCreate, "2-2"),
   ]),
-  getItem("Category", "3", <ApartmentOutlined />, [
-    getItem("List", "3-1"),
-    getItem("Create", "3-2"),
+  getItem("Danh mục", "3", <ApartmentOutlined />, [
+    getItem(labelList, "3-1"),
+    getItem(labelCreate, "3-2"),
   ]),
-  getItem("Tag", "4", <TagOutlined />, [
-    getItem("List", "4-1"),
-    getItem("Create", "4-2"),
+  getItem("Thẻ", "4", <TagOutlined />, [
+    getItem(labelList, "4-1"),
+    getItem(labelCreate, "4-2"),
   ]),
-  getItem("Post", "5", <ProjectOutlined />, [
-    getItem("List", "5-1"),
-    getItem("Create", "5-2"),
+  getItem("Bài viết", "5", <ProjectOutlined />, [
+    getItem(labelList, "5-1"),
+    getItem(labelCreate, "5-2"),
   ]),
-  getItem("Author", "6", <HighlightOutlined />, [
-    getItem("List", "6-1"),
-    getItem("Create", "6-2"),
+  getItem("Tác giả", "6", <HighlightOutlined />, [
+    getItem(labelList, "6-1"),
+    getItem(labelCreate, "6-2"),
   ]),
 ];
 

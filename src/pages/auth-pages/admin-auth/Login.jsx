@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, notification } from "antd";
+import { Form, message } from "antd";
 import adminAuthServices from "@/services/authServices/adminAuthServices";
 import { AdminContext } from "@/context/AdminContext";
 import PasswordInput from "@/components/Input/PasswordInput";
@@ -26,9 +26,7 @@ const Login = () => {
         const adminString = JSON.stringify(admin);
         localStorage.setItem("admin", adminString);
         setAdmin(admin);
-        notification.success({
-          message: response?.message,
-        });
+        message.success(response?.message);
         navigate("/admin/dashboard");
       } else if (role?.role_name === "AUTHOR") {
         const author = {
@@ -38,9 +36,7 @@ const Login = () => {
         const adminString = JSON.stringify(author);
         localStorage.setItem("admin", adminString);
         setAdmin(author);
-        notification.success({
-          message: response?.message,
-        });
+        message.success(response?.message);
         navigate("/author/dashboard");
       } else {
         navigate("/auth/admin/login");
@@ -52,9 +48,9 @@ const Login = () => {
     required: "${label} là bắt buộc",
   };
   const passwordProps = {
-    label: "Mật khẩu",
+    label: "Password",
     name: "password",
-    placeholder: "Nhập mật khẩu",
+    placeholder: "Nhập password",
   };
   return (
     <Form

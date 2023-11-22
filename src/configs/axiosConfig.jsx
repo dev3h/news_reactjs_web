@@ -28,7 +28,16 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   function (error) {
-    if (error?.response?.status !== 422) {
+    if (error?.response?.status === 401) {
+      if (error?.response?.data?.authError) {
+        notification.error({
+          message: "Lỗi",
+          description: error?.response?.data?.message,
+        });
+      } else {
+        return Promise.reject(error);
+      }
+    } else if (error?.response?.status !== 422) {
       notification.error({
         message: "Lỗi",
         description: error?.response?.data?.message,
