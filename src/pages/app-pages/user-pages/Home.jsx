@@ -4,9 +4,11 @@ import { PaginationCustom } from "@/components";
 import postServices from "@/services/userServices/postServices";
 import customRenderDate from "@/utils/customRenderDate";
 import CardPost from "@/components/CardPost";
+import Hero from "@/components/hero/Hero";
 
 const Home = () => {
   const [postDatas, setPostDatas] = useState([]);
+  const [heroData, setHeroData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState({
     search: "",
@@ -40,6 +42,9 @@ const Home = () => {
         };
       });
       setPostDatas(newLists);
+      // get 4 post random from newLists
+      const randomPost = newLists.sort(() => Math.random() - Math.random()).slice(0, 4);
+      setHeroData(randomPost);
       setFilter({
         ...filter,
         pagination: {
@@ -57,37 +62,40 @@ const Home = () => {
     filter.sort.sortType,
   ]);
   return (
-    <Spin spinning={loading} tip="Loading...">
-      {postDatas?.length > 0 ? (
-        <>
-          {filter?.pagination?.total > postDatas.length && (
-            <Flex justify="center" className="mb-5">
-              <PaginationCustom
-                pagination={filter.pagination}
-                onPaginationChange={handlePaginationChange}
-              />
-            </Flex>
-          )}
-          <Row gutter={[16, 16]} className="!mx-0">
-            {postDatas.map((item, index) => (
-              <Col key={index} xl={8} lg={12} sm={24} xs={24}>
-                <CardPost post={item} />
-              </Col>
-            ))}
-          </Row>
-          {filter?.pagination?.total > postDatas.length && (
-            <Flex justify="center" className="mb-5">
-              <PaginationCustom
-                pagination={filter.pagination}
-                onPaginationChange={handlePaginationChange}
-              />
-            </Flex>
-          )}
-        </>
-      ) : (
-        <h2>Không có bài viết</h2>
-      )}
-    </Spin>
+    <>
+      <Hero data={heroData} />
+      <Spin spinning={loading} tip="Loading...">
+        {postDatas?.length > 0 ? (
+          <>
+            {filter?.pagination?.total > postDatas.length && (
+              <Flex justify="center" className="mb-5">
+                <PaginationCustom
+                  pagination={filter.pagination}
+                  onPaginationChange={handlePaginationChange}
+                />
+              </Flex>
+            )}
+            <Row gutter={[16, 16]} className="!mx-0">
+              {postDatas.map((item, index) => (
+                <Col key={index} xl={8} lg={12} sm={24} xs={24}>
+                  <CardPost post={item} />
+                </Col>
+              ))}
+            </Row>
+            {filter?.pagination?.total > postDatas.length && (
+              <Flex justify="center" className="mb-5">
+                <PaginationCustom
+                  pagination={filter.pagination}
+                  onPaginationChange={handlePaginationChange}
+                />
+              </Flex>
+            )}
+          </>
+        ) : (
+          <h2>Không có bài viết</h2>
+        )}
+      </Spin>
+    </>
   );
 };
 

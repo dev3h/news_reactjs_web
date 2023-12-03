@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, message } from "antd";
 import adminAuthServices from "@/services/authServices/adminAuthServices";
@@ -12,6 +12,10 @@ const Login = () => {
   const [form] = Form.useForm();
   const { setAdmin } = useContext(AdminContext);
   const navigate = useNavigate();
+  useEffect(() => {
+    localStorage.removeItem("admin");
+    setAdmin(null);
+  }, []);
   const handleSubmit = async (values) => {
     setLoading(true);
     const response = await adminAuthServices.login(values);
@@ -39,6 +43,8 @@ const Login = () => {
         message.success(response?.message);
         navigate("/author/dashboard");
       } else {
+        localStorage.removeItem("admin");
+        setAdmin(null);
         navigate("/auth/admin/login");
       }
     }
