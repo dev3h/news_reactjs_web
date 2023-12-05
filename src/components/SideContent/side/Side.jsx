@@ -1,23 +1,22 @@
+import { useEffect, useState } from "react";
 import "./side.css";
-import Slider from "react-slick";
-
+import postServices from "@/services/userServices/postServices";
 import SocialMedia from "../social/SocialMedia";
 import HeadingSection from "../../Common/HeadingSection/HeadingSection";
 
-//const allCat = [...new Set(popular.map((curEle) => curEle.catgeory))]
-//console.log(allCat)
-
 const SideBar = () => {
-  const catgeory = [
-    "world",
-    "travel",
-    "sport",
-    "fun",
-    "health",
-    "fashion",
-    "business",
-    "technology",
-  ];
+  const [groupCategories, setGroupCategories] = useState([]);
+  useEffect(() => {
+    const getGroupCategories = async () => {
+      try {
+        const response = await postServices.getGroupCategories();
+        setGroupCategories(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getGroupCategories();
+  }, []);
   return (
     <>
       <HeadingSection title="Stay Connected" />
@@ -35,17 +34,12 @@ const SideBar = () => {
         </form>
       </section>
 
-      <section className="banner">
-        <img src="./images/sidebar-banner-new.jpg" alt="" />
-      </section>
-
       <section className="catgorys">
-        <HeadingSection title="Catgeorys" />
-        {/*<div className='items'>{allCat}</div>*/}
-        {catgeory?.map((val) => {
+        <HeadingSection title="Nhóm danh mục" />
+        {groupCategories?.map((val) => {
           return (
             <div className="category category1" key={val?.id}>
-              <span>{val}</span>
+              <span>{val?.name}</span>
             </div>
           );
         })}

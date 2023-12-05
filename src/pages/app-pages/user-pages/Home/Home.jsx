@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Col, Flex, Row, Spin } from "antd";
+import { Col, Flex, Row } from "antd";
 import { PaginationCustom } from "@/components";
 import postServices from "@/services/userServices/postServices";
 import customRenderDate from "@/utils/customRenderDate";
@@ -7,12 +7,12 @@ import CardPost from "@/components/CardPost";
 import Hero from "@/components/Hero/Hero";
 import Popular from "@/components/PopularPost/Popular";
 import "./style.css";
-import SideBar from "@/components/SideContent/side/Side";
+import GroupPost from "@/components/GroupPost/GroupPost";
+import HeadingSection from "@/components/Common/HeadingSection/HeadingSection";
 
 const Home = () => {
   const [postDatas, setPostDatas] = useState([]);
   const [heroData, setHeroData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState({
     search: "",
     pagination: {
@@ -25,6 +25,8 @@ const Home = () => {
     },
     flimit: 10,
   });
+  const defaultImageUrl = "/posts/default-posts.jpg";
+
   const handlePaginationChange = (page) => {
     setFilter({
       ...filter,
@@ -36,11 +38,11 @@ const Home = () => {
   };
   useEffect(() => {
     const getPostData = async () => {
-      setLoading(true);
       const response = await postServices.getList(filter);
       const newLists = response?.data?.map((item) => {
         return {
           ...item,
+          photo: item?.photo || defaultImageUrl,
           created_at: customRenderDate(item?.created_at),
         };
       });
@@ -55,7 +57,6 @@ const Home = () => {
           total: response?.totalItems,
         },
       });
-      setLoading(false);
     };
     getPostData();
   }, [
@@ -65,49 +66,34 @@ const Home = () => {
     filter.sort.sortType,
   ]);
   return (
-    <>
-      <div className="container lg:px-[50px]">
-        <section className="mainContent">
-          <Hero data={heroData} />
-          <Popular data={postDatas} />
-        </section>
-        <section className="sideContent">
-          <SideBar />
-        </section>
-      </div>
+    <section className="mainContent">
+      <Hero data={heroData} />
+      <Popular data={postDatas} />
+      <GroupPost />
 
-      {/* <Spin spinning={loading} tip="Loading...">
-        {postDatas?.length > 0 ? (
-          <>
-            {filter?.pagination?.total > postDatas.length && (
-              <Flex justify="center" className="mb-5">
-                <PaginationCustom
-                  pagination={filter.pagination}
-                  onPaginationChange={handlePaginationChange}
-                />
-              </Flex>
-            )}
-            <Row gutter={[16, 16]} className="!mx-0">
-              {postDatas.map((item, index) => (
-                <Col key={index} xl={8} lg={12} sm={24} xs={24}>
-                  <CardPost post={item} />
-                </Col>
-              ))}
-            </Row>
-            {filter?.pagination?.total > postDatas.length && (
-              <Flex justify="center" className="mb-5">
-                <PaginationCustom
-                  pagination={filter.pagination}
-                  onPaginationChange={handlePaginationChange}
-                />
-              </Flex>
-            )}
-          </>
-        ) : (
-          <h2>Không có bài viết</h2>
-        )}
-      </Spin> */}
-    </>
+      {postDatas?.length > 0 ? (
+        <>
+          <HeadingSection title="All Post" />
+          <Row gutter={[16, 16]} className="!mx-0">
+            {postDatas.map((item, index) => (
+              <Col key={index} xl={8} lg={12} sm={24} xs={24}>
+                <CardPost post={item} />
+              </Col>
+            ))}
+          </Row>
+          {filter?.pagination?.total > postDatas.length && (
+            <Flex justify="center" className="mb-5">
+              <PaginationCustom
+                pagination={filter.pagination}
+                onPaginationChange={handlePaginationChange}
+              />
+            </Flex>
+          )}
+        </>
+      ) : (
+        <h2>Không có bài viết</h2>
+      )}
+    </section>
   );
 };
 

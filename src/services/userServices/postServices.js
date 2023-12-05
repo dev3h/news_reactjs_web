@@ -56,6 +56,24 @@ class categoryServices {
       console.log(error);
     }
   }
+  static async getGroupPost() {
+    try {
+      const response = await axiosInstance.get("/post/post-of-group");
+      const data = response.data;
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  static async getGroupCategories() {
+    try {
+      const response = await axiosInstance.get("/post/group-category");
+      const data = response.data;
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export default categoryServices;

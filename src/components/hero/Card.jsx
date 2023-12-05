@@ -8,19 +8,21 @@ const Card = ({ item }) => {
   };
   return (
     <div className="box" key={item?.id}>
-      <div className="img">
-        <img src={imageUrl} alt="" onError={handleImageError} />
-      </div>
-      <div className="text">
-        <span className="category">{item?.category?.name}</span>
-        <Link to={`/SinglePage/${item?.id}`}>
-          <h1 className="titleBg">{item?.title}</h1>
-        </Link>
-        <div className="author flex">
-          <span>by {item?.created_by_admin?.username}</span>
-          <span>{item?.created_at}</span>
+      <Link to={`/${item.slug}/detail`} className="text-black" title={item?.title}>
+        <div className="img">
+          <img src={imageUrl} alt="" onError={handleImageError} />
         </div>
-      </div>
+        <div className="text">
+          <span className="category">{item?.category?.name}</span>
+          <Link to={`/SinglePage/${item?.id}`}>
+            <h1 className="titleBg">{item?.title}</h1>
+          </Link>
+          <div className="author flex">
+            <span>by {item?.created_by_admin?.username}</span>
+            <span>{item?.created_at}</span>
+          </div>
+        </div>
+      </Link>
     </div>
   );
 };
