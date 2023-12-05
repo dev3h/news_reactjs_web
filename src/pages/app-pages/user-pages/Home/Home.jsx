@@ -4,7 +4,10 @@ import { PaginationCustom } from "@/components";
 import postServices from "@/services/userServices/postServices";
 import customRenderDate from "@/utils/customRenderDate";
 import CardPost from "@/components/CardPost";
-import Hero from "@/components/hero/Hero";
+import Hero from "@/components/Hero/Hero";
+import Popular from "@/components/PopularPost/Popular";
+import "./style.css";
+import SideBar from "@/components/SideContent/side/Side";
 
 const Home = () => {
   const [postDatas, setPostDatas] = useState([]);
@@ -17,7 +20,7 @@ const Home = () => {
       total: 0,
     },
     sort: {
-      sortBy: "created_at",
+      sortBy: "view",
       sortType: "DESC",
     },
     flimit: 10,
@@ -63,8 +66,17 @@ const Home = () => {
   ]);
   return (
     <>
-      <Hero data={heroData} />
-      <Spin spinning={loading} tip="Loading...">
+      <div className="container lg:px-[50px]">
+        <section className="mainContent">
+          <Hero data={heroData} />
+          <Popular data={postDatas} />
+        </section>
+        <section className="sideContent">
+          <SideBar />
+        </section>
+      </div>
+
+      {/* <Spin spinning={loading} tip="Loading...">
         {postDatas?.length > 0 ? (
           <>
             {filter?.pagination?.total > postDatas.length && (
@@ -94,7 +106,7 @@ const Home = () => {
         ) : (
           <h2>Không có bài viết</h2>
         )}
-      </Spin>
+      </Spin> */}
     </>
   );
 };

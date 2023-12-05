@@ -19,8 +19,8 @@ const UserNameInput = ({ usernameValue = "", showIcon = true }) => {
           message: "Username phải có ít nhất 3 ký tự!",
         },
         {
-          max: 20,
-          message: "Username phải có tối đa 20 ký tự!",
+          max: 50,
+          message: "Username phải có tối đa 50 ký tự!",
         },
         {
           pattern: /^[a-zA-Z0-9]+$/,

@@ -1,6 +1,6 @@
 import UserLayout from "../layouts/app-layouts/user-layouts";
 import DetailPost from "../pages/app-pages/user-pages/DetailPost";
-import Home from "../pages/app-pages/user-pages/Home";
+import Home from "../pages/app-pages/user-pages/Home/Home";
 import SearchResult from "../pages/app-pages/user-pages/SearchResult";
 
 const userRoutes = [
