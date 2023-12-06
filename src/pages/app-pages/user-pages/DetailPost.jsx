@@ -55,7 +55,7 @@ const DetailPost = () => {
   useEffect(() => {
     const getIpToIncreaseViewOfPost = async () => {
       try {
-        const response = await fetch("/ipify?format=json");
+        const response = await fetch("https://api64.ipify.org?format=json");
 
         const data = await response.json();
         const userIP = data.ip;
