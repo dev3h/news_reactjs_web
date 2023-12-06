@@ -1,10 +1,25 @@
 import axios from "axios";
 import { notification } from "antd";
+import axiosRetry from "axios-retry";
 
 const axiosInstance = axios.create({
   baseURL: `${import.meta.env.VITE_BASE_URL_API}/api/v1/user`,
   timeout: 10000,
   withCredentials: true,
+});
+
+// cấu hình retry
+axiosRetry(axiosInstance, {
+  retries: 3,
+  retryDelay: (retryCount) => {
+    // Thời gian chờ giữa các lần retry
+    return retryCount * 1000;
+  },
+  retryCondition: (error) => {
+    return (
+      axiosRetry.isNetworkError(error) || (error.response && error.response.status >= 500)
+    );
+  },
 });
 
 axiosInstance.interceptors.request.use(
@@ -27,7 +42,13 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   function (error) {
-    if (error?.response?.status === 401) {
+    if (axiosRetry.isNetworkError(error)) {
+      notification.error({
+        message: "Lỗi",
+        description:
+          "Thao tác không thành công do lỗi server/internet , vui lòng thử lại sau",
+      });
+    } else if (error?.response?.status === 401) {
       if (error?.response?.data?.authError) {
         notification.error({
           message: "Lỗi",
