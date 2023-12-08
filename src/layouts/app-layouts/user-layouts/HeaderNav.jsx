@@ -17,7 +17,6 @@ const items = [
 const HeaderNav = () => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
-
   const userInfo = user?.data;
 
   const onClick = async ({ key }) => {
@@ -64,21 +63,24 @@ const HeaderNav = () => {
             className="w-1/4"
           />
           {userInfo ? (
-            <Dropdown
-              menu={{
-                items,
-                onClick,
-              }}
-              trigger={["click"]}
-            >
-              <a onClick={(e) => e.preventDefault()}>
-                <Avatar size="large" className="bg-orange-500">
-                  {userInfo?.name
-                    ? customRenderAvatar(userInfo?.name)
-                    : customRenderAvatar(userInfo?.email)}
-                </Avatar>
-              </a>
-            </Dropdown>
+            <>
+              <span>Xin chào {userInfo?.name}</span>
+              <Dropdown
+                menu={{
+                  items,
+                  onClick,
+                }}
+                trigger={["click"]}
+              >
+                <a onClick={(e) => e.preventDefault()}>
+                  <Avatar size="large" className="bg-orange-500">
+                    {userInfo?.name
+                      ? customRenderAvatar(userInfo?.name)
+                      : customRenderAvatar(userInfo?.email)}
+                  </Avatar>
+                </a>
+              </Dropdown>
+            </>
           ) : (
             <Flex align="center" gap="small">
               <Link to="/auth/login" className="text-white">

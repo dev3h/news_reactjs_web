@@ -10,29 +10,29 @@ const PasswordInput = ({ label, name, placeholder }) => {
     },
     {
       min: 8,
-      message: "Mật khẩu phải có ít nhất 8 ký tự!",
+      message: "Password phải có ít nhất 8 ký tự",
     },
     {
       max: 20,
-      message: "Mật khẩu phải có tối đa 20 ký tự!",
+      message: "Password phải có độ dài không được vượt quá 20 ký tự",
     },
     {
-      pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).*$/,
+      pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).*$/,
       message:
-        "Mật khẩu phải chứa ít nhất 1 chữ thường, 1 chữ hoa, 1 số và 1 ký tự đặc biệt (@#$%^&+=)!",
+        "Password phải chứa ít nhất 1 chữ thường, 1 chữ hoa, 1 số và 1 ký tự đặc biệt",
     },
   ];
   const passwordConfirmRule = [
     {
       required: true,
-      message: "Vui lòng xác nhận mật khẩu!",
+      message: "Vui lòng xác nhận password!",
     },
     ({ getFieldValue }) => ({
       validator(_, value) {
         if (!value || getFieldValue("password") === value) {
           return Promise.resolve();
         }
-        return Promise.reject(new Error("Mật khẩu xác nhận không khớp!"));
+        return Promise.reject(new Error("Password xác nhận không khớp!"));
       },
     }),
   ];

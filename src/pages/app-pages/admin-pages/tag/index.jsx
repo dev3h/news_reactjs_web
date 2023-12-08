@@ -97,7 +97,9 @@ const List = () => {
       column.dataIndex,
       column.key,
       column.filter,
-      column.handleSort
+      column.handleSort,
+      column?.customRender,
+      column?.sorter
     );
   });
   const columns = [

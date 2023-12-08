@@ -106,7 +106,8 @@ const List = () => {
       column.key,
       column.filter,
       column.handleSort,
-      column?.customRender
+      column?.customRender,
+      column?.sorter
     );
   });
 

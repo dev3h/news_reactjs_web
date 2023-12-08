@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { EyeOutlined } from "@ant-design/icons";
 const Card = ({ item }) => {
   const defaultImageUrl = "/posts/default-posts.jpg";
   const imageUrl = item?.photo || defaultImageUrl;
@@ -8,19 +9,18 @@ const Card = ({ item }) => {
   };
   return (
     <div className="box" key={item?.id}>
-      <Link to={`/${item.slug}/detail`} className="text-black" title={item?.title}>
-        <div className="img">
-          <img src={imageUrl} alt="" onError={handleImageError} />
-        </div>
+      <Link
+        to={`/${item.slug}/detail`}
+        className="inline-block w-full h-full"
+        title={item?.title}
+      >
+        <img src={imageUrl} alt="" onError={handleImageError} loading="lazy" />
         <div className="text">
           <span className="category">{item?.category?.name}</span>
-          <Link to={`/SinglePage/${item?.id}`}>
-            <h1 className="titleBg">{item?.title}</h1>
-          </Link>
-          <div className="author flex">
-            <span>by {item?.created_by_admin?.username}</span>
-            <span>{item?.created_at}</span>
-          </div>
+          <h1 className="truncate titleBg">{item?.title}</h1>
+          <span>
+            <EyeOutlined /> {item?.view}
+          </span>
         </div>
       </Link>
     </div>

@@ -21,7 +21,7 @@ const Edit = () => {
   const [data, setData] = useState({});
   const [editorContent, setEditorContent] = useState("");
   const [editorError, setEditorError] = useState("");
-  const maxContentLength = 1000;
+  const maxContentLength = 10000;
   const [tagsDatas, setTagsDatas] = useState([]);
   const [statusPostDatas, setStatusPostDatas] = useState([]);
   const [statusPostSelected, setStatusPostSelected] = useState(0);
@@ -44,7 +44,7 @@ const Edit = () => {
         setEditorContent(data);
         setEditorError("");
       } else {
-        setEditorError("Nội dung không được vượt quá 1000 ký tự.");
+        setEditorError(`Nội dung không được vượt quá ${maxContentLength} ký tự.`);
       }
     }
   };
