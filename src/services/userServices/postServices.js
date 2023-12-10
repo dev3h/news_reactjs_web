@@ -3,7 +3,7 @@ import axiosInstance from "@/configs/axiosUserConfig";
 class categoryServices {
   static async getList({ search, pagination, sort, flimit } = {}) {
     try {
-      const response = await axiosInstance.get("/post", {
+      const response = await axiosInstance.get("/user/post", {
         params: {
           search,
           page: pagination?.defaultCurrent,
@@ -20,7 +20,7 @@ class categoryServices {
   }
   static async getOne(slug) {
     try {
-      const response = await axiosInstance.get(`/post/${slug}/detail`);
+      const response = await axiosInstance.get(`/user/post/${slug}/detail`);
       const data = response.data;
       return data;
     } catch (error) {
@@ -29,7 +29,7 @@ class categoryServices {
   }
   static async toggleLike(slug) {
     try {
-      const response = await axiosInstance.put(`/post/${slug}/like`);
+      const response = await axiosInstance.put(`/user/post/${slug}/like`);
       const data = response.data;
       return data;
     } catch (error) {
@@ -38,7 +38,7 @@ class categoryServices {
   }
   static async createComment(slug, content) {
     try {
-      const response = await axiosInstance.post(`/post/${slug}/comment`, content);
+      const response = await axiosInstance.post(`/user/post/${slug}/comment`, content);
       const dataResponse = response.data;
       return dataResponse;
     } catch (error) {
@@ -47,7 +47,7 @@ class categoryServices {
   }
   static async increaseViewOfPost(slug, ip) {
     try {
-      const response = await axiosInstance.post(`/post/${slug}/increase-view`, {
+      const response = await axiosInstance.post(`/user/post/${slug}/increase-view`, {
         ip,
       });
       const dataResponse = response.data;
@@ -58,7 +58,7 @@ class categoryServices {
   }
   static async getGroupPost() {
     try {
-      const response = await axiosInstance.get("/post/post-of-group");
+      const response = await axiosInstance.get("/user/post/post-of-group");
       const data = response.data;
       return data;
     } catch (error) {
@@ -67,11 +67,11 @@ class categoryServices {
   }
   static async getGroupCategories() {
     try {
-      const response = await axiosInstance.get("/post/group-category");
+      const response = await axiosInstance.get("/user/post/group-category");
       const data = response.data;
       return data;
     } catch (error) {
-      console.log(error);
+    console.log(error);
     }
   }
 }

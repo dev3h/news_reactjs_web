@@ -4,14 +4,20 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { UserContext } from "@/context/UserContext";
 import customRenderAvatar from "@/utils/customRenderAvatar";
-import userAuthServices from "@/services/authServices/userAuthServices";
+// import userAuthServices from "@/services/authServices/userAuthServices";
 import { SearchOutlined } from "@ant-design/icons";
 
 const { Header } = Layout;
 const items = [
   {
-    label: <span>Logout</span>,
+    label: <span>Mật khẩu</span>,
+    key: "profile",
+    url: "/profile",
+  },
+  {
+    label: <span>Đăng xuất</span>,
     key: "logout",
+    url: null,
   },
 ];
 const HeaderNav = () => {
@@ -35,6 +41,8 @@ const HeaderNav = () => {
       } catch (error) {
         console.log(error);
       }
+    } else {
+      navigate(key);
     }
   };
   const handleSearch = (e) => {

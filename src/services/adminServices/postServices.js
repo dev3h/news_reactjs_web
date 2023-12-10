@@ -5,7 +5,7 @@ class postServices {
     try {
       const response = await axiosInstance.get("/post", {
         params: {
-          search,
+          search: search?.trim(),
           page: pagination?.defaultCurrent,
           sortBy: sort?.sortBy,
           sortType: sort?.sortType,

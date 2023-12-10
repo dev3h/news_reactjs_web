@@ -30,7 +30,6 @@ const Edit = () => {
     extraPlugins: [uploader],
   };
   const validateEditorContent = (value) => {
-    console.log(value && value.trim().length > 0);
     return value && value.trim().length > 0 ? undefined : "Nội dung là bắt buộc";
   };
   const handleEditorChange = (event, editor) => {
@@ -187,7 +186,12 @@ const Edit = () => {
               hasFeedback
               rules={[
                 {
+                  transform: (value) => value.trim(),
+                },
+                {
                   required: true,
+                  whitespace: true,
+                  message: "Tiêu đề là bắt buộc",
                 },
                 {
                   min: 5,

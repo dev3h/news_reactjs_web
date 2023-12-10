@@ -5,7 +5,7 @@ class tagServices {
     try {
       const response = await axiosInstance.get("/tag", {
         params: {
-          search,
+          search: search?.trim(),
           page: pagination?.defaultCurrent,
           sortBy: sort?.sortBy,
           sortType: sort?.sortType,
