@@ -1,4 +1,4 @@
-import { Avatar, Flex } from "antd";
+import { Avatar, Flex, Tag } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import customRenderAvatar from "../utils/customRenderAvatar";
@@ -13,6 +13,7 @@ const PostContent = ({ post }) => {
         gap="small"
         className="w-full bg-slate-100 px-8 py-5"
       >
+        <img src={post?.photo} alt="" className="w-full h-[100px]" />
         <h1 className="capitalize">{post?.title}</h1>
         <Flex gap="small" align="center">
           <Avatar>
@@ -26,6 +27,16 @@ const PostContent = ({ post }) => {
           <EyeOutlined />
           <span>{post?.view}</span>
         </Flex>
+        <div>
+          Danh mục:
+          <Tag>{post?.category?.name}</Tag>
+        </div>
+        <div>
+          Thẻ:
+          {post?.tags_info?.map((tag) => (
+            <Tag key={tag?.id}>{tag?.name}</Tag>
+          ))}
+        </div>
       </Flex>
       <div
         className="w-full h-fit px-8 py-5 bg-slate-100 text-justify text-[16px] leading-relaxed"
