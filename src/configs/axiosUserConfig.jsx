@@ -3,7 +3,7 @@ import { notification } from "antd";
 import axiosRetry from "axios-retry";
 
 const axiosInstance = axios.create({
-  baseURL: `${import.meta.env.VITE_BASE_URL_API}/api/v1/user`,
+  baseURL: `${import.meta.env.VITE_BASE_URL_API}/api/v1`,
   timeout: 10000,
   withCredentials: true,
 });

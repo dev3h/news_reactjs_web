@@ -74,17 +74,22 @@ const GroupPost = () => {
                     key={post?.id}
                   >
                     <div className="items">
-                      <div className="box shadow">
+                      <div className="shadow box">
                         <div className="images">
                           <div className="img">
-                            <img src={post?.photo} alt="" onError={handleImageError} />
+                            <img
+                              src={post?.photo}
+                              alt=""
+                              onError={handleImageError}
+                              loading="lazy"
+                            />
                           </div>
                           <div className="category category1">
                             <span>{category?.name}</span>
                           </div>
                         </div>
                         <div className="text">
-                          <h1 className="title truncate">{post?.title}</h1>
+                          <h1 className="truncate title">{post?.title}</h1>
                           <Flex className="date" gap="small" align="center">
                             <CalendarOutlined />
                             <label>{customRenderDate(post?.created_at)}</label>

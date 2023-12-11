@@ -19,7 +19,7 @@ const Create = () => {
   const [categoryDatas, setCategoryDatas] = useState([]);
   const [editorContent, setEditorContent] = useState("");
   const [editorError, setEditorError] = useState("");
-  const maxContentLength = 1000;
+  const maxContentLength = 10000;
   const [tagsDatas, setTagsDatas] = useState([]);
   const [statusPostDatas, setStatusPostDatas] = useState([]);
   const [statusPostSelected, setStatusPostSelected] = useState(0);
@@ -28,7 +28,6 @@ const Create = () => {
     extraPlugins: [uploader],
   };
   const validateEditorContent = (value) => {
-    console.log(value && value.trim().length > 0);
     return value && value.trim().length > 0 ? undefined : "Nội dung là bắt buộc";
   };
   const handleEditorChange = (event, editor) => {
@@ -42,7 +41,7 @@ const Create = () => {
         setEditorContent(data);
         setEditorError("");
       } else {
-        setEditorError("Nội dung không được vượt quá 1000 ký tự.");
+        setEditorError(`Nội dung không được vượt quá ${maxContentLength} ký tự.`);
       }
     }
   };
@@ -162,7 +161,12 @@ const Create = () => {
           hasFeedback
           rules={[
             {
+              transform: (value) => value.trim(),
+            },
+            {
               required: true,
+              whitespace: true,
+              message: "Tiêu đề là bắt buộc",
             },
             {
               min: 5,
@@ -170,7 +174,7 @@ const Create = () => {
             },
             {
               max: 100,
-              message: "Tiêu đề phải có nhiều nhất 100 ký tự",
+              message: "Tiêu đề không được vượt quá 100 kí tự",
             },
           ]}
         >

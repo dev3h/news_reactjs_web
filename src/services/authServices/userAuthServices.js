@@ -1,4 +1,4 @@
-import axiosInstance from "@/configs/axiosConfig";
+import axiosInstance from "@/configs/axiosUserConfig";
 
 class userAuthServices {
   static async login({ email, password }) {
@@ -57,6 +57,16 @@ class userAuthServices {
   static async resetPassword(inputData) {
     try {
       const response = await axiosInstance.put(`/auth/user/reset-password`, inputData);
+      const data = response.data;
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  static async updatePassword(inputData) {
+    try {
+      const response = await axiosInstance.put(`/auth/user/update-password`, inputData);
+
       const data = response.data;
       return data;
     } catch (error) {

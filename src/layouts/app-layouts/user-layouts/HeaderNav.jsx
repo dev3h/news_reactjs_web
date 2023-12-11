@@ -4,20 +4,25 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { UserContext } from "@/context/UserContext";
 import customRenderAvatar from "@/utils/customRenderAvatar";
-import userAuthServices from "@/services/authServices/userAuthServices";
+// import userAuthServices from "@/services/authServices/userAuthServices";
 import { SearchOutlined } from "@ant-design/icons";
 
 const { Header } = Layout;
 const items = [
   {
-    label: <span>Logout</span>,
+    label: <span>Mật khẩu</span>,
+    key: "profile",
+    url: "/profile",
+  },
+  {
+    label: <span>Đăng xuất</span>,
     key: "logout",
+    url: null,
   },
 ];
 const HeaderNav = () => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
-
   const userInfo = user?.data;
 
   const onClick = async ({ key }) => {
@@ -36,6 +41,8 @@ const HeaderNav = () => {
       } catch (error) {
         console.log(error);
       }
+    } else {
+      navigate(key);
     }
   };
   const handleSearch = (e) => {
@@ -64,21 +71,24 @@ const HeaderNav = () => {
             className="w-1/4"
           />
           {userInfo ? (
-            <Dropdown
-              menu={{
-                items,
-                onClick,
-              }}
-              trigger={["click"]}
-            >
-              <a onClick={(e) => e.preventDefault()}>
-                <Avatar size="large" className="bg-orange-500">
-                  {userInfo?.name
-                    ? customRenderAvatar(userInfo?.name)
-                    : customRenderAvatar(userInfo?.email)}
-                </Avatar>
-              </a>
-            </Dropdown>
+            <>
+              <span>Xin chào {userInfo?.name}</span>
+              <Dropdown
+                menu={{
+                  items,
+                  onClick,
+                }}
+                trigger={["click"]}
+              >
+                <a onClick={(e) => e.preventDefault()}>
+                  <Avatar size="large" className="bg-orange-500">
+                    {userInfo?.name
+                      ? customRenderAvatar(userInfo?.name)
+                      : customRenderAvatar(userInfo?.email)}
+                  </Avatar>
+                </a>
+              </Dropdown>
+            </>
           ) : (
             <Flex align="center" gap="small">
               <Link to="/auth/login" className="text-white">

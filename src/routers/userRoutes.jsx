@@ -1,3 +1,4 @@
+import PasswordUpdateUser from "../components/PasswordUpdate/PasswordUpdateUser";
 import UserLayout from "../layouts/app-layouts/user-layouts";
 import DetailPost from "../pages/app-pages/user-pages/DetailPost";
 import Home from "../pages/app-pages/user-pages/Home/Home";
@@ -22,6 +23,11 @@ const userRoutes = [
       {
         path: "search",
         element: <SearchResult />,
+        exact: true,
+      },
+      {
+        path: "profile",
+        element: <PasswordUpdateUser />,
         exact: true,
       },
     ],

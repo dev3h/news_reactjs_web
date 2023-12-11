@@ -48,14 +48,14 @@ const Popular = ({ data }) => {
                     <div className="shadow box">
                       <div className="images row">
                         <div className="img">
-                          <img src={val?.photo} alt="" />
+                          <img src={val?.photo} alt="" loading="lazy" />
                         </div>
                         <div className="category category1">
                           <span>{val?.category?.name}</span>
                         </div>
                       </div>
                       <div className="text row">
-                        <h1 className="title truncate">{val?.title}</h1>
+                        <h1 className="truncate title">{val?.title}</h1>
                         <Flex className="date" gap="small" align="center">
                           <CalendarOutlined />
                           <label>{val?.created_at}</label>

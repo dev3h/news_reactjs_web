@@ -15,12 +15,12 @@ const EmailInput = ({ emailValue = "", showIcon = true }) => {
           required: true,
         },
         {
-          type: "email",
-          message: "Email không hợp lệ",
+          max: 50,
+          message: "Email phải có tối đa 50 ký tự",
         },
         {
-          max: 50,
-          message: "Email phải có tối đa 50 ký tự!",
+          pattern: new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$"),
+          message: "Email không đúng định dạng",
         },
       ]}
     >

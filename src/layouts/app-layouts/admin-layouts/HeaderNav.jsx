@@ -45,7 +45,8 @@ const HeaderNav = ({ collapsed, handleCollapsed, background }) => {
             height: 64,
           }}
         />
-        <div className="pr-5">
+        <Flex gap="small" className="pr-5">
+          <span>Xin chào {adminInfo?.display_name}</span>
           <Dropdown
             menu={{
               items,
@@ -54,10 +55,10 @@ const HeaderNav = ({ collapsed, handleCollapsed, background }) => {
             trigger={["click"]}
           >
             <a onClick={(e) => e.preventDefault()}>
-              <Avatar size="large">{customRenderAvatar(adminInfo?.username)}</Avatar>
+              <Avatar size="large">{customRenderAvatar(adminInfo?.display_name)}</Avatar>
             </a>
           </Dropdown>
-        </div>
+        </Flex>
       </Flex>
     </Header>
   );

@@ -17,14 +17,15 @@ const NameInput = ({ nameValue = "", showIcon = true, name = "username" }) => {
         },
         {
           min: 3,
-          message: "Name phải có ít nhất 3 ký tự!",
+          message: "Name phải có ít nhất 3 ký tự",
         },
         {
           max: 50,
-          message: "Name phải có tối đa 50 ký tự!",
+          message: "Name không cho phép nhập quá 50 ký tự",
         },
         {
-          pattern: /^[a-zA-Z0-9]+$/,
+          pattern:
+            /^[a-zA-Z0-9\sáàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđĐ]+$/i,
           message: "Name không được chứa ký tự đặc biệt!",
         },
       ]}

@@ -18,7 +18,7 @@ const CardPost = ({ post }) => {
       bordered={false}
     >
       <Link to={`/${post.slug}/detail`} className="text-black" title={post?.title}>
-        <h3 className=" line-clamp-3 text-justify font-medium">{post?.title}</h3>
+        <h3 className="font-medium text-justify line-clamp-3">{post?.title}</h3>
         <div>
           <span>{post?.created_at}</span>
           <img
@@ -26,6 +26,7 @@ const CardPost = ({ post }) => {
             alt=""
             className="w-full lg:h-[200px] h-[300px] object-cover rounded-md"
             onError={handleImageError}
+            loading="lazy"
           />
         </div>
       </Link>

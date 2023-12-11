@@ -86,6 +86,8 @@ const List = () => {
       key: "username",
       filter,
       handleSort,
+      customRender: false,
+      sorter: true,
     },
     {
       title: "Tên hiển thị",
@@ -93,6 +95,8 @@ const List = () => {
       key: "display_name",
       filter,
       handleSort,
+      customRender: false,
+      sorter: true,
     },
     {
       title: "Email",
@@ -100,6 +104,8 @@ const List = () => {
       key: "email",
       filter,
       handleSort,
+      customRender: false,
+      sorter: true,
     },
     {
       title: "Vai trò",
@@ -108,6 +114,7 @@ const List = () => {
       filter,
       handleSort,
       customRender: true,
+      sorter: true,
     },
   ];
 
@@ -118,7 +125,8 @@ const List = () => {
       column.key,
       column.filter,
       column.handleSort,
-      column?.customRender
+      column?.customRender,
+      column?.sorter
     );
   });
   const columns = [

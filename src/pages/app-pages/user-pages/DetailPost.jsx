@@ -55,7 +55,7 @@ const DetailPost = () => {
   useEffect(() => {
     const getIpToIncreaseViewOfPost = async () => {
       try {
-        const response = await fetch("https://api64.ipify.org?format=json");
+        const response = await fetch("/ipify");
 
         const data = await response.json();
         const userIP = data.ip;
@@ -81,7 +81,7 @@ const DetailPost = () => {
           alt=""
           className="w-full h-[300px] object-cover rounded-md"
         />
-        <Card className="h-fit w-full mt-9">
+        <Card className="w-full h-fit mt-9">
           <PostContent post={data} />
         </Card>
         <PostDetailTool
