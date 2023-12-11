@@ -267,7 +267,33 @@ const Create = () => {
               allowClear
             />
           </Form.Item>
-          <Form.Item className="flex-1" label="Thẻ" name="tags" hasFeedback>
+          <Form.Item
+            className="flex-1"
+            label="Thẻ"
+            name="tags"
+            hasFeedback
+            rules={[
+              {
+                validator: (_, value) => {
+                  const validTags = value.filter((tag) => tag.trim() !== "");
+
+                  if (validTags.length === 0) {
+                    form.setFieldsValue({ tags: [] });
+                    return Promise.reject();
+                  }
+                  if (validTags.some((tag) => /[^a-zA-Z0-9\s]/.test(tag))) {
+                    // check xem thẻ có ký tự đặc biệt không, nếu có thì xóa luôn thẻ đó
+                    const newTags = validTags.filter(
+                      (tag) => !/[^a-zA-Z0-9\s]/.test(tag)
+                    );
+                    form.setFieldsValue({ tags: newTags });
+                    return Promise.reject("Không được nhập ký tự đặc biệt!");
+                  }
+                  return Promise.resolve();
+                },
+              },
+            ]}
+          >
             <Select
               // showSearch
               mode="tags"

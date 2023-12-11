@@ -1,6 +1,6 @@
 import axios from "axios";
 import { notification } from "antd";
-import axiosRetry from "axios-retry";
+// import axiosRetry from "axios-retry";
 
 const axiosInstance = axios.create({
   baseURL: `${import.meta.env.VITE_BASE_URL_API}/api/v1`,
@@ -9,18 +9,18 @@ const axiosInstance = axios.create({
 });
 
 // cấu hình retry
-axiosRetry(axiosInstance, {
-  retries: 3,
-  retryDelay: (retryCount) => {
-    // Thời gian chờ giữa các lần retry
-    return retryCount * 1000;
-  },
-  retryCondition: (error) => {
-    return (
-      axiosRetry.isNetworkError(error) || (error.response && error.response.status >= 500)
-    );
-  },
-});
+// axiosRetry(axiosInstance, {
+//   retries: 3,
+//   retryDelay: (retryCount) => {
+//     // Thời gian chờ giữa các lần retry
+//     return retryCount * 1000;
+//   },
+//   retryCondition: (error) => {
+//     return (
+//       axiosRetry.isNetworkError(error) || (error.response && error.response.status >= 500)
+//     );
+//   },
+// });
 
 axiosInstance.interceptors.request.use(
   function (config) {
@@ -42,26 +42,35 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   function (error) {
-    if (axiosRetry.isNetworkError(error)) {
+    // if (axiosRetry.isNetworkError(error)) {
+    //   notification.error({
+    //     message: "Lỗi",
+    //     description:
+    //       "Thao tác không thành công do lỗi server/internet , vui lòng thử lại sau",
+    //   });
+    // } else
+    if (error?.code === "ERR_NETWORK") {
       notification.error({
         message: "Lỗi",
         description:
           "Thao tác không thành công do lỗi server/internet , vui lòng thử lại sau",
       });
-    } else if (error?.response?.status === 401) {
-      if (error?.response?.data?.authError) {
+    } else {
+      if (error?.response?.status === 401) {
+        if (error?.response?.data?.authError) {
+          notification.error({
+            message: "Lỗi",
+            description: error?.response?.data?.message,
+          });
+        } else {
+          return Promise.reject(error);
+        }
+      } else if (error?.response?.status !== 422) {
         notification.error({
           message: "Lỗi",
           description: error?.response?.data?.message,
         });
-      } else {
-        return Promise.reject(error);
       }
-    } else if (error?.response?.status !== 422) {
-      notification.error({
-        message: "Lỗi",
-        description: error?.response?.data?.message,
-      });
     }
     return Promise.reject(error);
   }

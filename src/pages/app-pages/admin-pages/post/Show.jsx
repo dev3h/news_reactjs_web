@@ -27,7 +27,7 @@ const Show = () => {
     <Spin spinning={loading} tip="Loading...">
       <Card>
         <Flex className="relative">
-          <Card className="mx-6  h-fit top-1/2">
+          <Card className="mx-6 h-fit top-1/2">
             <PostContent post={data} />
           </Card>
           <FloatButton.BackTop />

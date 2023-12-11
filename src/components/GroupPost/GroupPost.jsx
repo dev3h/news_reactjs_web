@@ -50,9 +50,9 @@ const GroupPost = () => {
     slidesToScroll: 1,
     responsive: [
       {
-        breakpoint: 800,
+        breakpoint: 1000,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
@@ -66,6 +66,7 @@ const GroupPost = () => {
           <div className="content">
             <Slider {...settings}>
               {group?.categories?.map((category) => {
+                console.log(category);
                 return category?.posts?.map((post) => (
                   <Link
                     to={`/${post.slug}/detail`}

@@ -208,7 +208,7 @@ const Edit = () => {
                 },
                 {
                   max: 100,
-                  message: "Tiêu đề phải có nhiều nhất 100 ký tự",
+                  message: "Tiêu đề không được vượt quá 100 kí tự",
                 },
               ]}
             >
@@ -293,6 +293,11 @@ const Edit = () => {
                 initialValue={data?.category_id}
                 className="flex-1"
                 hasFeedback
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
               >
                 <Select
                   showSearch

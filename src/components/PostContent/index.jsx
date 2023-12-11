@@ -1,8 +1,9 @@
 import { Avatar, Flex, Tag } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
-import customRenderAvatar from "../utils/customRenderAvatar";
-import customRenderDate from "../utils/customRenderDate";
+import customRenderAvatar from "../../utils/customRenderAvatar";
+import customRenderDate from "../../utils/customRenderDate";
+import "./post-content.css";
 
 const PostContent = ({ post }) => {
   return (
@@ -40,7 +41,7 @@ const PostContent = ({ post }) => {
         </Flex>
       </Flex>
       <div
-        className="w-full h-fit px-8 py-5 bg-slate-100 text-justify text-[16px] leading-relaxed"
+        className="w-full h-fit px-8 py-5 bg-slate-100 text-justify text-[16px] leading-relaxed post-content"
         dangerouslySetInnerHTML={{ __html: post?.content }}
       ></div>
     </Flex>
