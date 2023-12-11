@@ -1,4 +1,4 @@
-import { Card, Flex, FloatButton, Spin, Tag } from "antd";
+import { Card, Flex, FloatButton, Spin } from "antd";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import postServices from "@/services/adminServices/postServices";
@@ -26,9 +26,6 @@ const Show = () => {
   return (
     <Spin spinning={loading} tip="Loading...">
       <Card>
-        <Flex className="mb-5">
-          <Tag>#{data?.category?.name}</Tag>
-        </Flex>
         <Flex className="relative">
           {data?.photo && (
             <img
