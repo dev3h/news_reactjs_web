@@ -81,7 +81,7 @@
   left: 5%;
 }
 .hero .box:nth-child(1) h1 {
-  font-size: 28px;
+  font-size: 18px;
 }
 .hero .box:nth-child(1) .category {
   background-color: crimson;

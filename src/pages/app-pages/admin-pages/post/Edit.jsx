@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import { Card, Form, Input, message, Select, Radio, DatePicker, Flex } from "antd";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
+import { AdminContext } from "@/context/AdminContext";
 import postServices from "@/services/adminServices/postServices";
 import tagServices from "@/services/adminServices/tagServices";
 import uploader from "@/utils/createUploader";
@@ -16,6 +17,8 @@ const Edit = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { id } = useParams();
+  const { admin } = useContext(AdminContext);
+  const accessToken = admin?.token;
   const [categoryDatas, setCategoryDatas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
@@ -52,6 +55,9 @@ const Edit = () => {
     name: "photo",
     multiple: false,
     action: `${import.meta.env.VITE_BASE_URL_API}/api/v1/post/upload-photo`,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
     fileList: fileList,
     async onChange(info) {
       // Note cần làm: khi xóa thì phải xóa cả ở trên cloudinary
@@ -76,6 +82,9 @@ const Edit = () => {
         delete values.photo;
       }
       values.content = editorContent;
+      if (data?.filename) {
+        values.filename_old = data?.filename;
+      }
       const { id, ...rest } = values;
       setLoading(true);
       const response = await postServices.update(id, rest);
@@ -105,16 +114,16 @@ const Edit = () => {
         setData(response);
         setEditorContent(response?.content);
         setStatusPostSelected(response?.status);
-        if (response?.photo)
-          setFileList([
-            {
-              uid: "-1",
-              name: response?.filename,
-              // status: "done",
-              url: response?.photo,
-              thumbUrl: response?.photo,
-            },
-          ]);
+        // if (response?.photo)
+        //   setFileList([
+        //     {
+        //       uid: "-1",
+        //       name: response?.filename,
+        //       // status: "done",
+        //       url: response?.photo,
+        //       thumbUrl: response?.photo,
+        //     },
+        //   ]);
       } catch (error) {
         console.log(error);
       }
@@ -199,7 +208,7 @@ const Edit = () => {
                 },
                 {
                   max: 100,
-                  message: "Tiêu đề phải có nhiều nhất 100 ký tự",
+                  message: "Tiêu đề không được vượt quá 100 kí tự",
                 },
               ]}
             >
@@ -284,6 +293,11 @@ const Edit = () => {
                 initialValue={data?.category_id}
                 className="flex-1"
                 hasFeedback
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
               >
                 <Select
                   showSearch
@@ -311,7 +325,17 @@ const Edit = () => {
                 />
               </Form.Item>
             </Flex>
-            <UploadPhotoInput propUpload={propUpload} />
+            <Flex vertical className="mb-5">
+              <UploadPhotoInput propUpload={propUpload} />
+              <Flex vertical>
+                <label>Ảnh cũ của bài viết</label>
+                <img
+                  src={data?.photo}
+                  alt=""
+                  className="w-[100px] h-[100px] object-cover"
+                />
+              </Flex>
+            </Flex>
 
             <ButtonUpdateForm loading={loading} />
           </>

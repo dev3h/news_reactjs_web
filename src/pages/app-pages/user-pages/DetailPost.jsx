@@ -73,29 +73,28 @@ const DetailPost = () => {
     setIsLiked(isLiked);
   };
   return (
-    <Spin spinning={loading} tip="Loading...">
-      <Flex justify="center" vertical className="px-9 pt-9">
-        <img
-          src={imageUrl}
-          onError={handleImageError}
-          alt=""
-          className="w-full h-[300px] object-cover rounded-md"
-        />
-        <Card className="w-full h-fit mt-9">
-          <PostContent post={data} />
-        </Card>
-        <PostDetailTool
-          slug={data?.slug}
-          isLiked={isLiked}
-          countLike={countLike}
-          handleCountLike={handleCountLike}
-          handleLiked={handleLiked}
-          commentDatas={commentDatas}
-          countComment={countComment}
-        />
-        <FloatButton.BackTop />
-      </Flex>
-    </Spin>
+    <Flex justify="center" vertical className="px-9 pt-9 w-[80%]">
+      <img
+        src={imageUrl}
+        onError={handleImageError}
+        alt=""
+        className="w-full h-[300px] object-cover rounded-md"
+        loading="lazy"
+      />
+      <Card className="w-full h-fit mt-9">
+        <PostContent post={data} />
+      </Card>
+      <PostDetailTool
+        slug={data?.slug}
+        isLiked={isLiked}
+        countLike={countLike}
+        handleCountLike={handleCountLike}
+        handleLiked={handleLiked}
+        commentDatas={commentDatas}
+        countComment={countComment}
+      />
+      <FloatButton.BackTop />
+    </Flex>
   );
 };
 

@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/(.*)", "destination": "/" },
-    { "source": "/ipify", "destination": "https://api.ipify.org?format=json" }
+    { "source": "/ipify", "destination": "https://api.ipify.org?format=json" },
+    { "source": "/api", "destination": "https://news-api-fai7.onrender.com" }
   ]
 }

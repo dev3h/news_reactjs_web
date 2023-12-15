@@ -11,13 +11,13 @@ const Card = ({ item }) => {
     <div className="box" key={item?.id}>
       <Link
         to={`/${item.slug}/detail`}
-        className="inline-block w-full h-full"
+        className="inline-block w-full h-full overflow-clip"
         title={item?.title}
       >
         <img src={imageUrl} alt="" onError={handleImageError} loading="lazy" />
         <div className="text">
           <span className="category">{item?.category?.name}</span>
-          <h1 className="truncate titleBg">{item?.title}</h1>
+          <h1 className="break-words truncate titleBg w-[90%]">{item?.title}</h1>
           <span>
             <EyeOutlined /> {item?.view}
           </span>

@@ -18,7 +18,7 @@ const CardPost = ({ post }) => {
       bordered={false}
     >
       <Link to={`/${post.slug}/detail`} className="text-black" title={post?.title}>
-        <h3 className="font-medium text-justify line-clamp-3">{post?.title}</h3>
+        <h3 className="font-medium text-justify line-clamp-1">{post?.title}</h3>
         <div>
           <span>{post?.created_at}</span>
           <img

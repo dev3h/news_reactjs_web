@@ -151,7 +151,7 @@ const generateColumn = (
     columnDefinition.render = (item, rowData) => {
       if (key === "photo") {
         if (!rowData?.photo) return null;
-        return <img src={rowData?.photo} alt={rowData?.name} width="100px" />;
+        return <img src={rowData?.photo} alt={rowData?.name} width="100px" loading="lazy" />;
       }
       return item?.name;
     };
