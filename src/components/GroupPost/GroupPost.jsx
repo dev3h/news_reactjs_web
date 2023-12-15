@@ -66,7 +66,6 @@ const GroupPost = () => {
           <div className="content">
             <Slider {...settings}>
               {group?.categories?.map((category) => {
-                console.log(category);
                 return category?.posts?.map((post) => (
                   <Link
                     to={`/${post.slug}/detail`}

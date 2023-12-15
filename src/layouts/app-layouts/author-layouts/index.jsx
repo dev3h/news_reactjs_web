@@ -15,7 +15,6 @@ const AuthorLayout = () => {
   const navigate = useNavigate();
 
   const { admin, setAdmin } = useContext(AdminContext);
-  console.log(admin);
 
   useEffect(() => {
     const token = admin?.token;

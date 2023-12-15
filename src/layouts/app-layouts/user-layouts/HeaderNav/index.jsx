@@ -5,7 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "@/context/UserContext";
 import customRenderAvatar from "@/utils/customRenderAvatar";
 // import userAuthServices from "@/services/authServices/userAuthServices";
-import { SearchOutlined } from "@ant-design/icons";
+import { HomeOutlined, SearchOutlined } from "@ant-design/icons";
+import GroupCategoryMenu from "./GroupCategoryMenu";
 
 const { Header } = Layout;
 const items = [
@@ -49,8 +50,8 @@ const HeaderNav = () => {
     navigate(`/search?q=${e.target.value.trim()}`);
   };
   return (
-    <Header className="bg-white shadow-md">
-      <Flex justify="space-between" align="center" className="container h-full mx-auto">
+    <>
+      <Flex className="container py-2" justify="space-between" gap="small" align="center">
         <Link to={""} className="flex items-center h-full font-bold text-white">
           <Flex
             justify="center"
@@ -60,8 +61,7 @@ const HeaderNav = () => {
             <span className="text-xl">News</span>
           </Flex>
         </Link>
-
-        <Flex className="flex-1" justify="end" gap="small" align="center">
+        <Flex justify="end" className="flex-1" gap="small">
           <Input
             placeholder="Tìm kiếm"
             size="large"
@@ -101,7 +101,15 @@ const HeaderNav = () => {
           )}
         </Flex>
       </Flex>
-    </Header>
+      <Header className="bg-white shadow-md flex container">
+        <Link to={""} className="text-xl flex items-center text-black">
+          <HomeOutlined />
+        </Link>
+        <Flex justify="space-between" align="center" className="container h-full mx-auto">
+          <GroupCategoryMenu />
+        </Flex>
+      </Header>
+    </>
   );
 };
 

@@ -16,14 +16,9 @@ const DetailPost = () => {
   const [countLike, setCountLike] = useState(0);
   const [countComment, setCountComment] = useState(0);
   const [commentDatas, setCommentDatas] = useState([]);
-  const [imageUrl, setImageUrl] = useState("");
-  const { slug } = useParams();
-  const defaultImageUrl = "/posts/default-posts.jpg";
 
-  const handleImageError = (event) => {
-    // Nếu xảy ra lỗi khi tải hình ảnh, thay thế bằng đường dẫn mặc định
-    event.target.src = defaultImageUrl;
-  };
+  const { slug } = useParams();
+
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
@@ -34,9 +29,6 @@ const DetailPost = () => {
         const isUserLiked = response?.users_like?.find((item) => {
           return item.email === user?.data?.email;
         });
-        if (response?.photo) {
-          setImageUrl(response?.photo);
-        }
         setIsLiked(isUserLiked ? true : false);
         setCountLike(response?.users_like?.length);
         setCountComment(response?.comments?.length);
@@ -73,14 +65,7 @@ const DetailPost = () => {
     setIsLiked(isLiked);
   };
   return (
-    <Flex justify="center" vertical className="px-9 pt-9 w-[80%]">
-      <img
-        src={imageUrl}
-        onError={handleImageError}
-        alt=""
-        className="w-full h-[300px] object-cover rounded-md"
-        loading="lazy"
-      />
+    <Flex vertical className="px-9 pt-9 w-[80%]">
       <Card className="w-full h-fit mt-9">
         <PostContent post={data} />
       </Card>

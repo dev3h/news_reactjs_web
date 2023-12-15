@@ -13,7 +13,7 @@ const PostContent = ({ post }) => {
         gap="small"
         className="w-full bg-slate-100 px-8 py-5"
       >
-        <img src={post?.photo} alt="" className="w-full h-[100px]" />
+        <img src={post?.photo} alt="" className="w-[100px] h-[100px]" />
         <h1 className="capitalize">{post?.title}</h1>
         <Flex gap="small" align="center">
           <Avatar>
