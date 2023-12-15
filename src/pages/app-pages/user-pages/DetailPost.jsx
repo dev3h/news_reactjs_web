@@ -1,30 +1,29 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Card, Flex, FloatButton, Spin } from "antd";
+import { Card, Flex, FloatButton } from "antd";
 import postServices from "@/services/userServices/postServices";
-import PostContent from "@/components/PostContent";
 import PostDetailTool from "@/components/PostDetailTool";
 
 import { UserContext } from "@/context/UserContext";
+import PostContent from "@/components/PostContent";
+import { useUserStore } from "@/stores/user-store/UserStore";
 
 const DetailPost = () => {
   const { user } = useContext(UserContext);
-  const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
   const [isLiked, setIsLiked] = useState(false);
   const [countLike, setCountLike] = useState(0);
   const [countComment, setCountComment] = useState(0);
   const [commentDatas, setCommentDatas] = useState([]);
+  const { userIP, getUserIP } = useUserStore();
 
   const { slug } = useParams();
 
   useEffect(() => {
     const fetch = async () => {
-      setLoading(true);
       const response = await postServices.getOne(slug);
       if (response) {
-        setLoading(false);
         setData(response);
         const isUserLiked = response?.users_like?.find((item) => {
           return item.email === user?.data?.email;
@@ -47,17 +46,18 @@ const DetailPost = () => {
   useEffect(() => {
     const getIpToIncreaseViewOfPost = async () => {
       try {
-        const response = await fetch("/ipify");
-
-        const data = await response.json();
-        const userIP = data.ip;
         await postServices.increaseViewOfPost(slug, userIP);
       } catch (error) {
-        console.error("Lỗi khi lấy địa chỉ IP:", error);
+        console.error("Lỗi khi tăng view:", error);
       }
     };
     getIpToIncreaseViewOfPost();
   }, []);
+  useEffect(() => {
+    if (!userIP) {
+      getUserIP();
+    }
+  }, [userIP]);
   const handleCountLike = (count) => {
     setCountLike(count);
   };

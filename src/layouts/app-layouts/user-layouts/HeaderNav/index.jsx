@@ -1,12 +1,10 @@
 import { Avatar, Button, Dropdown, Flex, Input, Layout } from "antd";
-import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { UserContext } from "@/context/UserContext";
 import customRenderAvatar from "@/utils/customRenderAvatar";
-// import userAuthServices from "@/services/authServices/userAuthServices";
 import { HomeOutlined, SearchOutlined } from "@ant-design/icons";
 import GroupCategoryMenu from "./GroupCategoryMenu";
+import { useUserAuthStore } from "@/stores/user-store/UserStore";
 
 const { Header } = Layout;
 const items = [
@@ -23,14 +21,13 @@ const items = [
 ];
 const HeaderNav = () => {
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
-  const userInfo = user?.data;
-
+  // const { user, setUser } = useContext(UserContext);
+  // const userInfo = user?.data;
+  const { userInfo, logout } = useUserAuthStore();
   const onClick = async ({ key }) => {
     if (key === "logout") {
       try {
-        localStorage.removeItem("user");
-        setUser(null);
+        logout();
         navigate("/");
         // bug: production is not save cookie to do
         // const response = await userAuthServices.logout();
@@ -71,7 +68,7 @@ const HeaderNav = () => {
             className="w-1/4"
           />
           {userInfo ? (
-            <>
+            <Flex align="center" gap="small">
               <span>Xin chào {userInfo?.name}</span>
               <Dropdown
                 menu={{
@@ -88,7 +85,7 @@ const HeaderNav = () => {
                   </Avatar>
                 </a>
               </Dropdown>
-            </>
+            </Flex>
           ) : (
             <Flex align="center" gap="small">
               <Link to="/auth/login" className="text-white">

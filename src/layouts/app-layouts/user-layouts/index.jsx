@@ -2,48 +2,19 @@ import { FloatButton, Layout } from "antd";
 import { Outlet } from "react-router-dom";
 import FooterNav from "./FooterNav";
 import HeaderNav from "./HeaderNav";
-import { useContext, useEffect } from "react";
-import { UserContext } from "@/context/UserContext";
-import userAuthServices from "@/services/authServices/userAuthServices";
+import { useEffect } from "react";
+
 import SideBar from "@/components/SideContent/side/Side";
+import { useUserAuthStore } from "@/stores/user-store/UserStore";
 
 const { Content } = Layout;
 const UserLayout = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { token, getUserInfo, userInfo } = useUserAuthStore();
   useEffect(() => {
-    if (user && user?.token) {
-      const token = user?.token;
-      const getUserInfo = async () => {
-        try {
-          const response = await userAuthServices.getUserInfo(token);
-
-          if (response) {
-            setUser((prevUser) => ({
-              ...prevUser,
-              data: response.data,
-            }));
-          }
-        } catch (error) {
-          localStorage.removeItem("user");
-          setUser(null);
-          // const newAccessToken = await userAuthServices.refreshToken();
-          // if (newAccessToken) {
-          //   localStorage.setItem(
-          //     "user",
-          //     JSON.stringify({
-          //       token: newAccessToken.accessToken,
-          //     })
-          //   );
-          //   setUser({
-          //     ...user,
-          //     token: newAccessToken.accessToken,
-          //   });
-          // }
-        }
-      };
-      getUserInfo();
+    if (token && !userInfo) {
+      getUserInfo(token);
     }
-  }, [user?.token]);
+  }, [token]);
   return (
     <Layout className="layout">
       <HeaderNav />

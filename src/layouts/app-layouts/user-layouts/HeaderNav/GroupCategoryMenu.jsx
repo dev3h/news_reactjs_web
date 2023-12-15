@@ -1,19 +1,11 @@
-import { useEffect, useState } from "react";
-import postServices from "@/services/userServices/postServices";
+import { useEffect } from "react";
 import { Flex } from "antd";
 import "./menu.css";
+import { useUserStore } from "@/stores/user-store/UserStore";
 
 const GroupCategoryMenu = () => {
-  const [groupCategories, setGroupCategories] = useState([]);
+  const { groupCategories, getGroupCategories } = useUserStore();
   useEffect(() => {
-    const getGroupCategories = async () => {
-      try {
-        const response = await postServices.getGroupCategories();
-        setGroupCategories(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     getGroupCategories();
   }, []);
   return (

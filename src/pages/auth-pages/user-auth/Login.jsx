@@ -1,17 +1,18 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, message } from "antd";
 import userAuthServices from "@/services/authServices/userAuthServices";
-import { UserContext } from "@/context/UserContext";
 import EmailInput from "@/components/Input/EmailInput";
 import PasswordInput from "@/components/Input/PasswordInput";
 import ButtonSubmitForm from "@/components/Btn/ButtonSubmitForm";
+import { useUserAuthStore } from "@/stores/user-store/UserStore";
 
 const Login = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const { setUser } = useContext(UserContext);
+
   const navigate = useNavigate();
+  const { setToken } = useUserAuthStore();
   const handleSubmit = async (values) => {
     setLoading(true);
     const response = await userAuthServices.login(values);
@@ -21,7 +22,8 @@ const Login = () => {
       };
       const userString = JSON.stringify(user);
       localStorage.setItem("user", userString);
-      setUser(user);
+      // setUser(user);
+      setToken(response?.accessToken);
       message.success(response?.message);
       navigate("/");
     }

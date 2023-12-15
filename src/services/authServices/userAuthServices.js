@@ -13,11 +13,12 @@ class userAuthServices {
       console.log(error);
     }
   }
-  static async register({ email, password }) {
+  static async register({ email, password, name }) {
     try {
       const response = await axiosInstance.post("/auth/user/register", {
         email,
         password,
+        name,
       });
       const data = response.data;
       return data;

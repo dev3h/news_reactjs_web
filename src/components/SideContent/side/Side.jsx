@@ -1,20 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./side.css";
-import postServices from "@/services/userServices/postServices";
 import SocialMedia from "../social/SocialMedia";
 import HeadingSection from "../../Common/HeadingSection/HeadingSection";
+import { useUserStore } from "@/stores/user-store/UserStore";
 
 const SideBar = () => {
-  const [groupCategories, setGroupCategories] = useState([]);
+  const { groupCategories, getGroupCategories } = useUserStore();
   useEffect(() => {
-    const getGroupCategories = async () => {
-      try {
-        const response = await postServices.getGroupCategories();
-        setGroupCategories(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     getGroupCategories();
   }, []);
   return (
