@@ -63,7 +63,7 @@ const SearchResult = () => {
     filter.sort.sortType,
   ]);
   return (
-    <div className="px-5">
+    <div className="w-full px-5">
       <h2>Kết quả tìm kiếm cho {q}: </h2>
       <>
         <Flex vertical gap="small">
@@ -72,9 +72,12 @@ const SearchResult = () => {
               <div className="shadow-sm " key={post?.id}>
                 <Link to={`/${post?.slug}/detail`}>
                   <Card className="hover:bg-slate-200">
-                    <Flex justify="space-between" align="center">
-                      <h3>{post?.title}</h3>
-                      <span>{post?.created_at}</span>
+                    <Flex justify="space-between" align="center" gap="small">
+                      <img src={post?.photo} loading="lazy" width="50" height="50" className="object-cover" />
+                      <div className="flex-1">
+                        <h3>{post?.title}</h3>
+                        <span>{post?.created_at}</span>
+                      </div>
                     </Flex>
                   </Card>
                 </Link>

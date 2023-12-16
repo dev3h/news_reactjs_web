@@ -1,14 +1,11 @@
-import { useEffect } from "react";
 import "./side.css";
 import SocialMedia from "../social/SocialMedia";
 import HeadingSection from "../../Common/HeadingSection/HeadingSection";
 import { useUserStore } from "@/stores/user-store/UserStore";
+import { Link } from "react-router-dom";
 
 const SideBar = () => {
-  const { groupCategories, getGroupCategories } = useUserStore();
-  useEffect(() => {
-    getGroupCategories();
-  }, []);
+  const { groupCategories } = useUserStore();
   return (
     <>
       <HeadingSection title="Stay Connected" />
@@ -31,7 +28,12 @@ const SideBar = () => {
         {groupCategories?.map((val) => {
           return (
             <div className="category category1" key={val?.id}>
-              <span>{val?.name}</span>
+              <Link
+                className="inline-block w-full h-full text-white transition-all hover:text-white"
+                to={`/group/${val?.slug}`}
+              >
+                {val?.name}
+              </Link>
             </div>
           );
         })}

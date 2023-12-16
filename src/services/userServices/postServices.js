@@ -1,6 +1,6 @@
 import axiosInstance from "@/configs/axiosUserConfig";
 
-class categoryServices {
+class postServices {
   static async getList({ search, pagination, sort, flimit } = {}) {
     try {
       const response = await axiosInstance.get("/user/post", {
@@ -71,9 +71,9 @@ class categoryServices {
       const data = response.data;
       return data;
     } catch (error) {
-    console.log(error);
+      console.log(error);
     }
   }
 }
 
-export default categoryServices;
+export default postServices;

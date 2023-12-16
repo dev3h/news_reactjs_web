@@ -4,11 +4,12 @@ import { PaginationCustom } from "@/components";
 import postServices from "@/services/userServices/postServices";
 import customRenderDate from "@/utils/customRenderDate";
 import CardPost from "@/components/CardPost";
-import Hero from "@/components/Hero/Hero";
+
 import Popular from "@/components/PopularPost/Popular";
 import "./style.css";
 import GroupPost from "@/components/GroupPost/GroupPost";
 import HeadingSection from "@/components/Common/HeadingSection/HeadingSection";
+import Hero from "@/components/hero/Hero";
 
 const Home = () => {
   const [postDatas, setPostDatas] = useState([]);
@@ -36,6 +37,7 @@ const Home = () => {
       },
     });
   };
+  
   useEffect(() => {
     const getPostData = async () => {
       const response = await postServices.getList(filter);

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Flex } from "antd";
 import "./menu.css";
 import { useUserStore } from "@/stores/user-store/UserStore";
+import { Link } from "react-router-dom";
 
 const GroupCategoryMenu = () => {
   const { groupCategories, getGroupCategories } = useUserStore();
@@ -13,10 +14,15 @@ const GroupCategoryMenu = () => {
       {groupCategories?.map((val) => {
         return (
           <div
-            className="menu-item w-[200px] text-center cursor-pointer hover:text-orange-400 transition-all"
+            className="menu-item w-[200px] text-center cursor-pointer  transition-all"
             key={val?.id}
           >
-            <span>{val?.name}</span>
+            <Link
+              className="inline-block w-full h-full text-black transition-all hover:text-orange-400"
+              to={`/group/${val?.slug}`}
+            >
+              {val?.name}
+            </Link>
           </div>
         );
       })}
