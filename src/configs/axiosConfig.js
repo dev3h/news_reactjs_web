@@ -1,5 +1,6 @@
 import axios from "axios";
 import { notification } from "antd";
+import AdminAuthServices from "../services/authServices/AdminAuthServices";
 // import axiosRetry from "axios-retry";
 
 const axiosInstance = axios.create({
@@ -42,7 +43,7 @@ axiosInstance.interceptors.response.use(
   function (response) {
     return response;
   },
-  function (error) {
+  async function (error) {
     // if (axiosRetry.isNetworkError(error)) {
     //   notification.error({
     //     message: "Lỗi",
@@ -64,7 +65,13 @@ axiosInstance.interceptors.response.use(
             description: error?.response?.data?.message,
           });
         } else {
-          return Promise.reject(error);
+          const response = await AdminAuthServices.refreshToken()
+          const token = response?.accessToken;
+          if (token) {
+            const authData = { token };
+            const authString = JSON.stringify(authData);
+            localStorage.setItem("admin", authString);
+          }
         }
       } else if (error?.response?.status !== 422) {
         notification.error({

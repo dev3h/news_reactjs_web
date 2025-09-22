@@ -5,7 +5,7 @@ import HeaderNav from "./HeaderNav";
 import SideBar from "./SideBar";
 import BreadCrumbCustom from "@/components/BreadCrumbCustom";
 import { AdminContext } from "@/context/AdminContext";
-import adminAuthServices from "@/services/authServices/adminAuthServices";
+import AdminAuthServices from "@/services/authServices/AdminAuthServices";
 import logoutAdmin from "@/utils/logoutAdmin";
 
 const { Content } = Layout;
@@ -22,7 +22,7 @@ const AdminLayout = () => {
     }
     const getUserInfo = async () => {
       try {
-        const response = await adminAuthServices.getUserInfo(token);
+        const response = await AdminAuthServices.getUserInfo(token);
 
         if (response) {
           if (response?.data?.role?.role_name !== "ADMIN") {
