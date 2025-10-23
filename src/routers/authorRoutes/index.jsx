@@ -1,4 +1,5 @@
 import AuthorLayout from "../../layouts/app-layouts/author-layouts";
+import AuthorDashboard from "@/pages/app-pages/author-pages/Dashboard";
 
 import postRoutes from "./managerRoutes/postRoutes";
 
@@ -10,7 +11,7 @@ const authorRoutes = [
     children: [
       {
         path: "dashboard",
-        element: <h1>author</h1>,
+        element: <AuthorDashboard />,
         exact: true,
       },
       postRoutes,

@@ -8,8 +8,9 @@ import {
 } from "@ant-design/icons";
 import { Menu, Layout } from "antd";
 import PropTypes from "prop-types";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { ADMIN_ROUTES } from "@/constants/routeConstants";
 
 const { Sider } = Layout;
 
@@ -52,62 +53,103 @@ const items = [
 const navigations = [
   {
     key: "1",
-    path: "/admin/dashboard",
+    path: ADMIN_ROUTES.DASHBOARD,
   },
   {
     key: "2-1",
-    path: "/admin/group-category",
+    path: ADMIN_ROUTES.GROUP_CATEGORY_LIST,
   },
   {
     key: "2-2",
-    path: "/admin/group-category/create",
+    path: ADMIN_ROUTES.GROUP_CATEGORY_CREATE,
   },
   {
     key: "3-1",
-    path: "/admin/category",
+    path: ADMIN_ROUTES.CATEGORY_LIST,
   },
   {
     key: "3-2",
-    path: "/admin/category/create",
+    path: ADMIN_ROUTES.CATEGORY_CREATE,
   },
   {
     key: "4-1",
-    path: "/admin/tag",
+    path: ADMIN_ROUTES.TAG_LIST,
   },
   {
     key: "4-2",
-    path: "/admin/tag/create",
+    path: ADMIN_ROUTES.TAG_CREATE,
   },
   {
     key: "5-1",
-    path: "/admin/post",
+    path: ADMIN_ROUTES.POST_LIST,
   },
   {
     key: "5-2",
-    path: "/admin/post/create",
+    path: ADMIN_ROUTES.POST_CREATE,
   },
   {
     key: "6-1",
-    path: "/admin/manager-author",
+    path: ADMIN_ROUTES.MANAGER_AUTHOR_LIST,
   },
   {
     key: "6-2",
-    path: "/admin/manager-author/create",
+    path: ADMIN_ROUTES.MANAGER_AUTHOR_CREATE,
   },
 ];
-const handleSelectKeyUrl = () => {
-  const url = window.location.pathname;
-  const navigation = navigations.find((nav) => nav.path === url);
-  if (navigation) return navigation.key;
-  return "";
-};
+
 const SideBar = ({ collapsed }) => {
-  const [selectedKey] = useState(handleSelectKeyUrl);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [selectedKey, setSelectedKey] = useState("");
+  const [openKeys, setOpenKeys] = useState([]);
+
+  // Hàm tìm key dựa trên URL
+  const getKeyFromPath = (pathname) => {
+    // Xử lý trường hợp đặc biệt: /admin -> dashboard
+    if (pathname === "/admin" || pathname === "/admin/") {
+      return "1";
+    }
+
+    const navigation = navigations.find((nav) => nav.path === pathname);
+    return navigation ? navigation.key : "";
+  };
+
+  // Hàm tìm open keys (parent menu keys) dựa trên selected key
+  const getOpenKeysFromSelectedKey = (key) => {
+    if (!key) return [];
+
+    // Tìm parent key từ selected key
+    // Ví dụ: "2-1" -> parent là "2"
+    const parentKey = key.split('-')[0];
+
+    // Chỉ return parent key nếu selected key có dấu gạch ngang (là submenu)
+    if (key.includes('-')) {
+      return [parentKey];
+    }
+    return [];
+  };
+
+  // Cập nhật selectedKey và openKeys khi location thay đổi
+  useEffect(() => {
+    const currentKey = getKeyFromPath(location.pathname);
+    setSelectedKey(currentKey);
+
+    // Cập nhật openKeys để expand menu chứa item được chọn
+    const newOpenKeys = getOpenKeysFromSelectedKey(currentKey);
+    setOpenKeys(newOpenKeys);
+  }, [location.pathname]);
+
+  // Xử lý khi user click vào menu item
   const handleSelect = (item) => {
     const navigation = navigations.find((nav) => nav.key === item.key);
+    if (navigation) {
+      navigate(navigation.path);
+    }
+  };
 
-    if (navigation) navigate(navigation.path);
+  // Xử lý khi user mở/đóng submenu
+  const handleOpenChange = (keys) => {
+    setOpenKeys(keys);
   };
 
   return (
@@ -122,9 +164,11 @@ const SideBar = ({ collapsed }) => {
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={[selectedKey]}
+        selectedKeys={[selectedKey]}
+        openKeys={openKeys}
         items={items}
         onSelect={handleSelect}
+        onOpenChange={handleOpenChange}
       />
     </Sider>
   );

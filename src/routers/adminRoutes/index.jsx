@@ -1,4 +1,5 @@
 import AdminLayout from "../../layouts/app-layouts/admin-layouts";
+import AdminDashboard from "@/pages/app-pages/admin-pages/Dashboard";
 
 import categoryRoutes from "./managerRoutes/categoryRoutes";
 import groupCategoryRoutes from "./managerRoutes/groupCategoryRoutes";
@@ -14,7 +15,7 @@ const adminRoutes = [
     children: [
       {
         path: "dashboard",
-        element: <h1>admin</h1>,
+        element: <AdminDashboard />,
         exact: true,
       },
       groupCategoryRoutes,
