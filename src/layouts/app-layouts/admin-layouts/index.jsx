@@ -48,7 +48,7 @@ const AdminLayout = () => {
       }
     };
     getUserInfo();
-  }, [admin?.token, location.pathname, navigate, setAdmin, admin]);
+  }, [admin?.token]);
   const {
     token: { colorBgContainer },
   } = theme.useToken();

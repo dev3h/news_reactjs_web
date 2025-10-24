@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { Card, Table, message } from "antd";
 
 import groupCategoryServices from "@/services/adminServices/groupCategoryServices";
-import { generateBasicColumn } from "@/components/Column/GenerateColumn";
+import { generateBasicColumn, generateColumn } from "@/components/Column/GenerateColumn";
 import { PaginationCustom } from "@/components";
 
 import HeaderTableBasic from "@/components/HeaderTableBasic";
-import { generateColumn } from "@/components/Column/GenerateColumn";
 
 const List = () => {
   const [list, setList] = useState([]);
@@ -21,7 +20,7 @@ const List = () => {
     },
     sort: {
       sortBy: "id",
-      sortType: "ASC",
+      sortType: "DESC",
     },
     flimit: 10,
   });
@@ -77,17 +76,21 @@ const List = () => {
     }
   };
 
-  const { id, createdByAdmin, updatedByAdmin, createdAt, updatedAt, action } =
-    generateBasicColumn(filter, handleSort, handleDelete, confirmLoading, handleConfirm);
+  const { id, action } = generateBasicColumn(filter, handleSort, handleDelete, confirmLoading, handleConfirm);
   const restColumnInfo = [
     {
-      title: "Tên nhóm",
+      title: "Tên nhóm danh mục",
       dataIndex: "name",
       key: "name",
       filter,
       handleSort,
       customRender: false,
       sorter: true,
+    },
+    {
+      title: "Tổng danh mục",
+      dataIndex: "categories_count",
+      key: "categories_count",
     },
   ];
 

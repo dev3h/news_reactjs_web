@@ -227,17 +227,17 @@ const AdminDashboard = () => {
         <Col xs={24} sm={12} lg={6}>
           <StatCard
             title="Tổng bài viết"
-            value={overviewStats.totalPosts}
+            value={overviewStats?.totalPosts}
             icon={<FileTextOutlined />}
             color="#1890ff"
-            description={`${overviewStats.publishedPosts} đã xuất bản`}
+            description={`${overviewStats?.publishedPosts} đã xuất bản`}
             gradient
           />
         </Col>
         <Col xs={24} sm={12} lg={6}>
           <StatCard
             title="Danh mục"
-            value={overviewStats.totalCategories}
+            value={overviewStats?.totalCategories}
             icon={<FolderOutlined />}
             color="#52c41a"
             gradient
@@ -246,7 +246,7 @@ const AdminDashboard = () => {
         <Col xs={24} sm={12} lg={6}>
           <StatCard
             title="Thẻ"
-            value={overviewStats.totalTags}
+            value={overviewStats?.totalTags}
             icon={<TagOutlined />}
             color="#faad14"
             gradient
@@ -255,7 +255,7 @@ const AdminDashboard = () => {
         <Col xs={24} sm={12} lg={6}>
           <StatCard
             title="Tác giả"
-            value={overviewStats.totalAuthors}
+            value={overviewStats?.totalAuthors}
             icon={<UserOutlined />}
             color="#722ed1"
             gradient
@@ -268,20 +268,20 @@ const AdminDashboard = () => {
         <Col xs={24} sm={12}>
           <StatCard
             title="Tổng lượt xem"
-            value={overviewStats.totalViews?.toLocaleString()}
+            value={overviewStats?.totalViews?.toLocaleString()}
             icon={<EyeOutlined />}
             color="#eb2f96"
-            description={`Hôm nay: ${overviewStats.todayViews?.toLocaleString()} lượt`}
+            description={`Hôm nay: ${overviewStats?.todayViews?.toLocaleString()} lượt`}
           />
         </Col>
         <Col xs={24} sm={12}>
           <StatCard
             title="Hiệu suất xuất bản"
-            value={overviewStats.totalPosts ? Math.round((overviewStats.publishedPosts / overviewStats.totalPosts) * 100) : 0}
+            value={overviewStats?.totalPosts ? Math.round((overviewStats?.publishedPosts / overviewStats?.totalPosts) * 100) : 0}
             suffix="%"
             icon={<TrophyOutlined />}
             color="#fa541c"
-            description={`${overviewStats.publishedPosts}/${overviewStats.totalPosts} bài viết`}
+            description={`${overviewStats?.publishedPosts}/${overviewStats?.totalPosts} bài viết`}
           />
         </Col>
       </Row>

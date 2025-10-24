@@ -13,7 +13,7 @@ const HeaderTableBasic = ({ filter, handleFilterData }) => {
     });
   };
   return (
-    <Flex justify="space-between" className="mb-5">
+    <Flex justify="space-between">
       <Form
         onFinish={handleSearch}
         form={form}

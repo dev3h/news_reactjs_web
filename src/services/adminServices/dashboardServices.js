@@ -94,24 +94,6 @@ class DashboardServices {
       };
     } catch (error) {
       console.log("Posts analytics error:", error);
-      // Mock data để test
-      return {
-        labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
-        datasets: [
-          {
-            label: 'Bài viết mới',
-            data: [12, 8, 15, 10, 6, 9, 14],
-            borderColor: '#1890ff',
-            backgroundColor: 'rgba(24, 144, 255, 0.1)',
-          },
-          {
-            label: 'Lượt xem',
-            data: [850, 720, 950, 800, 600, 750, 890],
-            borderColor: '#52c41a',
-            backgroundColor: 'rgba(82, 196, 26, 0.1)',
-          }
-        ]
-      };
     }
   }
 
@@ -124,56 +106,6 @@ class DashboardServices {
       return response.data;
     } catch (error) {
       console.log("Recent posts error:", error);
-      // Mock data để test
-      return {
-        data: [
-          {
-            id: 1,
-            title: "Hướng dẫn sử dụng React Hooks hiệu quả",
-            status: "published",
-            views: 1250,
-            author: "Nguyễn Văn A",
-            created_at: "2025-10-20T10:30:00Z",
-            category: "Lập trình"
-          },
-          {
-            id: 2,
-            title: "10 mẹo tối ưu hóa hiệu suất website",
-            status: "draft",
-            views: 0,
-            author: "Trần Thị B",
-            created_at: "2025-10-19T15:45:00Z",
-            category: "Web Development"
-          },
-          {
-            id: 3,
-            title: "Xu hướng công nghệ 2025",
-            status: "published",
-            views: 890,
-            author: "Lê Văn C",
-            created_at: "2025-10-18T09:20:00Z",
-            category: "Công nghệ"
-          },
-          {
-            id: 4,
-            title: "Machine Learning cơ bản cho người mới",
-            status: "published",
-            views: 2100,
-            author: "Phạm Thị D",
-            created_at: "2025-10-17T14:10:00Z",
-            category: "AI/ML"
-          },
-          {
-            id: 5,
-            title: "Bảo mật website với HTTPS",
-            status: "published", 
-            views: 760,
-            author: "Hoàng Văn E",
-            created_at: "2025-10-16T11:25:00Z",
-            category: "Bảo mật"
-          }
-        ]
-      };
     }
   }
 
@@ -198,41 +130,6 @@ class DashboardServices {
       return response.data;
     } catch (error) {
       console.log("Authors stats error:", error);
-      // Mock data để test
-      return [
-        {
-          id: 1,
-          name: "Nguyễn Văn A",
-          posts: 23,
-          views: 15420,
-          avatar: null,
-          role: "Senior Author"
-        },
-        {
-          id: 2,
-          name: "Trần Thị B", 
-          posts: 18,
-          views: 12350,
-          avatar: null,
-          role: "Author"
-        },
-        {
-          id: 3,
-          name: "Lê Văn C",
-          posts: 15,
-          views: 9870,
-          avatar: null,
-          role: "Author"
-        },
-        {
-          id: 4,
-          name: "Phạm Thị D",
-          posts: 12,
-          views: 8920,
-          avatar: null,
-          role: "Junior Author"
-        }
-      ];
     }
   }
 }
