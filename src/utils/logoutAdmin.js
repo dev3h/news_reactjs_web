@@ -1,18 +1,18 @@
 import AdminAuthServices from "@/services/authServices/AdminAuthServices";
 
+const clearAuthData = (setAdmin, navigate) => {
+  localStorage.removeItem("admin");
+  setAdmin(null);
+  navigate("/auth/admin/login");
+}
+
 const logoutAdmin = async (setAdmin, navigate) => {
   try {
-    localStorage.removeItem("admin");
-    setAdmin(null);
-    navigate("/auth/admin/login");
-    // const response = await AdminAuthServices.logout();
-    // if (response) {
-    //   localStorage.removeItem("admin");
-    //   setAdmin(null);
-    //   navigate("/auth/admin/login");
-    // }
+    await AdminAuthServices.logout();
   } catch (error) {
     console.log(error);
+  } finally {
+    clearAuthData(setAdmin, navigate);
   }
 };
 

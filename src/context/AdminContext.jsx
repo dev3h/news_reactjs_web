@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 
 const AdminContext = createContext();
@@ -9,12 +9,15 @@ const AdminContextProvider = ({ children }) => {
       const stored = localStorage.getItem("admin");
       return stored ? JSON.parse(stored) : null;
     } catch (e) {
+      console.error("Failed to parse admin from localStorage:", e);
       return null;
     }
   });
 
+  const contextValue = useMemo(() => ({ admin, setAdmin }), [admin]);
+
   return (
-    <AdminContext.Provider value={{ admin, setAdmin }}>{children}</AdminContext.Provider>
+    <AdminContext.Provider value={contextValue}>{children}</AdminContext.Provider>
   );
 };
 

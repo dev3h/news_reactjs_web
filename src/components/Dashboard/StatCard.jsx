@@ -40,8 +40,7 @@ const StatCard = ({
   return (
     <Card 
       className={`
-        ${gradient ? `bg-gradient-to-br ${getGradientClass(color)} text-white border-0 shadow-lg` : 'hover:shadow-md'}
-        transition-all duration-300 hover:scale-105 
+        ${gradient ? `bg-gradient-to-br ${getGradientClass(color)} text-white border-0 shadow-md` : 'hover:shadow-lg'}
         ${className}
       `}
       bodyStyle={{ padding: '20px' }}

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Form, Input } from 'antd';
 import PropTypes from 'prop-types';
 import { FORM_FIELD_CONFIGS } from '@/utils/formValidation';

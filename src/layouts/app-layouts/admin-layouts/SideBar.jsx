@@ -118,15 +118,11 @@ const SideBar = ({ collapsed }) => {
   const getOpenKeysFromSelectedKey = (key) => {
     if (!key) return [];
 
-    // Tìm parent key từ selected key
-    // Ví dụ: "2-1" -> parent là "2"
-    const parentKey = key.split('-')[0];
-
-    // Chỉ return parent key nếu selected key có dấu gạch ngang (là submenu)
-    if (key.includes('-')) {
-      return [parentKey];
+    const keyParts = key.split('-');
+    if (keyParts.length !== 2 || !keyParts[0] || !keyParts[1]) {
+      return [];
     }
-    return [];
+    return [keyParts[0]];
   };
 
   // Cập nhật selectedKey và openKeys khi location thay đổi

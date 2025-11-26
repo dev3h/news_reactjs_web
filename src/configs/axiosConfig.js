@@ -20,9 +20,17 @@ const processQueue = (error, token = null) => {
       prom.resolve(token);
     }
   });
-  
+
   failedQueue = [];
 };
+
+// Cleanup khi window unload để tránh memory leak
+if (typeof window !== "undefined") {
+  window.addEventListener('beforeunload', () => {
+    isRefreshing = false;
+    failedQueue = [];
+  });
+}
 
 // Interceptor để thêm token vào header
 axiosInstance.interceptors.request.use(
@@ -57,7 +65,11 @@ axiosInstance.interceptors.response.use(
       if (error?.response?.status === 401) {
         if (error?.response?.data?.cause === 'JsonWebTokenError') {
           localStorage.removeItem("admin");
-          window.location.reload();
+          notification.warning({
+            message: 'Phiên đăng nhập hết hạn',
+            description: 'Vui lòng đăng nhập lại'
+          });
+          globalThis.location.reload();
         }
         else if (error?.response?.data?.authError) {
           notification.error({
@@ -65,22 +77,22 @@ axiosInstance.interceptors.response.use(
             description: error?.response?.data?.message,
           });
         } else {
-          // Xử lý refresh token với queue
+          // Handle refresh tokens with queue
           if (originalRequest._retry) {
             return Promise.reject(error);
           }
 
           if (isRefreshing) {
-            // Nếu đang refresh, thêm request vào queue
-            // để xử lý các request còn lại cần token mới
-            // các request khác sẽ đợi cho đến khi token được refresh xong
+            // If refreshing, add request to queue
+            // to handle other requests that need the new token
+            // other requests will wait until the token is refreshed
             return new Promise(function(resolve, reject) {
               failedQueue.push({ resolve, reject });
             }).then(token => {
               originalRequest.headers.Authorization = `Bearer ${token}`;
               return axiosInstance(originalRequest);
             }).catch(err => {
-              return Promise.reject(err);
+              throw err;
             });
           }
 
@@ -90,18 +102,18 @@ axiosInstance.interceptors.response.use(
           try {
             const response = await AdminAuthServices.refreshToken();
             const token = response?.accessToken;
-            
+
             if (token) {
               const authData = { token };
               const authString = JSON.stringify(authData);
               localStorage.setItem("admin", authString);
-              
+
               // Cập nhật header cho request hiện tại
               originalRequest.headers.Authorization = `Bearer ${token}`;
-              
+
               // Xử lý tất cả requests đang chờ
               processQueue(null, token);
-              
+
               // Retry request ban đầu
               return axiosInstance(originalRequest);
             } else {
@@ -109,9 +121,10 @@ axiosInstance.interceptors.response.use(
             }
           } catch (refreshError) {
             processQueue(refreshError, null);
+            failedQueue = []; // Clear queue on error
             localStorage.removeItem("admin");
-            window.location.reload();
-            return Promise.reject(refreshError);
+            globalThis.location.reload();
+            throw refreshError;
           } finally {
             isRefreshing = false;
           }
