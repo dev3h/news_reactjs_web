@@ -1,49 +1,65 @@
 import { useContext, useEffect, useState } from "react";
-import { Card, Form, Input, message, Select, Radio, DatePicker, Flex } from "antd";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { Card, Form, Input, message, Select, Radio, DatePicker, Flex, Button } from "antd";
+import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
 import categoryServices from "@/services/adminServices/categoryServices";
 import postServices from "@/services/adminServices/postServices";
 import tagServices from "@/services/adminServices/tagServices";
-import uploader from "@/utils/createUploader";
 import { AdminContext } from "@/context/AdminContext";
 import { ButtonAddForm } from "@/components/Btn/ButtonAddAndUpdateForm";
 import UploadPhotoInput from "@/components/Input/UploadPhotoInput";
+import PostPreview from "@/components/PostPreview";
+import { FormContainer, FormSection, PreviewSection } from "@/components/PostPreview/styles";
+import BlockNoteEditor from "@/components/BlockNoteEditor";
 
 const Create = () => {
   const [form] = Form.useForm();
   const { admin } = useContext(AdminContext);
   const accessToken = admin?.token;
   const [loading, setLoading] = useState(false);
+  const [previewVisible, setPreviewVisible] = useState(true);
+  const [previewData, setPreviewData] = useState({
+    title: '',
+    content: '',
+    category: null,
+    tags: [],
+    status: 0,
+    thumbnail: null
+  });
   const [categoryDatas, setCategoryDatas] = useState([]);
   const [editorContent, setEditorContent] = useState("");
-  const [editorError, setEditorError] = useState("");
-  const maxContentLength = 10000;
   const [tagsDatas, setTagsDatas] = useState([]);
   const [statusPostDatas, setStatusPostDatas] = useState([]);
   const [statusPostSelected, setStatusPostSelected] = useState(0);
   const [fileList, setFileList] = useState([]);
-  const ckeditorConfig = {
-    extraPlugins: [uploader],
-  };
-  const validateEditorContent = (value) => {
-    return value && value.trim().length > 0 ? undefined : "Nội dung là bắt buộc";
-  };
-  const handleEditorChange = (event, editor) => {
-    const data = editor.getData();
 
-    const requiredError = validateEditorContent(data);
-    if (requiredError) {
-      setEditorError(requiredError);
-    } else {
-      if (data.length <= maxContentLength) {
-        setEditorContent(data);
-        setEditorError("");
-      } else {
-        setEditorError(`Nội dung không được vượt quá ${maxContentLength} ký tự.`);
-      }
-    }
+  const updatePreviewData = (field, value) => {
+    setPreviewData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const getStatusText = (statusId) => {
+    const status = statusPostDatas.find(s => s.id === statusId);
+    return status?.name || 'Draft';
+  };
+
+  const getCategoryName = (categoryId) => {
+    const category = categoryDatas.find(c => c.value === categoryId);
+    return category?.label || '';
+  };
+
+  const getTagNames = (tagIds) => {
+    if (!tagIds) return [];
+    return tagIds.map(id => {
+      const tag = tagsDatas.find(t => t.value === id);
+      return tag?.label || id;
+    });
+  };
+  const handleEditorChange = (html) => {
+    setEditorContent(html);
+    updatePreviewData('content', html);
   };
 
   const propUpload = {
@@ -62,12 +78,16 @@ const Create = () => {
       newFileList = newFileList.slice(-1);
       if (info.file.status === "removed") {
         setFileList([]);
+        updatePreviewData('thumbnail', null);
         const file = info.file?.response?.data;
         if (file) {
           await postServices.deletePhoto(file?.filename);
         }
       } else {
         setFileList(newFileList);
+        if (info.file.status === 'done' && info.file.response?.data?.url) {
+          updatePreviewData('thumbnail', info.file.response.data.url);
+        }
       }
     },
   };
@@ -83,7 +103,7 @@ const Create = () => {
       form.resetFields();
       setEditorContent("");
       setFileList([]);
-      // focus on first input
+      setPreviewData({ title: '', content: '', category: null, tags: [], status: 0, thumbnail: null });
       form.getFieldInstance("title").focus();
       setLoading(false);
     } catch (error) {
@@ -100,6 +120,7 @@ const Create = () => {
     (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
   const handleChangeStatusPost = (e) => {
     setStatusPostSelected(e.target.value);
+    updatePreviewData('status', e.target.value);
   };
 
   useEffect(() => {
@@ -146,15 +167,29 @@ const Create = () => {
     };
     fetch();
   }, []);
+
   return (
-    <Card>
-      <Form
-        validateMessages={validateMessages}
-        className="w-full lg:w-1/2"
-        onFinish={handleSubmit}
-        form={form}
-        layout="vertical"
-      >
+    <FormContainer>
+      {/* Form Section */}
+      <FormSection $previewVisible={previewVisible}>
+        <Card>
+          {/* Preview Toggle Button */}
+          <Button
+            type="primary"
+            icon={previewVisible ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+            onClick={() => setPreviewVisible(!previewVisible)}
+            style={{ marginBottom: 16 }}
+          >
+            {previewVisible ? 'Ẩn Preview' : 'Hiện Preview'}
+          </Button>
+
+          <Form
+            validateMessages={validateMessages}
+            className="w-full"
+            onFinish={handleSubmit}
+            form={form}
+            layout="vertical"
+          >
         <Form.Item
           label="Tiêu đề"
           name="title"
@@ -178,25 +213,26 @@ const Create = () => {
             },
           ]}
         >
-          <Input autoFocus placeholder="Nhập tiêu đề" allowClear />
+          <Input 
+            autoFocus 
+            placeholder="Nhập tiêu đề" 
+            allowClear 
+            onChange={(e) => updatePreviewData('title', e.target.value)}
+          />
         </Form.Item>
 
         <Form.Item
           label="Nội dung"
-          hasFeedback
           name="content"
           rules={[
             {
               required: true,
+              message: "Nội dung là bắt buộc"
             },
           ]}
-          validateStatus={editorError ? "error" : ""}
-          help={editorError}
         >
-          <CKEditor
-            editor={ClassicEditor}
-            data={editorContent}
-            config={ckeditorConfig}
+          <BlockNoteEditor
+            initialContent={editorContent}
             onChange={handleEditorChange}
           />
         </Form.Item>
@@ -265,6 +301,7 @@ const Create = () => {
               filterOption={filterOption}
               options={categoryDatas}
               allowClear
+              onChange={(value) => updatePreviewData('category', value)}
             />
           </Form.Item>
           <Form.Item
@@ -303,13 +340,30 @@ const Create = () => {
               // optionFilterProp="children"
               filterOption={filterOption}
               options={tagsDatas}
+              onChange={(value) => updatePreviewData('tags', value)}
             />
           </Form.Item>
         </Flex>
         <UploadPhotoInput propUpload={propUpload} />
         <ButtonAddForm loading={loading} />
-      </Form>
-    </Card>
+          </Form>
+        </Card>
+      </FormSection>
+
+      {/* Preview Section */}
+      <PreviewSection $visible={previewVisible}>
+        <PostPreview
+          data={previewData}
+          categoryDatas={categoryDatas}
+          tagsDatas={tagsDatas}
+          statusPostDatas={statusPostDatas}
+          admin={admin}
+          getCategoryName={getCategoryName}
+          getTagNames={getTagNames}
+          getStatusText={getStatusText}
+        />
+      </PreviewSection>
+    </FormContainer>
   );
 };
 

@@ -1,7 +1,7 @@
 import { Card, Spin, Tag } from "antd";
 
 import groupCategoryServices from "@/services/adminServices/groupCategoryServices";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Show = () => {
@@ -37,7 +37,9 @@ const Show = () => {
         {categoryList?.length > 0 && (
           <div>
             {categoryList?.map((item) => (
-              <Tag key={item?.id}>{item?.name}</Tag>
+              <Tag key={item?.id}>
+                <Link to={`/admin/category/${item?.id}/show`}>{item?.name}</Link>
+              </Tag>
             ))}
           </div>
         )}

@@ -15,6 +15,7 @@ const generateBasicColumn = (
       // title: () => <ColumnSort type="id" title="ID" handleSort={handleSort} />,
       dataIndex: "id",
       key: "id",
+      width: 200,
       sorter: true,
       sortOrder: filter.sort.sortBy === "id" ? filter.sort.sortType : false,
       onHeaderCell: (column) => ({
@@ -102,6 +103,7 @@ const generateBasicColumn = (
       dataIndex: "action",
       key: "action",
       fixed: "right",
+      width: 200,
       render: (_, record) => (
         <Space size="middle">
           <ButtonShow id={record.id} />

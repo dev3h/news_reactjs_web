@@ -21,7 +21,7 @@ const List = () => {
     },
     sort: {
       sortBy: "id",
-      sortType: "ASC",
+      sortType: "DESC",
     },
     flimit: 10,
   });

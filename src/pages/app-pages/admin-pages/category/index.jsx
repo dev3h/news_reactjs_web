@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { Card, Table, message } from "antd";
 
 import categoryServices from "@/services/adminServices/categoryServices";
-import { generateBasicColumn } from "@/components/Column/GenerateColumn";
+import { generateBasicColumn, generateColumn } from "@/components/Column/GenerateColumn";
 import { PaginationCustom } from "@/components";
 
 import HeaderTableBasic from "@/components/HeaderTableBasic";
-import { generateColumn } from "@/components/Column/GenerateColumn";
 
 const List = () => {
   const [list, setList] = useState([]);
@@ -21,7 +20,7 @@ const List = () => {
     },
     sort: {
       sortBy: "id",
-      sortType: "ASC",
+      sortType: "DESC",
     },
     flimit: 10,
   });

@@ -1,18 +1,20 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { Layout, notification, theme } from "antd";
 import HeaderNav from "./HeaderNav";
 import SideBar from "./SideBar";
 import BreadCrumbCustom from "@/components/BreadCrumbCustom";
 import { AdminContext } from "@/context/AdminContext";
-import adminAuthServices from "@/services/authServices/adminAuthServices";
+import AdminAuthServices from "@/services/authServices/AdminAuthServices";
 import logoutAdmin from "@/utils/logoutAdmin";
+import { ADMIN_ROUTES } from "@/constants/routeConstants";
 
 const { Content } = Layout;
 
 const AdminLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { admin, setAdmin } = useContext(AdminContext);
   useEffect(() => {
@@ -20,9 +22,12 @@ const AdminLayout = () => {
     if (!token) {
       navigate("/auth/admin/login");
     }
+    if (location.pathname === "/admin" || location.pathname === "/admin/") {
+      navigate(ADMIN_ROUTES.DASHBOARD);
+    }
     const getUserInfo = async () => {
       try {
-        const response = await adminAuthServices.getUserInfo(token);
+        const response = await AdminAuthServices.getUserInfo(token);
 
         if (response) {
           if (response?.data?.role?.role_name !== "ADMIN") {
@@ -43,7 +48,7 @@ const AdminLayout = () => {
       }
     };
     getUserInfo();
-  }, [admin?.token]);
+  }, [admin?.token, location.pathname]);
   const {
     token: { colorBgContainer },
   } = theme.useToken();

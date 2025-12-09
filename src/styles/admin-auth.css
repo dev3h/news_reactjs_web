@@ -1,0 +1,111 @@
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.login-form-container {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.login-form-field {
+  animation: slideInLeft 0.6s ease-out;
+}
+
+.login-form-field:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.login-form-field:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.login-form-field:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.admin-logo {
+  animation: float 3s ease-in-out infinite;
+}
+
+.ant-input:focus,
+.ant-input-password-input:focus {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
+  border-color: #3b82f6 !important;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.bg-decoration {
+  animation: pulse 4s ease-in-out infinite;
+}
+
+.bg-decoration:nth-child(2) {
+  animation-delay: 1s;
+}
+
+.bg-decoration:nth-child(3) {
+  animation-delay: 2s;
+}
+
+.glass-card {
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ant-btn-loading .ant-btn-loading-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .login-form-container {
+    padding: 1rem;
+  }
+}
+
+.ant-message {
+  animation: slideInLeft 0.5s ease-out;
+}
