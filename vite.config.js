@@ -21,7 +21,7 @@ export default defineConfig({
         target: "https://api64.ipify.org?format=json",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/ipify/, ""),
-      },
+      }
     },
   },
 });
