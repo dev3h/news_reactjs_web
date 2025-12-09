@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import postServices from "@/services/userServices/postServices";
 import userAuthServices from "@/services/authServices/userAuthServices";
+import groupServices from "@/services/userServices/groupServices";
 
 export const useUserAuthStore = create((set) => ({
   token: JSON.parse(localStorage.getItem("user"))?.token,
@@ -28,6 +29,7 @@ export const useUserAuthStore = create((set) => ({
 
 export const useUserStore = create((set) => ({
   groupCategories: [],
+  groups: [],
   userIP: "",
   setGroupCategories: (groupCategories) => set({ groupCategories }),
   setUserIP: (userIP) => set({ userIP }),
@@ -38,6 +40,15 @@ export const useUserStore = create((set) => ({
       set({ groupCategories: response });
     } catch (error) {
       console.log(error);
+    }
+  },
+  getAllGroups: async () => {
+    try {
+      const response = await groupServices.getAllGroups();
+      set({ groups: response });
+    } catch (error) {
+      console.log(error);
+      set({ groups: [] });
     }
   },
   getUserIP: async () => {
