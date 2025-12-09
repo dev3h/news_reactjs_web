@@ -5,10 +5,6 @@
       "destination": "https://api64.ipify.org?format=json"
     },
     { "source": "/api", "destination": "https://news-api-fai7.onrender.com" },
-    { "source": "/(.*)", "destination": "/" },
-    {
-      "source": "/sitemap.xml",
-      "destination": "https://news-api-k052.onrender.com/api/v1/sitemap.xml"
-    }
+    { "source": "/(.*)", "destination": "/" }
   ]
 }
