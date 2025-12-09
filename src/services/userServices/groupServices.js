@@ -35,6 +35,16 @@ class groupServices {
       console.log(error);
     }
   }
+  static async getAllGroups() {
+    try {
+      const response = await axiosInstance.get(`/user/group`);
+      const data = response.data;
+      return data;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+  }
 }
 
 export default groupServices;
